@@ -1,0 +1,18 @@
+function toggleAdminLogin() {
+    if(!isAdminLoggedIn) {
+        const password = prompt("أدخل كلمة المرور السريّة للوحة التحكم:");
+        if(password === "S1629r") {
+            isAdminLoggedIn = true;
+            alert("تم تسجيل الدخول بنجاح كأدمن!");
+            document.getElementById('adminPanel').style.display = 'block';
+            document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'flex');
+        } else if(password) {
+            alert("كلمة المرور غير صحيحة!");
+        }
+    } else {
+        isAdminLoggedIn = false;
+        document.getElementById('adminPanel').style.display = 'none';
+        document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'none');
+        alert("تم الخروج من لوحة التحكم.");
+    }
+}

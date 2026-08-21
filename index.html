@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سعيد الشوادفي | موقع الكاتب الروائي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #12141c;
+            --accent-color: #d4af37;
+            --text-color: #e0e6ed;
+            --text-muted: #94a3b8;
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Tajawal', sans-serif;
+            line-height: 1.6;
+            padding: 0 20px;
+        }
+        header {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .logo {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .admin-trigger {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        .admin-trigger:hover { color: var(--accent-color); }
+        
+        .hero {
+            max-width: 1100px;
+            margin: 40px auto;
+            text-align: center;
+            background: linear-gradient(180deg, #12141c 0%, #0b0c10 100%);
+            padding: 40px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .hero h1 {
+            font-family: 'Amiri', serif;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .hero h1 span { color: var(--accent-color); }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 25px;
+        }
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #0b0c10;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(212, 175, 55, 0.25);
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: #0b0c10;
+        }
+        .btn-danger {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-danger:hover { background-color: var(--danger-color); color: #fff; }
+
+        .section-title {
+            font-family: 'Amiri', serif;
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            text-align: center;
+            margin: 50px 0 30px;
+        }
+
+        .books-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .book-card {
+            background-color: var(--card-bg);
+            border: 1px solid #1e2230;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .book-card:hover { 
+            border-color: var(--accent-color); 
+            transform: translateY(-5px);
+        }
+        .book-cover {
+            width: 100%;
+            height: 260px;
+            background: linear-gradient(135deg, #1e2230 0%, #161922 100%);
+            border: 1px dashed rgba(212, 175, 55, 0.4);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            overflow: hidden;
+        }
+        .book-cover img { width: 100%; height: 100%; object-fit: cover; }
+        .book-price {
+            font-size: 1.3rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .admin-controls {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #334155;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .admin-panel {
+            display: none;
+            max-width: 1100px;
+            margin: 30px auto;
+            background-color: #161922;
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 25px;
+        }
+        .admin-panel h2 {
+            color: var(--accent-color);
+            font-family: 'Amiri', serif;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+        .form-group label { display: block; margin-bottom: 5px; color: var(--text-color); }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #0b0c10;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #fff;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 480px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 12px; left: 15px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.6rem;
+            transition: color 0.2s;
+        }
+        .close-modal:hover { color: var(--danger-color); }
+        
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .payment-btn {
+            background-color: #1e2230;
+            border: 1px solid #334155;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .payment-btn:hover { border-color: var(--accent-color); background-color: #252a3b; }
+
+        .checkout-step { display: none; text-align: right; }
+        .checkout-step.active { display: block; }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-muted);
+            border-top: 1px solid #1e2230;
+            margin-top: 60px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; text-align: center; }
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            .section-title { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">سعيد الشوادفي</div>
+        <button class="admin-trigger" onclick="toggleAdminLogin()" title="لوحة التحكم السرية">🔒 لوحة التحكم</button>
+    </header>
+
+    <section class="hero">
+        <h1>حيث تتجسد الحكايات و<span>تستيقظ الظلال</span></h1>
+        <p>مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح الأجزاء والروايات واحصل على نسختك المباشرة.</p>
+        <a href="#books" class="btn-primary">تصفح الروايات</a>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="adminPanel" class="admin-panel">
+        <h2>🛠️ لوحة تحكم الكاتب (إضافة رواية جديدة)</h2>
+        <form id="addBookForm" onsubmit="addNewBook(event)">
+            <div class="form-group">
+                <label>عنوان الكتاب / الرواية:</label>
+                <input type="text" id="bookTitle" required placeholder="مثال: ظلال لا تنام">
+            </div>
+            <div class="form-group">
+                <label>الوصف / النبذة:</label>
+                <textarea id="bookDesc" rows="3" required placeholder="اكتب نبذة مختصرة عن أحداث الرواية..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>السعر (بالجنيه/الدولار):</label>
+                <input type="text" id="bookPrice" required placeholder="150 ج.م">
+            </div>
+            <div class="form-group">
+                <label>🖼️ اختر صورة الغلاف من جهازك:</label>
+                <input type="file" id="bookCoverFile" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label>📄 اختر ملف الكتاب (PDF / EPUB) من جهازك:</label>
+                <input type="file" id="bookPdfFile" accept=".pdf,.epub,.mobi" required>
+            </div>
+            <button type="submit" class="btn-primary">إضافة للموقع فوراً</button>
+        </form>
+    </section>
+
+    <!-- Books Grid -->
+    <h2 id="books" class="section-title">الأعمال الأدبية والمعرض</h2>
+    <div class="books-grid" id="booksGrid"></div>
+
+    <!-- Payment & Checkout Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePayment()">&times;</span>
+            
+            <!-- Step 1: Select Payment Method -->
+            <div id="stepMethod" class="checkout-step active">
+                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.6rem; text-align: center;">اختر طريقة الدفع</h3>
+                <p id="paymentBookDetails" style="color: var(--text-muted); text-align: center; margin-top: 5px;"></p>
+                
+                <div class="payment-methods">
+                    <div class="payment-btn" onclick="selectMethod('vodafone')">
+                        <span>📱 فودافون كاش / محفظة إلكترونية</span>
+                        <span style="color: var(--accent-color);">⬅</span>
+                    </div>
+                    <div class="payment-btn" onclick="selectMethod('card')">
+                        <span>💳 بطاقة بنكية (Visa / MasterCard)</span>
+                        <span style="color: var(--accent-color);">⬅</span>
+                    </div>
+                    <div class="payment-btn" onclick="selectMethod('paypal')">
+                        <span>🌐 باي بال PayPal</span>
+                        <span style="color: var(--accent-color);">⬅</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Checkout / Payment Details -->
+            <div id="stepCheckout" class="checkout-step">
+                <h3 id="checkoutTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.5rem; text-align: center; margin-bottom: 15px;">إنهاء عملية الشراء</h3>
+                
+                <div id="methodInstructions" style="background: #0b0c10; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #334155; font-size: 0.95rem;">
+                    <!-- Dynamic text inserted here -->
+                </div>
+
+                <form onsubmit="completeOrder(event)">
+                    <div class="form-group">
+                        <label>اسمك الكامل:</label>
+                        <input type="text" id="buyerName" required placeholder="أدخل اسمك">
+                    </div>
+                    <div class="form-group">
+                        <label>البريد الإلكتروني (لتسلم النسخة عليه):</label>
+                        <input type="email" id="buyerEmail" required placeholder="example@mail.com">
+                    </div>
+                    <div class="form-group" id="phoneGroup">
+                        <label>رقم المحفظة التي قمت بالتحويل منها:</label>
+                        <input type="tel" id="buyerPhone" placeholder="010xxxxxxx">
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">إتمام وإرسال الطلب 🚀</button>
+                    <button type="button" class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="resetCheckout()">الرجوع لوسائل الدفع</button>
+                </form>
+            </div>
+
+            <!-- Step 3: Success Confirmation & Auto Download -->
+            <div id="stepSuccess" class="checkout-step" style="text-align: center;">
+                <h2 style="color: var(--success-color); font-size: 2.5rem; margin-bottom: 10px;">🎉</h2>
+                <h3 style="color: var(--success-color); font-family: 'Amiri', serif; font-size: 1.8rem; margin-bottom: 10px;">تم إتمام العملية بنجاح!</h3>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;">شكراً لتسوقك من المنصة الرسمية للكاتب سعيد الشوادفي.</p>
+                
+                <a id="downloadBookBtn" class="btn-primary" download style="width: 100%; font-size: 1.1rem; padding: 12px; margin-bottom: 10px;">⬇️ تحميل الكتاب الآن</a>
+                <a id="whatsappBtn" class="btn-outline" target="_blank" style="width: 100%; display: block;">💬 إرسال إيصال التحويل عبر الواتساب</a>
+                <button type="button" class="btn-outline" style="width: 100%; margin-top: 10px;" onclick="closePayment()">إغلاق النافذة</button>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 سعيد الشوادفي - جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        // 📌 رقم المحفظة والواتساب الرسمي المحدث:
+        const RECEIVER_WALLET_NUMBER = "01096227242"; 
+
+        let isAdminLoggedIn = false;
+        let selectedBookName = '';
+        let selectedBookPrice = '';
+        let selectedBookFileUrl = null;
+        let chosenPaymentMethod = '';
+
+        const defaultBooks = [
+            {
+                id: 'book-1',
+                title: 'ظلال لا تنام',
+                desc: 'رواية غموض وإثارة تشويقية تأخذك إلى أعمق أسرار النفس والظلال الخفية.',
+                price: '150 ج.م',
+                coverUrl: '',
+                fileUrl: null
+            },
+            {
+                id: 'book-2',
+                title: 'ابن الغزال',
+                desc: 'ملحمة درامية إنسانية مليئة بالتأملات والحبكة الصادمة والأحداث الممتعة.',
+                price: '180 ج.م',
+                coverUrl: '',
+                fileUrl: null
+            }
+        ];
+
+        function loadBooks() {
+            const savedBooks = localStorage.getItem('shwadafy_books');
+            const books = savedBooks ? JSON.parse(savedBooks) : defaultBooks;
+            
+            const grid = document.getElementById('booksGrid');
+            grid.innerHTML = '';
+
+            books.forEach(book => {
+                const coverContent = book.coverUrl 
+                    ? `<img src="${book.coverUrl}" alt="${book.title}">` 
+                    : book.title;
+
+                const bookHTML = `
+                    <div class="book-card" id="${book.id}">
+                        <div>
+                            <div class="book-cover">${coverContent}</div>
+                            <h3 class="title-text">${book.title}</h3>
+                            <p class="desc-text" style="color: var(--text-muted); font-size: 0.95rem; margin: 10px 0;">${book.desc}</p>
+                            <div class="book-price">${book.price}</div>
+                        </div>
+                        <div>
+                            <button class="btn-primary" style="width: 100%; margin-bottom: 8px;" onclick="openPayment('${book.title}', '${book.price}', '${book.fileUrl}')">🛒 شراء الآن</button>
+                            <button class="btn-outline" style="width: 100%;" onclick="alert('جارٍ تحميل الفصل الأول المجاني...')">📖 عينة مجانية</button>
+                            <div class="admin-controls" style="display: ${isAdminLoggedIn ? 'flex' : 'none'};">
+                                <button class="btn-outline" onclick="editBook('${book.id}')">تعديل</button>
+                                <button class="btn-danger" onclick="deleteBook('${book.id}')">حذف</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', bookHTML);
+            });
+        }
+
+        function saveBooksToStorage(books) {
+            localStorage.setItem('shwadafy_books', JSON.stringify(books));
+        }
+
+        function getStoredBooks() {
+            const savedBooks = localStorage.getItem('shwadafy_books');
+            return savedBooks ? JSON.parse(savedBooks) : defaultBooks;
+        }
+
+        function toggleAdminLogin() {
+            if(!isAdminLoggedIn) {
+                const password = prompt("أدخل كلمة المرور السريّة للوحة التحكم:");
+                if(password === "1234") {
+                    isAdminLoggedIn = true;
+                    alert("تم تسجيل الدخول بنجاح كأدمن!");
+                    document.getElementById('adminPanel').style.display = 'block';
+                    document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'flex');
+                } else if(password) {
+                    alert("كلمة المرور غير صحيحة!");
+                }
+            } else {
+                isAdminLoggedIn = false;
+                document.getElementById('adminPanel').style.display = 'none';
+                document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'none');
+                alert("تم الخروج من لوحة التحكم.");
+            }
+        }
+
+        function deleteBook(id) {
+            if(confirm("هل أنت تأكد من رغبتك في حذف هذا الكتاب؟")) {
+                let books = getStoredBooks();
+                books = books.filter(b => b.id !== id);
+                saveBooksToStorage(books);
+                loadBooks();
+            }
+        }
+
+        function editBook(id) {
+            let books = getStoredBooks();
+            const bookIndex = books.findIndex(b => b.id === id);
+
+            if(bookIndex !== -1) {
+                const newTitle = prompt("تعديل العنوان:", books[bookIndex].title);
+                const newDesc = prompt("تعديل النبذة:", books[bookIndex].desc);
+                const newPrice = prompt("تعديل السعر:", books[bookIndex].price);
+
+                if(newTitle) books[bookIndex].title = newTitle;
+                if(newDesc) books[bookIndex].desc = newDesc;
+                if(newPrice) books[bookIndex].price = newPrice;
+
+                saveBooksToStorage(books);
+                loadBooks();
+            }
+        }
+
+        function addNewBook(e) {
+            e.preventDefault();
+            const title = document.getElementById('bookTitle').value;
+            const desc = document.getElementById('bookDesc').value;
+            const price = document.getElementById('bookPrice').value;
+            const coverInput = document.getElementById('bookCoverFile');
+            const pdfInput = document.getElementById('bookPdfFile');
+
+            if (!coverInput.files[0] || !pdfInput.files[0]) {
+                alert('يرجى اختيار صورة الغلاف وملف الكتاب أولاً!');
+                return;
+            }
+
+            const readerCover = new FileReader();
+            readerCover.onload = function(event) {
+                const coverBase64 = event.target.result;
+                
+                const newBook = {
+                    id: 'book-' + Date.now(),
+                    title: title,
+                    desc: desc,
+                    price: price,
+                    coverUrl: coverBase64,
+                    fileUrl: null
+                };
+
+                const books = getStoredBooks();
+                books.push(newBook);
+                saveBooksToStorage(books);
+                loadBooks();
+
+                document.getElementById('addBookForm').reset();
+                alert('تمت إضافة الرواية وحفظها بنجاح!');
+            };
+            readerCover.readAsDataURL(coverInput.files[0]);
+        }
+
+        function openPayment(title, price, fileUrl) {
+            selectedBookName = title;
+            selectedBookPrice = price;
+            selectedBookFileUrl = fileUrl;
+
+            document.getElementById('paymentBookDetails').innerText = `طلب شراء: ${title} بسعر (${price})`;
+            resetCheckout();
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function closePayment() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('paymentModal');
+            if (event.target === modal) {
+                closePayment();
+            }
+        };
+
+        function resetCheckout() {
+            document.getElementById('stepMethod').classList.add('active');
+            document.getElementById('stepCheckout').classList.remove('active');
+            document.getElementById('stepSuccess').classList.remove('active');
+        }
+
+        function selectMethod(method) {
+            chosenPaymentMethod = method;
+            document.getElementById('stepMethod').classList.remove('active');
+            document.getElementById('stepCheckout').classList.add('active');
+
+            const infoBox = document.getElementById('methodInstructions');
+            const phoneGroup = document.getElementById('phoneGroup');
+
+            if(method === 'vodafone') {
+                document.getElementById('checkoutTitle').innerText = '📱 الدفع بواسطة فودافون كاش / المحفظة';
+                infoBox.innerHTML = `💡 يرجى تحويل مبلغ <strong>${selectedBookPrice}</strong> إلى رقم المحفظة: <strong style="color:var(--accent-color); font-size: 1.1rem;">${RECEIVER_WALLET_NUMBER}</strong> ثم أدخل بياناتك بالأسفل لطلب الكتاب.`;
+                phoneGroup.style.display = 'block';
+            } else if(method === 'card') {
+                document.getElementById('checkoutTitle').innerText = '💳 الدفع عبر الفيزا / ماستركارد';
+                infoBox.innerHTML = `💡 يرجى إدخال اسمك وبيانات التواصل لفتح بوابة الدفع الإلكتروني الآمن لخصم مبلغ <strong>${selectedBookPrice}</strong>.`;
+                phoneGroup.style.display = 'none';
+            } else if(method === 'paypal') {
+                document.getElementById('checkoutTitle').innerText = '🌐 الدفع عبر PayPal';
+                infoBox.innerHTML = `💡 سيتم توجيهك لحساب باي بال لإرسال مبلغ <strong>${selectedBookPrice}</strong>. أدخل بريدك الإلكتروني أدناه.`;
+                phoneGroup.style.display = 'none';
+            }
+        }
+
+        function completeOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById('buyerName').value;
+            const email = document.getElementById('buyerEmail').value;
+            const phone = document.getElementById('buyerPhone').value;
+
+            document.getElementById('stepCheckout').classList.remove('active');
+            document.getElementById('stepSuccess').classList.add('active');
+
+            const downloadBtn = document.getElementById('downloadBookBtn');
+            if(selectedBookFileUrl && selectedBookFileUrl !== 'null') {
+                downloadBtn.href = selectedBookFileUrl;
+                downloadBtn.download = `${selectedBookName}.pdf`;
+                downloadBtn.innerText = `⬇️ تحميل كتاب "${selectedBookName}" فوراً`;
+            } else {
+                downloadBtn.href = "#";
+                downloadBtn.onclick = function() { alert('شُكراً لطلبك! سيتم إرسال النسخة عبر البريد الإلكتروني: ' + email); };
+                downloadBtn.innerText = `📧 إرسال النسخة ببريدك (${email})`;
+            }
+
+            const waMsg = encodeURIComponent(`مرحباً أستاذ سعيد، قمت بطلب كتاب "${selectedBookName}" بسعر ${selectedBookPrice}.\nالاسم: ${name}\nالبريد: ${email}\nرقم المحفظة المحول منها: ${phone}`);
+            document.getElementById('whatsappBtn').href = `https://wa.me/2${RECEIVER_WALLET_NUMBER}?text=${waMsg}`;
+        }
+
+        loadBooks();
+    </script>
+</body>
+</html>

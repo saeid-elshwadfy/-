@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سعيد الشوادفي | موقع الكاتب الروائي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #12141c;
+            --accent-color: #d4af37;
+            --text-color: #e0e6ed;
+            --text-muted: #94a3b8;
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Tajawal', sans-serif;
+            line-height: 1.6;
+            padding: 0 20px;
+        }
+        header {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 30px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .logo {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .admin-trigger {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+        .admin-trigger:hover { color: var(--accent-color); }
+        
+        .hero {
+            max-width: 1100px;
+            margin: 40px auto;
+            text-align: center;
+            background: linear-gradient(180deg, #12141c 0%, #0b0c10 100%);
+            padding: 40px 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .hero h1 {
+            font-family: 'Amiri', serif;
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #fff;
+        }
+        .hero h1 span { color: var(--accent-color); }
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 25px;
+        }
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #0b0c10;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(212, 175, 55, 0.25);
+        }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: #0b0c10;
+        }
+        .btn-secondary {
+            background-color: #1e2230;
+            color: var(--text-color);
+            border: 1px solid #334155;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn-secondary:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+        }
+        .btn-danger {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-danger:hover { background-color: var(--danger-color); color: #fff; }
+
+        .section-title {
+            font-family: 'Amiri', serif;
+            font-size: 2.2rem;
+            color: var(--accent-color);
+            text-align: center;
+            margin: 50px 0 30px;
+        }
+
+        .books-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .book-card {
+            background-color: var(--card-bg);
+            border: 1px solid #1e2230;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        .book-card:hover { 
+            border-color: var(--accent-color); 
+            transform: translateY(-5px);
+        }
+        .book-cover {
+            width: 100%;
+            height: 260px;
+            background: linear-gradient(135deg, #1e2230 0%, #161922 100%);
+            border: 1px dashed rgba(212, 175, 55, 0.4);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            overflow: hidden;
+        }
+        .book-cover img { width: 100%; height: 100%; object-fit: cover; }
+        .book-price {
+            font-size: 1.2rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        /* Reviews Section Styles */
+        .reviews-section {
+            max-width: 1100px;
+            margin: 60px auto 0;
+            background-color: var(--card-bg);
+            border: 1px solid #1e2230;
+            border-radius: 12px;
+            padding: 30px 20px;
+        }
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .review-card {
+            background-color: #0b0c10;
+            border: 1px solid #232736;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: right;
+        }
+        .review-stars { color: var(--accent-color); margin-bottom: 8px; }
+        .review-author { font-weight: bold; color: #fff; margin-top: 10px; font-size: 0.95rem; }
+        .review-book { color: var(--text-muted); font-size: 0.85rem; }
+
+        .add-review-box {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px dashed #334155;
+        }
+
+        /* Social & Footer Styles */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .social-btn {
+            background-color: #1e2230;
+            color: var(--text-color);
+            border: 1px solid #334155;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .social-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .admin-controls {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #334155;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .admin-panel {
+            display: none;
+            max-width: 1100px;
+            margin: 30px auto;
+            background-color: #161922;
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 25px;
+        }
+        .admin-panel h2 {
+            color: var(--accent-color);
+            font-family: 'Amiri', serif;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: right;
+        }
+        .form-group label { display: block; margin-bottom: 5px; color: var(--text-color); }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px 15px;
+            background-color: #0b0c10;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #fff;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.85);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 25px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 12px; left: 15px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.6rem;
+            transition: color 0.2s;
+        }
+        .close-modal:hover { color: var(--danger-color); }
+        
+        .payment-methods {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+        .payment-btn {
+            background-color: #1e2230;
+            border: 1px solid #334155;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .payment-btn:hover { border-color: var(--accent-color); background-color: #252a3b; }
+
+        .checkout-step { display: none; text-align: right; }
+        .checkout-step.active { display: block; }
+
+        /* Reader Area Styling */
+        .reader-box {
+            background: #08090c;
+            border: 1px solid #232736;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 15px 0;
+            min-height: 280px;
+            max-height: 380px;
+            overflow-y: auto;
+            text-align: justify;
+            font-family: 'Amiri', serif;
+            font-size: 1.25rem;
+            line-height: 2;
+            color: #e2e8f0;
+            box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
+        }
+        .reader-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .badge-free { background-color: rgba(16, 185, 129, 0.2); color: var(--success-color); border: 1px solid var(--success-color); }
+        .badge-paid { background-color: rgba(212, 175, 55, 0.2); color: var(--accent-color); border: 1px solid var(--accent-color); }
+
+        .reader-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--text-muted);
+            border-top: 1px solid #1e2230;
+            margin-top: 60px;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; text-align: center; }
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            .section-title { font-size: 1.8rem; }
+            .reader-box { font-size: 1.1rem; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">سعيد الشوادفي</div>
+        <button class="admin-trigger" onclick="toggleAdminLogin()" title="لوحة التحكم السرية">🔒 لوحة التحكم</button>
+    </header>
+
+    <section class="hero">
+        <h1>حيث تتجسد الحكايات و<span>تستيقظ الظلال</span></h1>
+        <p>مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. اطلب النسخة الورقية المطبوعة لتصلك حتى باب المنزل أو النسخة الرقمية.</p>
+        <a href="#books" class="btn-primary">تصفح الروايات</a>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="adminPanel" class="admin-panel">
+        <h2>🛠️ لوحة تحكم الكاتب (إضافة رواية جديدة)</h2>
+        <form id="addBookForm" onsubmit="addNewBook(event)">
+            <div class="form-group">
+                <label>عنوان الكتاب / الرواية:</label>
+                <input type="text" id="bookTitle" required placeholder="مثال: ظلال لا تنام">
+            </div>
+            <div class="form-group">
+                <label>الوصف / النبذة:</label>
+                <textarea id="bookDesc" rows="2" required placeholder="اكتب نبذة مختصرة عن أحداث الرواية..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>📄 ملف العينة المجانية (PDF):</label>
+                <input type="file" id="bookSamplePdfFile" accept=".pdf">
+            </div>
+            <div class="form-group">
+                <label>📖 صفحات العينة القابلة للقراءة مباشرة (افصل بين كل صفحة بـ ---):</label>
+                <textarea id="bookFreePages" rows="3" placeholder="الصفحة المجانية الأولى...&#10;---&#10;الصفحة المجانية الثانية..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>📚 النص الكامل للرواية الرقمية (افصل بين كل صفحة بـ ---):</label>
+                <textarea id="bookFullPages" rows="4" placeholder="أدخل محتوى الرواية الرقمية كاملاً هنا..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>سعر النسخة الرقمية (PDF / أونلاين):</label>
+                <input type="text" id="bookPrice" required placeholder="100 ج.م">
+            </div>
+            <div class="form-group">
+                <label>سعر النسخة الورقية (مطبوعة + شحن):</label>
+                <input type="text" id="bookPaperPrice" required placeholder="180 ج.م">
+            </div>
+            <div class="form-group">
+                <label>🖼️ اختر صورة الغلاف من جهازك:</label>
+                <input type="file" id="bookCoverFile" accept="image/*" required>
+            </div>
+            <div class="form-group">
+                <label>📄 اختر ملف الرواية الكاملة (PDF / EPUB):</label>
+                <input type="file" id="bookPdfFile" accept=".pdf,.epub,.mobi">
+            </div>
+            <button type="submit" class="btn-primary">إضافة للموقع فوراً</button>
+        </form>
+    </section>
+
+    <!-- Books Grid -->
+    <h2 id="books" class="section-title">الأعمال الأدبية والمعرض</h2>
+    <div class="books-grid" id="booksGrid"></div>
+
+    <!-- Reviews Section -->
+    <section class="reviews-section">
+        <h2 style="font-family: 'Amiri', serif; color: var(--accent-color); text-align: center; font-size: 1.8rem;">💬 آراء وانطباعات القُرّاء</h2>
+        <p style="text-align: center; color: var(--text-muted); font-size: 0.95rem;">شاركونا انطباعاتكم وتقييماتكم عن الروايات والأعمال الأدبية</p>
+        
+        <div class="reviews-grid" id="reviewsContainer"></div>
+
+        <div class="add-review-box">
+            <h4 style="color: var(--accent-color); margin-bottom: 12px; font-size: 1.1rem;">✍️ أضف رأيك في إحدى الروايات:</h4>
+            <form onsubmit="addNewReview(event)">
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <input type="text" id="reviewerName" required placeholder="اسمك الكريم" style="flex: 1; padding: 10px; background: #0b0c10; border: 1px solid #334155; border-radius: 6px; color: #fff;">
+                    <select id="reviewedBookSelect" required style="flex: 1; padding: 10px; background: #0b0c10; border: 1px solid #334155; border-radius: 6px; color: #fff;"></select>
+                </div>
+                <textarea id="reviewText" required rows="2" placeholder="ما رأيك وانطباعك بعد القراءة؟" style="width: 100%; margin-top: 10px; padding: 10px; background: #0b0c10; border: 1px solid #334155; border-radius: 6px; color: #fff;"></textarea>
+                <button type="submit" class="btn-primary" style="margin-top: 10px;">إرسال التقييم</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- E-Reader Modal (Free & Paid Reader) -->
+    <div id="readerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeReader()">&times;</span>
+            <div id="readerBadge" class="reader-badge"></div>
+            <h3 id="readerTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.7rem;"></h3>
+            
+            <div id="readerText" class="reader-box"></div>
+            
+            <div class="reader-controls">
+                <button class="btn-outline" onclick="changeReaderPage(-1)">السابقة ⬅</button>
+                <span id="readerPageIndicator" style="color: var(--text-muted); font-size: 0.9rem;"></span>
+                <button class="btn-outline" onclick="changeReaderPage(1)">التالية ➡</button>
+            </div>
+
+            <div id="freeReaderAction" style="margin-top: 15px; display: none;">
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 8px;">استمتعت بالظلال والأحداث؟ اطلب نسختك الآن:</p>
+                <div style="display: flex; gap: 10px; justify-content: center;">
+                    <button class="btn-primary" style="flex: 1;" onclick="closeReader(); openPayment(currentActiveBook.title, currentActiveBook.paperPrice, currentActiveBook.fileUrl, 'paper');">📦 طلب نسخة ورقية</button>
+                    <button class="btn-outline" style="flex: 1;" onclick="closeReader(); openPayment(currentActiveBook.title, currentActiveBook.price, currentActiveBook.fileUrl, 'digital');">📱 شراء رقمية</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Payment & Checkout Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closePayment()">&times;</span>
+            
+            <!-- Step 1: Payment Method Selection -->
+            <div id="stepMethod" class="checkout-step active">
+                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.6rem; text-align: center;">اختر طريقة الدفع</h3>
+                <p id="paymentBookDetails" style="color: var(--text-muted); text-align: center; margin-top: 5px;"></p>
+                
+                <div class="payment-methods">
+                    <div class="payment-btn" onclick="selectMethod('vodafone')">
+                        <span>📱 فودافون كاش / محفظة إلكترونية</span>
+                        <span style="color: var(--accent-color);">⬅</span>
+                    </div>
+                    <div class="payment-btn" id="codOption" onclick="selectMethod('cod')" style="display: none;">
+                        <span>🚚 الدفع عند الاستلام (للنسخ الورقية)</span>
+                        <span style="color: var(--accent-color);">⬅</span>
+                    </div>
+                    <div class="payment-btn" onclick="selectMethod('card')">
+                        <span>💳 بطاقة بنكية (Visa / MasterCard)</span>
+                        <span style="color: var(--accent-color);">⬅</span>
+                    </div>
+                    <div class="payment-btn" onclick="selectMethod('paypal')">
+                        <span>🌐 باي بال PayPal</span>
+                        <span style="color: var(--accent-color);">⬅</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Checkout Form -->
+            <div id="stepCheckout" class="checkout-step">
+                <h3 id="checkoutTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.5rem; text-align: center; margin-bottom: 15px;">إنهاء عملية الشراء</h3>
+                
+                <div id="methodInstructions" style="background: #0b0c10; padding: 12px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #334155; font-size: 0.95rem;"></div>
+
+                <form onsubmit="completeOrder(event)">
+                    <div class="form-group">
+                        <label>اسمك الكامل:</label>
+                        <input type="text" id="buyerName" required placeholder="أدخل اسمك الثلاثي">
+                    </div>
+                    <div class="form-group">
+                        <label>رقم الهاتف للتواصل:</label>
+                        <input type="tel" id="buyerPhone" required placeholder="010xxxxxxx">
+                    </div>
+                    <div class="form-group" id="emailGroup">
+                        <label>البريد الإلكتروني:</label>
+                        <input type="email" id="buyerEmail" placeholder="example@mail.com">
+                    </div>
+
+                    <!-- Shipping Address Fields for Paper Books -->
+                    <div id="shippingAddressFields" style="display: none; border-top: 1px dashed #334155; padding-top: 10px; margin-top: 10px;">
+                        <div class="form-group">
+                            <label>المحافظة / المدينة:</label>
+                            <input type="text" id="buyerCity" placeholder="مثال: القاهرة / الإسكندرية / الزقازيق">
+                        </div>
+                        <div class="form-group">
+                            <label>العنوان بالتفصيل (اسم الشارع - رقم المبنى - الشقة):</label>
+                            <textarea id="buyerAddress" rows="2" placeholder="أدخل عنوان الشحن بدقة لتسهيل التوصيل..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="walletSenderGroup">
+                        <label>رقم المحفظة التي قمت بالتحويل منها:</label>
+                        <input type="tel" id="buyerWalletSender" placeholder="010xxxxxxx">
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">إتمام وإرسال الطلب 🚀</button>
+                    <button type="button" class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="resetCheckout()">الرجوع لوسائل الدفع</button>
+                </form>
+            </div>
+
+            <!-- Step 3: Order Confirmation -->
+            <div id="stepSuccess" class="checkout-step" style="text-align: center;">
+                <h2 style="color: var(--success-color); font-size: 2.5rem; margin-bottom: 10px;">🎉</h2>
+                <h3 style="color: var(--success-color); font-family: 'Amiri', serif; font-size: 1.8rem; margin-bottom: 10px;">تم تسجيل طلبك بنجاح!</h3>
+                <p id="successMessageDetails" style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px;"></p>
+                
+                <div id="digitalSuccessActions" style="display: none;">
+                    <button id="readPaidOnlineBtn" class="btn-primary" style="width: 100%; font-size: 1.1rem; padding: 12px; margin-bottom: 10px;">📖 قراءة الرواية الكاملة أونلاين الآن</button>
+                    <a id="downloadBookBtn" class="btn-outline" download style="width: 100%; font-size: 1rem; padding: 10px; margin-bottom: 10px; display: block;">⬇️ تحميل النسخة الإلكترونية (PDF)</a>
+                </div>
+
+                <a id="whatsappBtn" class="btn-primary" target="_blank" style="width: 100%; display: block; margin-bottom: 10px; background-color: #25D366; color: #fff;">💬 تأكيد الطلب فوراً عبر الواتساب</a>
+                <button type="button" class="btn-outline" style="width: 100%;" onclick="closePayment()">إغلاق النافذة</button>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <h4 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.4rem; margin-bottom: 10px;">تواصل وتتابع الكاتب</h4>
+        <div class="social-links">
+            <a href="https://www.facebook.com/share/19XWbiVUNM/" class="social-btn" target="_blank">📘 Facebook</a>
+            <a href="https://www.instagram.com/saeid_elshwadfy?igsi=MTh4a3R5OWdmdGIzZg==" class="social-btn" target="_blank">📷 Instagram</a>
+            <a href="#" class="social-btn" target="_blank">📚 Amazon Kindle</a>
+            <a href="#" class="social-btn" target="_blank">📱 Google Play Books</a>
+        </div>
+        <p style="margin-top: 20px;">© 2026 سعيد الشوادفي - جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        const RECEIVER_WALLET_NUMBER = "01096227242"; 
+
+        let isAdminLoggedIn = false;
+        let selectedBookName = '';
+        let selectedBookPrice = '';
+        let selectedBookFileUrl = null;
+        let selectedOrderType = 'digital';
+        
+        let currentActiveBook = null;
+        let currentActivePages = [];
+        let currentReaderPageIndex = 0;
+        let isCurrentReaderPaidMode = false;
+
+        const defaultBooks = [
+            {
+                id: 'book-1',
+                title: 'ظلال لا تنام',
+                desc: 'رواية غموض وإثارة تشويقية تأخذك إلى أعمق أسرار النفس والظلال الخفية.',
+                price: '100 ج.م',
+                paperPrice: '180 ج.م',
+                coverUrl: '',
+                fileUrl: null,
+                samplePdfUrl: null,
+                freePages: [
+                    "الفصل الأول: كانت الليلة شديدة الظلمة، والرياح تعزف ألحاناً حزينة في أزقة المدينة القديمة. وقف سعيد أمام الباب العتيق يتأمل تلك الظلال التي تحركت فجأة...",
+                    "لم يكن الصمت سوى هدوء يسبق العاصفة. تقدم بخطوات ثقيلة، وشعر بأن أحداً يراقبه من خلف الستائر المتهالكة..."
+                ],
+                fullPages: [
+                    "الفصل الأول: كانت الليلة شديدة الظلمة، والرياح تعزف ألحاناً حزينة في أزقة المدينة القديمة. وقف سعيد أمام الباب العتيق يتأمل تلك الظلال التي تحركت فجأة...",
+                    "لم يكن الصمت سوى هدوء يسبق العاصفة. تقدم بخطوات ثقيلة، وشعر بأن أحداً يراقبه من خلف الستائر المتهالكة...",
+                    "الفصل الثاني: انفتح الباب بصوت صرير حاد، ليكشف عن ممر طويل مظلم لا تنبعث منه سوى رائحة الورق القديم والذكريات المنسية...",
+                    "توالت الأحداث بسرعة غير متوقعة، وكان الواقع أغرب بكثير مما كان يظنه الجميع..."
+                ]
+            },
+            {
+                id: 'book-2',
+                title: 'ابن الغزال',
+                desc: 'ملحمة درامية إنسانية مليئة بالتأملات والحبكة الصادمة والأحداث الممتعة.',
+                price: '120 ج.م',
+                paperPrice: '200 ج.م',
+                coverUrl: '',
+                fileUrl: null,
+                samplePdfUrl: null,
+                freePages: [
+                    "المقدمة: بين جبال الصحراء وأوديتها المنسية، ولدت تلك الحكاية التي تناقلتها الأجيال عن الصبر والقوة والكرامة..."
+                ],
+                fullPages: [
+                    "المقدمة: بين جبال الصحراء وأوديتها المنسية، ولدت تلك الحكاية التي تناقلتها الأجيال عن الصبر والقوة والكرامة...",
+                    "كان ينظر إلى الأفق البعيد، يعلم أن طريق العودة لن يكون مفروشاً بالورود، لكن الإصرار كان سلاحه الوحيد...",
+                    "الجزء الثاني: مرّت الأيام وتجلت المعالم الحقيقية للقصة، ليجد نفسه يخوض معركة جديدة ليست ضد الآخرين، بل ضد المخاوف التي سكنت قلبه لسنوات..."
+                ]
+            }
+        ];
+
+        const defaultReviews = [
+            { id: 1, name: "أحمد محمود", book: "ظلال لا تنام", text: "رواية ممتازة بكل المقاييس! حبكة الغموض مشوقة جداً ولم أستطع إغلاقها حتى أنهيتها كاملة." },
+            { id: 2, name: "سارة حسن", book: "ابن الغزال", text: "أسلوب الكاتب سعيد الشوادفي ساحر ولغته الأدبية عميقة وممتعة. ننصح بها وبشدة." }
+        ];
+
+        function loadBooks() {
+            const savedBooks = localStorage.getItem('shwadafy_books');
+            const books = savedBooks ? JSON.parse(savedBooks) : defaultBooks;
+            
+            const grid = document.getElementById('booksGrid');
+            const selectBox = document.getElementById('reviewedBookSelect');
+            grid.innerHTML = '';
+            selectBox.innerHTML = '<option value="">اختر الرواية...</option>';
+
+            books.forEach(book => {
+                // Populate Select Box in Review Form
+                const opt = document.createElement('option');
+                opt.value = book.title;
+                opt.innerText = book.title;
+                selectBox.appendChild(opt);
+
+                const coverContent = book.coverUrl 
+                    ? `<img src="${book.coverUrl}" alt="${book.title}">` 
+                    : book.title;
+
+                const sampleBtnHTML = book.samplePdfUrl 
+                    ? `<a href="${book.samplePdfUrl}" download="${book.title}-عينة.pdf" class="btn-secondary">⬇️ تحميل العينة (PDF)</a>` 
+                    : '';
+
+                const bookHTML = `
+                    <div class="book-card" id="${book.id}">
+                        <div>
+                            <div class="book-cover">${coverContent}</div>
+                            <h3 class="title-text">${book.title}</h3>
+                            <p class="desc-text" style="color: var(--text-muted); font-size: 0.95rem; margin: 10px 0;">${book.desc}</p>
+                            <div class="book-price">📱 الرقمية: ${book.price} | 📦 الورقية: ${book.paperPrice || 'غير متاح'}</div>
+                        </div>
+                        <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+                            <button class="btn-primary" onclick="openPayment('${book.title}', '${book.paperPrice || book.price}', '${book.fileUrl}', 'paper')">📦 طلب نسخة ورقية (شحن)</button>
+                            <button class="btn-outline" onclick="openPayment('${book.title}', '${book.price}', '${book.fileUrl}', 'digital')">📱 شراء نسخة رقمية (PDF)</button>
+                            <button class="btn-secondary" onclick="openReader('${book.id}', false)">📖 قراءة العينة بالموقع</button>
+                            ${sampleBtnHTML}
+                            <div class="admin-controls" style="display: ${isAdminLoggedIn ? 'flex' : 'none'};">
+                                <button class="btn-outline" onclick="editBook('${book.id}')">تعديل</button>
+                                <button class="btn-danger" onclick="deleteBook('${book.id}')">حذف</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', bookHTML);
+            });
+        }
+
+        function loadReviews() {
+            const savedReviews = localStorage.getItem('shwadafy_reviews');
+            const reviews = savedReviews ? JSON.parse(savedReviews) : defaultReviews;
+            
+            const container = document.getElementById('reviewsContainer');
+            container.innerHTML = '';
+
+            reviews.forEach(rev => {
+                const card = `
+                    <div class="review-card">
+                        <div class="review-stars">⭐⭐⭐⭐⭐</div>
+                        <p style="font-size: 0.95rem; color: #e0e6ed;">"${rev.text}"</p>
+                        <div class="review-author">${rev.name}</div>
+                        <div class="review-book">عن رواية: ${rev.book}</div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', card);
+            });
+        }
+
+        function addNewReview(e) {
+            e.preventDefault();
+            const name = document.getElementById('reviewerName').value;
+            const book = document.getElementById('reviewedBookSelect').value;
+            const text = document.getElementById('reviewText').value;
+
+            const savedReviews = localStorage.getItem('shwadafy_reviews');
+            const reviews = savedReviews ? JSON.parse(savedReviews) : defaultReviews;
+
+            reviews.unshift({ id: Date.now(), name, book, text });
+            localStorage.setItem('shwadafy_reviews', JSON.stringify(reviews));
+
+            loadReviews();
+            document.getElementById('reviewerName').value = '';
+            document.getElementById('reviewText').value = '';
+            alert('شكراً لك على مشاركة رأيك اللطيف!');
+        }
+
+        function openReader(bookId, isPaidMode = false) {
+            const books = getStoredBooks();
+            currentActiveBook = books.find(b => b.id === bookId);
+            isCurrentReaderPaidMode = isPaidMode;
+            
+            if (!currentActiveBook) return;
+
+            if (isPaidMode) {
+                currentActivePages = currentActiveBook.fullPages || currentActiveBook.freePages;
+            } else {
+                currentActivePages = currentActiveBook.freePages || ["لا توجد صفحات عينة متاحة."];
+            }
+
+            currentReaderPageIndex = 0;
+            updateReaderDisplay();
+
+            document.getElementById('readerModal').style.display = 'flex';
+        }
+
+        function updateReaderDisplay() {
+            const badge = document.getElementById('readerBadge');
+            const actionBox = document.getElementById('freeReaderAction');
+
+            if (isCurrentReaderPaidMode) {
+                badge.innerText = "النسخة الكاملة المدفوعة 🔓";
+                badge.className = "reader-badge badge-paid";
+                actionBox.style.display = 'none';
+            } else {
+                badge.innerText = "معاينة عينة مجانية 📖";
+                badge.className = "reader-badge badge-free";
+                actionBox.style.display = 'block';
+            }
+
+            document.getElementById('readerTitle').innerText = currentActiveBook.title;
+            document.getElementById('readerText').innerText = currentActivePages[currentReaderPageIndex];
+            document.getElementById('readerPageIndicator').innerText = `صفحة ${currentReaderPageIndex + 1} من ${currentActivePages.length}`;
+        }
+
+        function changeReaderPage(direction) {
+            const newIndex = currentReaderPageIndex + direction;
+            if (newIndex >= 0 && newIndex < currentActivePages.length) {
+                currentReaderPageIndex = newIndex;
+                updateReaderDisplay();
+            }
+        }
+
+        function closeReader() {
+            document.getElementById('readerModal').style.display = 'none';
+        }
+
+        function saveBooksToStorage(books) {
+            localStorage.setItem('shwadafy_books', JSON.stringify(books));
+        }
+
+        function getStoredBooks() {
+            const savedBooks = localStorage.getItem('shwadafy_books');
+            return savedBooks ? JSON.parse(savedBooks) : defaultBooks;
+        }
+
+        function toggleAdminLogin() {
+            if(!isAdminLoggedIn) {
+                const password = prompt("أدخل كلمة المرور السريّة للوحة التحكم:");
+                if(password === "S1629r") {
+                    isAdminLoggedIn = true;
+                    alert("تم تسجيل الدخول بنجاح كأدمن!");
+                    document.getElementById('adminPanel').style.display = 'block';
+                    document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'flex');
+                } else if(password) {
+                    alert("كلمة المرور غير صحيحة!");
+                }
+            } else {
+                isAdminLoggedIn = false;
+                document.getElementById('adminPanel').style.display = 'none';
+                document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'none');
+                alert("تم الخروج من لوحة التحكم.");
+            }
+        }
+
+        function deleteBook(id) {
+            if(confirm("هل أنت تأكد من رغبتك في حذف هذا الكتاب؟")) {
+                let books = getStoredBooks();
+                books = books.filter(b => b.id !== id);
+                saveBooksToStorage(books);
+                loadBooks();
+            }
+        }
+
+        function editBook(id) {
+            let books = getStoredBooks();
+            const bookIndex = books.findIndex(b => b.id === id);
+
+            if(bookIndex !== -1) {
+                const newTitle = prompt("تعديل العنوان:", books[bookIndex].title);
+                const newDesc = prompt("تعديل النبذة:", books[bookIndex].desc);
+                const newPrice = prompt("تعديل سعر الرقمية:", books[bookIndex].price);
+                const newPaperPrice = prompt("تعديل سعر الورقية:", books[bookIndex].paperPrice);
+
+                if(newTitle) books[bookIndex].title = newTitle;
+                if(newDesc) books[bookIndex].desc = newDesc;
+                if(newPrice) books[bookIndex].price = newPrice;
+                if(newPaperPrice) books[bookIndex].paperPrice = newPaperPrice;
+
+                saveBooksToStorage(books);
+                loadBooks();
+            }
+        }
+
+        function addNewBook(e) {
+            e.preventDefault();
+            const title = document.getElementById('bookTitle').value;
+            const desc = document.getElementById('bookDesc').value;
+            const price = document.getElementById('bookPrice').value;
+            const paperPrice = document.getElementById('bookPaperPrice').value;
+            const freeInput = document.getElementById('bookFreePages').value;
+            const fullInput = document.getElementById('bookFullPages').value;
+            const coverInput = document.getElementById('bookCoverFile');
+            const samplePdfInput = document.getElementById('bookSamplePdfFile');
+            const pdfInput = document.getElementById('bookPdfFile');
+
+            const freePages = freeInput.split('---').map(p => p.trim()).filter(p => p.length > 0);
+            const fullPages = fullInput.split('---').map(p => p.trim()).filter(p => p.length > 0);
+
+            if (!coverInput.files[0]) {
+                alert('يرجى اختيار صورة الغلاف أولاً!');
+                return;
+            }
+
+            const readerCover = new FileReader();
+            readerCover.onload = function(event) {
+                const coverBase64 = event.target.result;
+
+                let samplePdfUrl = null;
+                if (samplePdfInput.files[0]) {
+                    samplePdfUrl = URL.createObjectURL(samplePdfInput.files[0]);
+                }
+
+                let fileUrl = null;
+                if (pdfInput.files[0]) {
+                    fileUrl = URL.createObjectURL(pdfInput.files[0]);
+                }
+                
+                const newBook = {
+                    id: 'book-' + Date.now(),
+                    title: title,
+                    desc: desc,
+                    price: price,
+                    paperPrice: paperPrice,
+                    coverUrl: coverBase64,
+                    fileUrl: fileUrl,
+                    samplePdfUrl: samplePdfUrl,
+                    freePages: freePages.length > 0 ? freePages : ["العينة المجانية غير متوفرة."],
+                    fullPages: fullPages.length > 0 ? fullPages : freePages
+                };
+
+                const books = getStoredBooks();
+                books.push(newBook);
+                saveBooksToStorage(books);
+                loadBooks();
+
+                document.getElementById('addBookForm').reset();
+                alert('تمت إضافة الرواية وتحديث العينات والأسعار بنجاح!');
+            };
+            readerCover.readAsDataURL(coverInput.files[0]);
+        }
+
+        function openPayment(title, price, fileUrl, type = 'digital') {
+            selectedBookName = title;
+            selectedBookPrice = price;
+            selectedBookFileUrl = fileUrl;
+            selectedOrderType = type;
+
+            const books = getStoredBooks();
+            currentActiveBook = books.find(b => b.title === title);
+
+            const typeText = type === 'paper' ? 'نسخة ورقية (شحن)' : 'نسخة رقمية (PDF)';
+            document.getElementById('paymentBookDetails').innerText = `طلب ${typeText}: ${title} بسعر (${price})`;
+
+            document.getElementById('codOption').style.display = type === 'paper' ? 'flex' : 'none';
+
+            resetCheckout();
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+
+        function closePayment() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const pModal = document.getElementById('paymentModal');
+            const rModal = document.getElementById('readerModal');
+            if (event.target === pModal) closePayment();
+            if (event.target === rModal) closeReader();
+        };
+
+        function resetCheckout() {
+            document.getElementById('stepMethod').classList.add('active');
+            document.getElementById('stepCheckout').classList.remove('active');
+            document.getElementById('stepSuccess').classList.remove('active');
+        }
+
+        function selectMethod(method) {
+            document.getElementById('stepMethod').classList.remove('active');
+            document.getElementById('stepCheckout').classList.add('active');
+
+            const infoBox = document.getElementById('methodInstructions');
+            const walletSenderGroup = document.getElementById('walletSenderGroup');
+            const shippingAddressFields = document.getElementById('shippingAddressFields');
+
+            if (selectedOrderType === 'paper') {
+                shippingAddressFields.style.display = 'block';
+            } else {
+                shippingAddressFields.style.display = 'none';
+            }
+
+            if(method === 'vodafone') {
+                document.getElementById('checkoutTitle').innerText = '📱 الدفع بواسطة فودافون كاش / المحفظة';
+                infoBox.innerHTML = `💡 يرجى تحويل مبلغ <strong>${selectedBookPrice}</strong> إلى رقم المحفظة: <strong style="color:var(--accent-color); font-size: 1.1rem;">${RECEIVER_WALLET_NUMBER}</strong> ثم أدخل بياناتك بالأسفل للتأكيد.`;
+                walletSenderGroup.style.display = 'block';
+            } else if(method === 'cod') {
+                document.getElementById('checkoutTitle').innerText = '🚚 الدفع عند الاستلام (النسخة الورقية)';
+                infoBox.innerHTML = `💡 سيتم تجهيز كتابك المطبوع وإرساله عبر الشحن إلى عنوانك، وستقوم بالدفع بمبلغ <strong>${selectedBookPrice}</strong> للمندوب عند التسليم.`;
+                walletSenderGroup.style.display = 'none';
+            } else if(method === 'card') {
+                document.getElementById('checkoutTitle').innerText = '💳 الدفع عبر الفيزا / ماستركارد';
+                infoBox.innerHTML = `💡 يرجى إدخال اسمك وبيانات التواصل لخصم مبلغ <strong>${selectedBookPrice}</strong> وإكمال الطلب.`;
+                walletSenderGroup.style.display = 'none';
+            } else if(method === 'paypal') {
+                document.getElementById('checkoutTitle').innerText = '🌐 الدفع عبر PayPal';
+                infoBox.innerHTML = `💡 سيتم توجيهك لحساب باي بال لإرسال مبلغ <strong>${selectedBookPrice}</strong>. أدخل بريدك الإلكتروني أدناه.`;
+                walletSenderGroup.style.display = 'none';
+            }
+        }
+
+        function completeOrder(e) {
+            e.preventDefault();
+            const name = document.getElementById('buyerName').value;
+            const phone = document.getElementById('buyerPhone').value;
+            const email = document.getElementById('buyerEmail').value;
+            const city = document.getElementById('buyerCity').value;
+            const address = document.getElementById('buyerAddress').value;
+            const walletSender = document.getElementById('buyerWalletSender').value;
+
+            document.getElementById('stepCheckout').classList.remove('active');
+            document.getElementById('stepSuccess').classList.add('active');
+
+            const successMsg = document.getElementById('successMessageDetails');
+            const digitalActions = document.getElementById('digitalSuccessActions');
+
+            let waMsgText = "";
+
+            if (selectedOrderType === 'paper') {
+                successMsg.innerText = `شكراً لك أستاذ ${name}! تم تسجيل طلب النسخة الورقية لكتاب "${selectedBookName}". سيتم التواصل معك على الرقم (${phone}) لتأكيد الشحن والتوصيل.`;
+                digitalActions.style.display = 'none';
+
+                waMsgText = `مرحباً أستاذ سعيد، قمت بطلب *نسخة ورقية* لكتاب: "${selectedBookName}"\n- السعر: ${selectedBookPrice}\n- الاسم: ${name}\n- الهاتف: ${phone}\n- المحافظة: ${city}\n- العنوان: ${address}`;
+                if(walletSender) waMsgText += `\n- الرقم المحول منه: ${walletSender}`;
+            } else {
+                successMsg.innerText = `شكراً لك أستاذ ${name}! تم فتح النسخة الرقمية لكتاب "${selectedBookName}". يمكنك قراءتها أونلاين أو تحميلها مباشرة.`;
+                digitalActions.style.display = 'block';
+
+                const readOnlineBtn = document.getElementById('readPaidOnlineBtn');
+                readOnlineBtn.onclick = function() {
+                    closePayment();
+                    if (currentActiveBook) {
+                        openReader(currentActiveBook.id, true);
+                    }
+                };
+
+                const downloadBtn = document.getElementById('downloadBookBtn');
+                if(selectedBookFileUrl && selectedBookFileUrl !== 'null') {
+                    downloadBtn.href = selectedBookFileUrl;
+                    downloadBtn.download = `${selectedBookName}.pdf`;
+                    downloadBtn.innerText = `⬇️ تحميل كتاب "${selectedBookName}" فوراً`;
+                } else {
+                    downloadBtn.href = "#";
+                    downloadBtn.onclick = function() { alert('شُكراً لطلبك! سيتم إرسال النسخة عبر البريد الإلكتروني: ' + email); };
+                    downloadBtn.innerText = `📧 طلب إرسال النسخة ببريدك (${email})`;
+                }
+
+                waMsgText = `مرحباً أستاذ سعيد، قمت بطلب *نسخة رقمية* لكتاب: "${selectedBookName}"\n- السعر: ${selectedBookPrice}\n- الاسم: ${name}\n- الهاتف: ${phone}\n- البريد: ${email}`;
+                if(walletSender) waMsgText += `\n- الرقم المحول منه: ${walletSender}`;
+            }
+
+            document.getElementById('whatsappBtn').href = `https://wa.me/2${RECEIVER_WALLET_NUMBER}?text=${encodeURIComponent(waMsgText)}`;
+        }
+
+        loadBooks();
+        loadReviews();
+    </script>
+</body>
+</html>

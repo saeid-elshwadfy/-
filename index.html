@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سعيد الشوادفي | موقع الكاتب الروائي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #12141c;
+            --accent-color: #d4af37;
+            --text-color: #e0e6ed;
+            --text-muted: #94a3b8;
+            --danger-color: #ef4444;
+            --success-color: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Tajawal', sans-serif;
+            line-height: 1.6;
+            padding: 0 15px;
+        }
+        header {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .logo {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        .admin-trigger {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1rem;
+            transition: color 0.3s;
+        }
+        .admin-trigger:hover { color: var(--accent-color); }
+        
+        .hero {
+            max-width: 1100px;
+            margin: 25px auto;
+            text-align: center;
+            background: linear-gradient(180deg, #12141c 0%, #0b0c10 100%);
+            padding: 30px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .hero h1 {
+            font-family: 'Amiri', serif;
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .hero h1 span { color: var(--accent-color); }
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            margin: 0 auto 20px;
+        }
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #0b0c10;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+        }
+        .btn-order-digital {
+            background-color: transparent;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 10px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: block;
+            width: 100%;
+        }
+        .btn-order-digital:hover {
+            background-color: var(--accent-color);
+            color: #0b0c10;
+        }
+        .btn-order-paper {
+            background-color: #10b981;
+            color: #fff;
+            padding: 10px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: block;
+            border: none;
+            width: 100%;
+        }
+        .btn-secondary {
+            background-color: #1e2230;
+            color: var(--text-color);
+            border: 1px solid #334155;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+        }
+        .btn-edit {
+            background-color: #3b82f6;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+        }
+        .btn-danger {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+            padding: 8px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+        }
+
+        .section-title {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            color: var(--accent-color);
+            text-align: center;
+            margin: 35px 0 25px;
+        }
+
+        .books-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .book-card {
+            background-color: var(--card-bg);
+            border: 1px solid #1e2230;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .book-cover {
+            width: 100%;
+            height: 240px;
+            background: linear-gradient(135deg, #1e2230 0%, #161922 100%);
+            border: 1px dashed rgba(212, 175, 55, 0.4);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 1.2rem;
+            overflow: hidden;
+        }
+        .book-cover img { width: 100%; height: 100%; object-fit: cover; }
+        .book-price {
+            font-size: 0.95rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            margin: 10px 0;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 6px;
+            border-radius: 6px;
+        }
+
+        .action-buttons-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .social-btn {
+            background-color: #1e2230;
+            color: var(--text-color);
+            border: 1px solid #334155;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .admin-controls {
+            display: none;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #334155;
+            gap: 10px;
+        }
+
+        .admin-panel {
+            display: none;
+            max-width: 1100px;
+            margin: 20px auto;
+            background-color: #161922;
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .admin-panel h2 { color: var(--accent-color); font-family: 'Amiri', serif; margin-bottom: 15px; }
+        .form-group { margin-bottom: 12px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 4px; color: var(--text-color); font-size: 0.9rem; }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: #0b0c10;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            color: #fff;
+            outline: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 10px;
+        }
+        .modal-content {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            border-radius: 12px;
+            padding: 20px;
+            max-width: 650px;
+            width: 95%;
+            text-align: center;
+            position: relative;
+        }
+        .close-modal {
+            position: absolute;
+            top: 8px; left: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 1.8rem;
+        }
+
+        .reader-box {
+            background: #08090c;
+            border: 1px solid #232736;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            height: 320px;
+            overflow-y: auto;
+            text-align: justify;
+            font-family: 'Amiri', serif;
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #e2e8f0;
+            white-space: pre-wrap;
+        }
+        .reader-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            background-color: rgba(16, 185, 129, 0.2);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            margin-bottom: 8px;
+        }
+
+        .reader-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px 0;
+            color: var(--text-muted);
+            border-top: 1px solid #1e2230;
+            margin-top: 40px;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">سعيد الشوادفي</div>
+        <button class="admin-trigger" onclick="toggleAdminLogin()">🔒 لوحة التحكم</button>
+    </header>
+
+    <section class="hero">
+        <h1>حيث تتجسد الحكايات و<span>تستيقظ الظلال</span></h1>
+        <p>مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح واقرأ العينات مباشرة أو اطلب النسخ الورقية والرقمية.</p>
+        <a href="#books" class="btn-primary" style="width: auto;">تصفح الروايات</a>
+    </section>
+
+    <!-- Admin Panel -->
+    <section id="adminPanel" class="admin-panel">
+        <h2 id="formTitle">🛠️ لوحة تحكم الكاتب (إضافة / تعديل عمل)</h2>
+        <form id="addBookForm" onsubmit="saveBook(event)">
+            <input type="hidden" id="editBookId" value="">
+            <div class="form-group">
+                <label>عنوان الكتاب:</label>
+                <input type="text" id="bookTitle" required placeholder="مثال: ظلال لا تنام">
+            </div>
+            <div class="form-group">
+                <label>الوصف / النبذة:</label>
+                <textarea id="bookDesc" rows="2" required placeholder="نبذة مختصرة..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>🔗 رابط ملف العينة PDF (اختياري):</label>
+                <input type="url" id="bookSamplePdfUrl" placeholder="https://example.com/sample.pdf">
+            </div>
+            <div class="form-group">
+                <label>📖 صفحات القراءة المباشرة بالموقع (افصل بين الصفحات بـ ---):</label>
+                <textarea id="bookFreePages" rows="4" placeholder="الصفحة الأولى...&#10;---&#10;الصفحة الثانية..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>سعر النسخة الرقمية:</label>
+                <input type="text" id="bookPrice" required placeholder="100 ج.م">
+            </div>
+            <div class="form-group">
+                <label>سعر النسخة الورقية:</label>
+                <input type="text" id="bookPaperPrice" required placeholder="180 ج.م">
+            </div>
+            <div class="form-group">
+                <label>🖼️ رابط صورة الغلاف:</label>
+                <input type="url" id="bookCoverUrl" placeholder="https://example.com/cover.jpg">
+            </div>
+            <button type="submit" class="btn-primary" id="saveBtn">حفظ ونشر العمل 🚀</button>
+        </form>
+    </section>
+
+    <!-- Books Grid -->
+    <h2 id="books" class="section-title">الأعمال الأدبية والمعرض</h2>
+    <div class="books-grid" id="booksGrid"></div>
+
+    <!-- E-Reader Modal -->
+    <div id="readerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeReader()">&times;</span>
+            <div class="reader-badge">معاينة العينة المجانية 📖</div>
+            <h3 id="readerTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.5rem;"></h3>
+            
+            <div id="readerText" class="reader-box"></div>
+            
+            <div class="reader-controls">
+                <button class="btn-secondary" style="width: auto;" onclick="changeReaderPage(-1)">⬅ السابقة</button>
+                <span id="readerPageIndicator" style="color: var(--text-muted); font-size: 0.85rem;"></span>
+                <button class="btn-secondary" style="width: auto;" onclick="changeReaderPage(1)">التالية ➡</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <h4 style="color: var(--accent-color); font-family: 'Amiri', serif; margin-bottom: 8px;">تواصل وتتابع الكاتب</h4>
+        <div class="social-links">
+            <a href="https://www.facebook.com/share/19XWbiVUNM/" class="social-btn" target="_blank">📘 Facebook</a>
+            <a href="https://www.instagram.com/saeid_elshwadfy" class="social-btn" target="_blank">📷 Instagram</a>
+            <a href="https://www.tiktok.com/@saeid.elshwadfy" class="social-btn" target="_blank">🎵 TikTok</a>
+            <a href="https://x.com/Saeidelshwadfy" class="social-btn" target="_blank">🐦 X</a>
+        </div>
+        <p style="margin-top: 15px;">© 2026 سعيد الشوادفي - جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        let isAdminLoggedIn = false;
+        let currentActiveBook = null;
+        let currentActivePages = [];
+        let currentReaderPageIndex = 0;
+        const phoneContact = "201096227242";
+
+        const defaultBooks = [
+            {
+                id: 'book-1',
+                title: 'ظلال لا تنام',
+                desc: 'رواية غموض وإثارة تشويقية تأخذك إلى أعمق أسرار النفس والظلال الخفية.',
+                price: '100 ج.م',
+                paperPrice: '180 ج.م',
+                coverUrl: '',
+                samplePdfUrl: '',
+                freePages: [
+                    "الفصل الأول\nكانت الليلة شديدة الظلمة، والرياح تعزف ألحاناً حزينة في أزقة المدينة القديمة. وقف سعيد أمام الباب العتيق يتأمل تلك الظلال التي تحركت فجأة...",
+                    "لم يكن الصمت سوى هدوء يسبق العاصفة. تقدم بخطوات ثقيلة، وشعر بأن أحداً يراقبه من خلف الستائر المتهالكة..."
+                ]
+            },
+            {
+                id: 'book-2',
+                title: 'ابن الغزال',
+                desc: 'ملحمة درامية إنسانية مليئة بالتأملات والحبكة الصادمة والأحداث الممتعة.',
+                price: '120 ج.م',
+                paperPrice: '200 ج.م',
+                coverUrl: '',
+                samplePdfUrl: '',
+                freePages: [
+                    "المقدمة\nبين جبال الصحراء وأوديتها المنسية، ولدت تلك الحكاية التي تناقلتها الأجيال عن الصبر والقوة والكرامة...",
+                    "تستمر الحكاية في رسم ملامح البطل الذي واجه المصاعب بروح لا تتزعزع."
+                ]
+            }
+        ];
+
+        function getStoredBooks() {
+            const saved = localStorage.getItem('shwadafy_books');
+            if (!saved) {
+                localStorage.setItem('shwadafy_books', JSON.stringify(defaultBooks));
+                return defaultBooks;
+            }
+            let parsed = JSON.parse(saved);
+            return parsed.map(b => {
+                const def = defaultBooks.find(d => d.id === b.id);
+                if (def && (!b.freePages || b.freePages.length === 0)) {
+                    b.freePages = def.freePages;
+                }
+                return b;
+            });
+        }
+
+        function loadBooks() {
+            const books = getStoredBooks();
+            const grid = document.getElementById('booksGrid');
+            grid.innerHTML = '';
+
+            books.forEach(book => {
+                const coverContent = book.coverUrl 
+                    ? `<img src="${book.coverUrl}" alt="${book.title}">` 
+                    : book.title;
+
+                const samplePdfBtn = book.samplePdfUrl 
+                    ? `<a href="${book.samplePdfUrl}" target="_blank" download="${book.title}-عينة.pdf" class="btn-secondary">⬇️ تحميل العينة (PDF)</a>` 
+                    : `<button class="btn-secondary" onclick="alert('ملف PDF العينة غير مرفق حالياً، يمكنك قراءة العينة المباشرة عبر زر قراءة العينة بالموقع');">⬇️ تحميل العينة (PDF)</button>`;
+
+                const digitalOrderLink = `https://wa.me/${phoneContact}?text=${encodeURIComponent('أهلاً، أرغب في طلب النسخة الرقمية (PDF) لرواية: ' + book.title)}`;
+                const paperOrderLink = `https://wa.me/${phoneContact}?text=${encodeURIComponent('أهلاً، أرغب في طلب النسخة الورقية المطبوعة لرواية: ' + book.title)}`;
+
+                const bookHTML = `
+                    <div class="book-card" id="${book.id}">
+                        <div>
+                            <div class="book-cover">${coverContent}</div>
+                            <h3 style="font-family: 'Amiri', serif; font-size: 1.4rem;">${book.title}</h3>
+                            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 8px 0;">${book.desc}</p>
+                            <div class="book-price">📱 الرقمية: ${book.price} | 📦 الورقية: ${book.paperPrice}</div>
+                        </div>
+                        <div class="action-buttons-group">
+                            <button class="btn-primary" onclick="openReader('${book.id}')">📖 قراءة العينة بالموقع</button>
+                            ${samplePdfBtn}
+                            <a href="${digitalOrderLink}" target="_blank" class="btn-order-digital">📲 طلب النسخة الرقمية</a>
+                            <a href="${paperOrderLink}" target="_blank" class="btn-order-paper">📦 طلب النسخة الورقية</a>
+                            <div class="admin-controls" style="display: ${isAdminLoggedIn ? 'flex' : 'none'};">
+                                <button class="btn-edit" onclick="editBook('${book.id}')">تعديل ✏️</button>
+                                <button class="btn-danger" onclick="deleteBook('${book.id}')">حذف 🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', bookHTML);
+            });
+        }
+
+        function openReader(bookId) {
+            const books = getStoredBooks();
+            currentActiveBook = books.find(b => b.id === bookId);
+            
+            if (!currentActiveBook) return;
+
+            if (currentActiveBook.freePages && currentActiveBook.freePages.length > 0) {
+                currentActivePages = currentActiveBook.freePages;
+            } else {
+                currentActivePages = ["لا توجد صفحات متاحة للعينات حالياً لهذه الرواية."];
+            }
+
+            currentReaderPageIndex = 0;
+            updateReaderDisplay();
+            document.getElementById('readerModal').style.display = 'flex';
+        }
+
+        function updateReaderDisplay() {
+            document.getElementById('readerTitle').innerText = currentActiveBook.title;
+            document.getElementById('readerText').innerText = currentActivePages[currentReaderPageIndex];
+            document.getElementById('readerPageIndicator').innerText = `صفحة ${currentReaderPageIndex + 1} من ${currentActivePages.length}`;
+        }
+
+        function changeReaderPage(dir) {
+            const nextIdx = currentReaderPageIndex + dir;
+            if (nextIdx >= 0 && nextIdx < currentActivePages.length) {
+                currentReaderPageIndex = nextIdx;
+                updateReaderDisplay();
+            }
+        }
+
+        function closeReader() {
+            document.getElementById('readerModal').style.display = 'none';
+        }
+
+        function toggleAdminLogin() {
+            if(!isAdminLoggedIn) {
+                const password = prompt("أدخل كلمة المرور السريّة للوحة التحكم:");
+                if(password === "S1629r") {
+                    isAdminLoggedIn = true;
+                    alert("تم الدخول بنجاح!");
+                    document.getElementById('adminPanel').style.display = 'block';
+                    document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'flex');
+                } else if(password) alert("كلمة المرور غير صحيحة!");
+            } else {
+                isAdminLoggedIn = false;
+                document.getElementById('adminPanel').style.display = 'none';
+                document.querySelectorAll('.admin-controls').forEach(el => el.style.display = 'none');
+            }
+        }
+
+        function editBook(id) {
+            const books = getStoredBooks();
+            const book = books.find(b => b.id === id);
+            if(!book) return;
+
+            document.getElementById('editBookId').value = book.id;
+            document.getElementById('bookTitle').value = book.title;
+            document.getElementById('bookDesc').value = book.desc;
+            document.getElementById('bookPrice').value = book.price;
+            document.getElementById('bookPaperPrice').value = book.paperPrice;
+            document.getElementById('bookCoverUrl').value = book.coverUrl || '';
+            document.getElementById('bookSamplePdfUrl').value = book.samplePdfUrl || '';
+            document.getElementById('bookFreePages').value = (book.freePages || []).join('\n---\n');
+
+            document.getElementById('formTitle').innerText = "✏️ تعديل العمل الحالي";
+            document.getElementById('saveBtn').innerText = "تحديث بيانات العمل 🔄";
+            window.scrollTo({ top: document.getElementById('adminPanel').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function saveBook(e) {
+            e.preventDefault();
+            const editId = document.getElementById('editBookId').value;
+            const title = document.getElementById('bookTitle').value;
+            const desc = document.getElementById('bookDesc').value;
+            const price = document.getElementById('bookPrice').value;
+            const paperPrice = document.getElementById('bookPaperPrice').value;
+            const freeInput = document.getElementById('bookFreePages').value;
+            const coverUrl = document.getElementById('bookCoverUrl').value;
+            const samplePdfUrl = document.getElementById('bookSamplePdfUrl').value;
+
+            const freePages = freeInput.split('---').map(p => p.trim()).filter(p => p.length > 0);
+            let books = getStoredBooks();
+
+            if (editId) {
+                // تعديل عمل موجود
+                books = books.map(b => {
+                    if (b.id === editId) {
+                        return {
+                            ...b, title, desc, price, paperPrice, coverUrl, samplePdfUrl,
+                            freePages: freePages.length ? freePages : b.freePages
+                        };
+                    }
+                    return b;
+                });
+                alert('تم تحديث العمل بنجاح!');
+            } else {
+                // إضافة عمل جديد
+                const newBook = {
+                    id: 'book-' + Date.now(),
+                    title, desc, price, paperPrice, coverUrl, samplePdfUrl,
+                    freePages: freePages.length ? freePages : ["نص العينة يظهر هنا عند كتابته."]
+                };
+                books.push(newBook);
+                alert('تم نشر العمل بنجاح!');
+            }
+
+            localStorage.setItem('shwadafy_books', JSON.stringify(books));
+            loadBooks();
+            resetForm();
+        }
+
+        function resetForm() {
+            document.getElementById('addBookForm').reset();
+            document.getElementById('editBookId').value = "";
+            document.getElementById('formTitle').innerText = "🛠️ لوحة تحكم الكاتب (إضافة / تعديل عمل)";
+            document.getElementById('saveBtn').innerText = "حفظ ونشر العمل 🚀";
+        }
+
+        function deleteBook(id) {
+            if(confirm("هل تريد حذف هذا العمل؟")) {
+                let books = getStoredBooks();
+                books = books.filter(b => b.id !== id);
+                localStorage.setItem('shwadafy_books', JSON.stringify(books));
+                loadBooks();
+            }
+        }
+
+        loadBooks();
+    </script>
+</body>
+</html>

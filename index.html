@@ -369,7 +369,7 @@
         .admin-section-box { border-bottom: 1px dashed var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
         .form-group { margin-bottom: 15px; text-align: right; }
         .form-group label { display: block; margin-bottom: 6px; font-weight: bold; color: var(--accent-color); }
-        .form-group input[type="text"], .form-group input[type="file"], .form-group textarea, .form-group select { width: 100%; padding: 10px 14px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-family: 'Tajawal', sans-serif; }
+        .form-group input[type="text"], .form-group input[type="password"], .form-group input[type="file"], .form-group textarea, .form-group select { width: 100%; padding: 10px 14px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-family: 'Tajawal', sans-serif; }
 
         .book-stats { font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-around; align-items: center; margin: 6px 0; background: rgba(255,255,255,0.03); padding: 6px; border-radius: 6px; }
         .rating-stars { color: #f59e0b; cursor: pointer; font-size: 1.1rem; }
@@ -460,6 +460,25 @@
             <h2 id="aboutTitle">عن الكاتب سعيد الشوادفي 🖋️</h2>
             <p id="aboutText">كاتب وروائي ومصمم محتوى أدبي، يعتمد في أعماله على حبكة الغموض والتشويق والدراما الإنسانية. صدرت له العديد من الأعمال المميزة مثل رواية "ظلال لا تنام"، ورواية "ابن الغزال"، وإصدارات "كاتليا للنشر والتوزيع".</p>
         </section>
+
+        <!-- Admin Login Modal -->
+        <div id="adminLoginModal" class="modal">
+            <div class="modal-content" style="max-width: 400px;">
+                <span class="close-modal" id="closeAdminLoginBtn">&times;</span>
+                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.6rem; margin-bottom: 20px;">🔒 دخول لوحة التحكم</h3>
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label>اسم المستخدم:</label>
+                        <input type="text" id="adminUsernameInput" placeholder="أدخل اسم المستخدم" required>
+                    </div>
+                    <div class="form-group">
+                        <label>كلمة السر:</label>
+                        <input type="password" id="adminPasswordInput" placeholder="أدخل كلمة السر" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">تسجيل الدخول 🚀</button>
+                </form>
+            </div>
+        </div>
 
         <!-- Admin Panel -->
         <section id="adminPanel" class="admin-panel">
@@ -810,16 +829,7 @@
 
         const toggleAdminLogin = () => {
             if (!isAdmin) {
-                const username = prompt("أدخل اسم المستخدم:");
-                if (username === "saeid") {
-                    const pass = prompt("أدخل كلمة المرور السريّة:");
-                    if (pass === "S1629r") {
-                        isAdmin = true;
-                        document.getElementById('adminPanel').style.display = 'block';
-                        updateMaintenanceUI();
-                        renderBooks();
-                    } else if (pass) alert("كلمة المرور غير صحيحة!");
-                } else if (username) alert("اسم المستخدم غير صحيح!");
+                document.getElementById('adminLoginModal').style.display = 'flex';
             } else {
                 isAdmin = false;
                 document.getElementById('adminPanel').style.display = 'none';
@@ -830,6 +840,26 @@
 
         document.getElementById('adminToggleBtn').addEventListener('click', toggleAdminLogin);
         document.getElementById('closeAdminBtn').addEventListener('click', toggleAdminLogin);
+        document.getElementById('closeAdminLoginBtn').addEventListener('click', () => {
+            document.getElementById('adminLoginModal').style.display = 'none';
+        });
+
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('adminUsernameInput').value;
+            const pass = document.getElementById('adminPasswordInput').value;
+
+            if (username === "saeid" && pass === "S1629r") {
+                isAdmin = true;
+                document.getElementById('adminLoginModal').style.display = 'none';
+                document.getElementById('adminLoginForm').reset();
+                document.getElementById('adminPanel').style.display = 'block';
+                updateMaintenanceUI();
+                renderBooks();
+            } else {
+                alert("اسم المستخدم أو كلمة السر غير صحيحة!");
+            }
+        });
 
         document.getElementById('openPublishModalBtn').addEventListener('click', () => {
             document.getElementById('publishModal').style.display = 'flex';

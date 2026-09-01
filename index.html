@@ -252,6 +252,14 @@
         .btn-link { background-color: var(--primary-color, #2c3e50); color: #fff; border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; display: block; width: 100%; }
         .btn-link:hover { background-color: #1a252f; }
 
+        .platform-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 12px; border-radius: 15px; text-decoration: none; font-size: 0.85rem; font-weight: bold; color: #fff; width: 100%; margin-top: 4px; }
+        .btn-amazon { background-color: #ff9900; color: #111; }
+        .btn-amazon:hover { background-color: #e68a00; }
+        .btn-googleplay { background-color: #01875f; }
+        .btn-googleplay:hover { background-color: #016c4c; }
+        .btn-publisher { background-color: #8e44ad; }
+        .btn-publisher:hover { background-color: #71368a; }
+
         .btn-buy-digital { background-color: #8b5cf6; color: #fff; border: none; padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; text-align: center; width: 100%; display: block; }
         .btn-buy-paper { background-color: #f59e0b; color: #fff; border: none; padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; text-align: center; width: 100%; display: block; }
         .buy-buttons-grid { display: flex; gap: 8px; width: 100%; }
@@ -346,7 +354,6 @@
         .close-modal { position: absolute; top: 12px; left: 15px; color: var(--text-muted); cursor: pointer; font-size: 1.8rem; }
         .reader-box { background: var(--reader-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin: 18px 0; height: 340px; overflow-y: auto; text-align: justify; font-family: 'Amiri', serif; font-size: 1.2rem; line-height: 2; color: var(--text-color); white-space: pre-wrap; }
 
-        /* تنسيقات قسم آراء القراء */
         .reviews-list { max-height: 280px; overflow-y: auto; text-align: right; margin: 15px 0; padding-left: 5px; display: flex; flex-direction: column; gap: 10px; }
         .review-card { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 15px; }
         .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
@@ -400,39 +407,9 @@
             transform: translateY(-3px);
             box-shadow: 0 4px 12px var(--accent-glow);
         }
-
-        #maintenanceScreen {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: var(--bg-color);
-            background-image: var(--bg-pattern);
-            background-size: 24px 24px;
-            z-index: 999999;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-        }
     </style>
 </head>
 <body>
-
-    <!-- Maintenance Screen Overlay -->
-    <div id="maintenanceScreen">
-        <div style="font-size: 4.5rem; margin-bottom: 15px; filter: drop-shadow(0 0 10px var(--accent-glow));">🛠️</div>
-        <h1 style="font-family: 'Amiri', serif; color: var(--accent-color); font-size: 2.8rem; margin-bottom: 15px;">الموقع مغلق للتطوير والصيانة</h1>
-        <p style="color: var(--text-muted); font-size: 1.2rem; max-width: 550px; line-height: 1.8; margin-bottom: 25px;">
-            نعمل حالياً على إدخال تحسينات وتحديثات جديدة لتقديم تجربة أفضل لكم. سنعود للعمل قريباً جداً!
-        </p>
-        <div style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;">
-            <a href="https://wa.me/201096227242" target="_blank" class="btn-whatsapp" style="width: auto; padding: 12px 25px; font-size: 1rem;">💬 التواصل المباشر عبر واتساب</a>
-        </div>
-    </div>
 
     <!-- Main Website Wrapper -->
     <div id="mainWebsite">
@@ -485,17 +462,6 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 style="color: var(--accent-color); font-family: 'Amiri', serif;">🛠️ لوحة تحكم الكاتب الشاملة</h2>
                 <button class="btn-danger" style="flex: none; padding: 5px 12px;" id="closeAdminBtn">إغلاق اللوحة ✖</button>
-            </div>
-
-            <!-- Maintenance Mode Toggle Box -->
-            <div class="admin-section-box" style="background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 12px; border: 1px solid var(--accent-color);">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
-                    <div>
-                        <h4 style="color: var(--accent-color); font-size: 1.1rem;">🚧 وضع التطوير والصيانة:</h4>
-                        <p style="color: var(--text-muted); font-size: 0.85rem;">عند تفعيل هذا الوضع سيتم تحويل كافة الزوار إلى صفحة الصيانة بينما يمكنك استخدام الموقع كمدير كالمعتاد.</p>
-                    </div>
-                    <button id="toggleMaintenanceBtn" class="btn-primary" style="width: auto; padding: 8px 18px; font-size: 0.9rem;">تفعيل وضع الصيانة 🛠️</button>
-                </div>
             </div>
 
             <div class="site-stats-badge">
@@ -564,8 +530,15 @@
                     <div class="form-group"><label>الوصف:</label><textarea id="bookDesc" rows="2" required></textarea></div>
                     <div class="form-group"><label>سعر الرقمية (اكتب مجاناً للقسم المجاني):</label><input type="text" id="bookPrice" required></div>
                     <div class="form-group"><label>سعر الورقية (أو اكتب مجاناً/غير متاح):</label><input type="text" id="bookPaperPrice" required></div>
-                    <div class="form-group"><label>🔗 رابط مخصص للعمل الأدبي (اختياري):</label><input type="text" id="bookCustomLink" placeholder="https://..."></div>
+                    <div class="form-group"><label>🔗 رابط مخصص للعمل الأدبي (صفحة قراءة مخصصة):</label><input type="text" id="bookCustomLink" placeholder="https://..."></div>
                     
+                    <div style="background: rgba(212, 175, 55, 0.05); padding: 12px; border-radius: 8px; border: 1px dashed var(--accent-color); margin-bottom: 15px;">
+                        <h4 style="color: var(--accent-color); margin-bottom: 10px; font-size: 0.95rem;">🛒 روابط منصات الشراء الخارجية (اختياري):</h4>
+                        <div class="form-group"><label>📦 رابط الشراء من أمازون (Amazon Kindle):</label><input type="text" id="amazonLink" placeholder="https://www.amazon.com/dp/..."></div>
+                        <div class="form-group"><label>📲 رابط الشراء من كتب جوجل (Google Play Books):</label><input type="text" id="googlePlayLink" placeholder="https://play.google.com/store/books/details/..."></div>
+                        <div class="form-group"><label>📚 رابط شراء النسخة الورقية (دار النشر/موقع):</label><input type="text" id="paperStoreLink" placeholder="https://..."></div>
+                    </div>
+
                     <div class="form-group">
                         <label>🖼️ صورة الغلاف:</label>
                         <input type="file" id="coverFileInput" accept="image/*" style="margin-bottom: 8px;">
@@ -600,7 +573,7 @@
 
         <div class="books-grid" id="booksGrid"></div>
 
-        <!-- Reviews Modal (آراء القراء) -->
+        <!-- Reviews Modal -->
         <div id="reviewsModal" class="modal">
             <div class="modal-content">
                 <span class="close-modal" id="closeReviewsBtn">&times;</span>
@@ -767,39 +740,9 @@
         let allRequests = [];
         let currentFilter = 'all';
         let isAdmin = false;
-        let isMaintenanceMode = false;
         let selectedBookForBuy = null;
         let selectedOrderType = 'digital';
         let selectedBookForReviews = null;
-
-        // الاستماع الفوري لحالة الصيانة من Firebase
-        onValue(ref(db, 'siteStats/isMaintenance'), (snapshot) => {
-            isMaintenanceMode = snapshot.val() || false;
-            updateMaintenanceUI();
-        });
-
-        function updateMaintenanceUI() {
-            const maintenanceScreen = document.getElementById('maintenanceScreen');
-            const toggleBtn = document.getElementById('toggleMaintenanceBtn');
-
-            if (toggleBtn) {
-                toggleBtn.innerText = isMaintenanceMode ? "إيقاف وضع الصيانة 🟢" : "تفعيل وضع الصيانة 🛠️";
-                toggleBtn.style.background = isMaintenanceMode ? "#10b981" : "linear-gradient(135deg, #d4af37 0%, #b8860b 100%)";
-            }
-
-            if (isMaintenanceMode && !isAdmin) {
-                maintenanceScreen.style.display = 'flex';
-            } else {
-                maintenanceScreen.style.display = 'none';
-            }
-        }
-
-        document.getElementById('toggleMaintenanceBtn').addEventListener('click', () => {
-            const newStatus = !isMaintenanceMode;
-            set(ref(db, 'siteStats/isMaintenance'), newStatus).then(() => {
-                alert(newStatus ? "تم تفعيل وضع الصيانة للزوار بنجاح! 🛠️" : "تم إيقاف وضع الصيانة والموقع متاح للجميع الآن 🟢");
-            });
-        });
 
         if (!sessionStorage.getItem('visited')) {
             sessionStorage.setItem('visited', 'true');
@@ -833,7 +776,6 @@
             } else {
                 isAdmin = false;
                 document.getElementById('adminPanel').style.display = 'none';
-                updateMaintenanceUI();
                 renderBooks();
             }
         };
@@ -854,7 +796,6 @@
                 document.getElementById('adminLoginModal').style.display = 'none';
                 document.getElementById('adminLoginForm').reset();
                 document.getElementById('adminPanel').style.display = 'block';
-                updateMaintenanceUI();
                 renderBooks();
             } else {
                 alert("اسم المستخدم أو كلمة السر غير صحيحة!");
@@ -1107,10 +1048,8 @@
             const grid = document.getElementById('booksGrid');
             grid.innerHTML = '';
             
-            // تصفية الكتب بحسب القسم المختار
             let filtered = currentFilter === 'all' ? [...allBooks] : allBooks.filter(b => b.category === currentFilter);
 
-            // ترتيب الكتب بحيث تظهر الأحدث أو المُعدّلة مؤخراً في الأول
             filtered.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
 
             if (filtered.length === 0) {
@@ -1123,6 +1062,17 @@
                 const bookUrl = book.customLink || `${window.location.origin}${window.location.pathname}?book=${book.id}`;
                 const readsCount = book.reads || 0;
                 
+                let storeLinksHtml = '';
+                if (book.amazonLink) {
+                    storeLinksHtml += `<a href="${book.amazonLink}" target="_blank" class="platform-btn btn-amazon">📦 متوفر على Amazon Kindle</a>`;
+                }
+                if (book.googlePlayLink) {
+                    storeLinksHtml += `<a href="${book.googlePlayLink}" target="_blank" class="platform-btn btn-googleplay">📲 متوفر على Google Play Books</a>`;
+                }
+                if (book.paperStoreLink) {
+                    storeLinksHtml += `<a href="${book.paperStoreLink}" target="_blank" class="platform-btn btn-publisher">📚 شراء الورقية عبر النشر والتوزيع</a>`;
+                }
+
                 const html = `
                     <div class="book-card">
                         <div>
@@ -1134,6 +1084,7 @@
                                 <span>📖 القراءات: ${readsCount.toLocaleString('ar-EG')}</span>
                             </div>
                             <div class="book-price">📱 الرقمية: ${book.price} | 📦 الورقية: ${book.paperPrice}</div>
+                            ${storeLinksHtml}
                         </div>
                         <div class="action-buttons-group">
                             <button class="btn-primary btn-read" data-id="${book.id}">📖 قراءة العينة بالموقع</button>
@@ -1173,7 +1124,6 @@
             document.querySelectorAll('.btn-delete').forEach(b => b.addEventListener('click', (e) => deleteBook(e.target.dataset.id)));
         }
 
-        /* إدارة نصوص ومراجعات القراء (Reviews Logic) */
         function openReviewsModal(bookId) {
             selectedBookForReviews = allBooks.find(b => b.id === bookId);
             if (!selectedBookForReviews) return;
@@ -1296,6 +1246,9 @@
                     price: document.getElementById('bookPrice').value,
                     paperPrice: document.getElementById('bookPaperPrice').value,
                     customLink: document.getElementById('bookCustomLink').value,
+                    amazonLink: document.getElementById('amazonLink').value,
+                    googlePlayLink: document.getElementById('googlePlayLink').value,
+                    paperStoreLink: document.getElementById('paperStoreLink').value,
                     coverUrl: finalCoverUrl,
                     fileUrl: finalDocUrl,
                     freePages: document.getElementById('bookFreePages').value.split('---').map(p => p.trim()),
@@ -1326,6 +1279,9 @@
             document.getElementById('addBookForm').reset();
             document.getElementById('editBookId').value = '';
             document.getElementById('bookCustomLink').value = '';
+            document.getElementById('amazonLink').value = '';
+            document.getElementById('googlePlayLink').value = '';
+            document.getElementById('paperStoreLink').value = '';
         }
 
         function editBook(id) {
@@ -1339,6 +1295,9 @@
             document.getElementById('bookPrice').value = book.price;
             document.getElementById('bookPaperPrice').value = book.paperPrice;
             document.getElementById('bookCustomLink').value = book.customLink || '';
+            document.getElementById('amazonLink').value = book.amazonLink || '';
+            document.getElementById('googlePlayLink').value = book.googlePlayLink || '';
+            document.getElementById('paperStoreLink').value = book.paperStoreLink || '';
             document.getElementById('coverUrlInput').value = book.coverUrl || '';
             document.getElementById('docUrlInput').value = book.fileUrl || '';
             document.getElementById('bookFreePages').value = book.freePages ? book.freePages.join('\n---\n') : '';

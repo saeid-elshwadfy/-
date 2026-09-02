@@ -381,7 +381,7 @@
         .payment-details { display: none; font-size: 0.95rem; color: var(--text-color); margin-top: 8px; border-top: 1px dashed var(--border-color); padding-top: 8px; }
 
         .transfer-form { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; }
-        .transfer-form input { padding: 9px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-color); width: 100%; font-family: 'Tajawal', sans-serif; }
+        .transfer-form input, .transfer-form select { padding: 9px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-color); width: 100%; font-family: 'Tajawal', sans-serif; }
 
         .admin-controls { display: none; margin-top: 10px; gap: 10px; }
         .admin-panel { display: none; max-width: 1100px; margin: 20px auto; background-color: var(--card-bg); border: 1px solid var(--accent-color); border-radius: 16px; padding: 25px; }
@@ -660,7 +660,8 @@
                     <button class="btn-secondary" style="width: auto;" id="nextPageBtn">التالية ➡</button>
                 </div>
             </div>
-        </div>
+        </style>
+    </div>
 
         <!-- Buy Modal -->
         <div id="buyModal" class="modal">
@@ -673,7 +674,7 @@
                 
                 <div class="payment-methods-list">
                     <div class="payment-item" onclick="togglePaymentDetail(this, '01096227242')">
-                        <h4>📱 فودافون كاش / المحافظ الإلكترونية</h4>
+                        <h4>📱 فودافون كاش</h4>
                         <div class="payment-details">
                             <p style="margin-bottom: 5px;">رقم المحفظة للتحويل: <strong style="color: var(--accent-color); font-size: 1.1rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم تلقائياً 📋)</small></p>
                             <div class="transfer-form" onclick="event.stopPropagation()">
@@ -682,6 +683,31 @@
                                 <input type="text" class="buyer-phone" placeholder="رقم المحفظة التي قمت بالتحويل منها" required>
                                 <input type="number" class="buyer-amount" placeholder="المبلغ المحوّل (بالجنيه)" required>
                                 <button type="button" class="btn-whatsapp" style="margin-top: 5px;" onclick="sendViaWhatsApp('فودافون كاش', this)">💬 إرسال الطلب عبر واتساب</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-item" onclick="togglePaymentDetail(this, '01096227242')">
+                        <h4>🌐 جميع المحافظ الإلكترونية (أورانج / اتصالات / وي / المحافظ البنكية)</h4>
+                        <div class="payment-details">
+                            <p style="margin-bottom: 5px;">رقم المحفظة لاستقبال جميع التحويلات: <strong style="color: var(--accent-color); font-size: 1.1rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم 📋)</small></p>
+                            <div class="transfer-form" onclick="event.stopPropagation()">
+                                <label style="font-weight: bold; font-size: 0.85rem;">اختر المحفظة المستخدمة وأدخل بيانات التحويل للتأكيد عبر واتساب:</label>
+                                <select class="wallet-type" style="margin-bottom: 5px;" required>
+                                    <option value="أورانج كاش">أورانج كاش (Orange Cash)</option>
+                                    <option value="اتصالات كاش">اتصالات كاش (Etisalat Cash)</option>
+                                    <option value="وي باي">وي باي (WE Pay)</option>
+                                    <option value="محفظة البنك الأهلي (الأهلي فون كاش)">محفظة البنك الأهلي (الأهلي فون كاش)</option>
+                                    <option value="محفظة بنك مصر (BM Wallet)">محفظة بنك مصر (BM Wallet)</option>
+                                    <option value="محفظة بنك CIB (Smart Wallet)">محفظة بنك CIB (Smart Wallet)</option>
+                                    <option value="محفظة بنك القاهرة (قاهرة كاش)">محفظة بنك القاهرة (قاهرة كاش)</option>
+                                    <option value="محفظة بنك الإسكندرية">محفظة بنك الإسكندرية</option>
+                                    <option value="محفظة إلكترونية أخرى">محفظة إلكترونية أخرى</option>
+                                </select>
+                                <input type="text" class="buyer-name" placeholder="الاسم الكامل" required>
+                                <input type="text" class="buyer-phone" placeholder="رقم المحفظة التي قمت بالتحويل منها" required>
+                                <input type="number" class="buyer-amount" placeholder="المبلغ المحوّل (بالجنيه)" required>
+                                <button type="button" class="btn-whatsapp" style="margin-top: 5px;" onclick="sendViaWhatsApp('محفظة إلكترونية', this)">💬 إرسال الطلب عبر واتساب</button>
                             </div>
                         </div>
                     </div>
@@ -1411,6 +1437,7 @@
 
         window.sendViaWhatsApp = function(method, btnElement) {
             const formBox = btnElement.closest('.transfer-form');
+            const walletType = formBox.querySelector('.wallet-type')?.value;
             const name = formBox.querySelector('.buyer-name')?.value.trim();
             const phone = formBox.querySelector('.buyer-phone')?.value.trim();
             const amount = formBox.querySelector('.buyer-amount')?.value.trim();
@@ -1424,10 +1451,12 @@
             const myWhatsAppNumber = "201096227242";
             const orderTypeLabel = selectedOrderType === 'digital' ? 'النسخة الرقمية (PDF)' : 'النسخة الورقية';
             
+            const finalPaymentMethod = walletType ? `${method} (${walletType})` : method;
+
             let message = `مرحباً أستاذ سعيد، أود تأكيد طلب شراء كتاب:\n\n`;
             message += `📖 *اسم الكتاب:* ${selectedBookForBuy.title}\n`;
             message += `📌 *نوع النسخة:* ${orderTypeLabel}\n`;
-            message += `💳 *طريقة الدفع:* ${method}\n`;
+            message += `💳 *طريقة الدفع:* ${finalPaymentMethod}\n`;
             message += `👤 *اسم المشتري:* ${name}\n`;
             message += `📱 *رقم التواصل / المحول منه:* ${phone}\n`;
 

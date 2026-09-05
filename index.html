@@ -17,72 +17,96 @@
     <meta property="og:url" content="https://github.io">
     <meta property="og:type" content="website">
 
+    <!-- استيراد خطوط عربية فاخرة -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 
     <style>
         :root[data-theme="dark"] {
-            --bg-color: #090a0f;
-            --bg-pattern: radial-gradient(#d4af37 0.7px, transparent 0.7px);
-            --card-bg: rgba(18, 20, 28, 0.85);
-            --card-hover-bg: #161924;
+            --bg-color: #080a11;
+            --bg-pattern: radial-gradient(rgba(212, 175, 55, 0.15) 0.8px, transparent 0.8px);
+            --card-bg: rgba(16, 19, 28, 0.75);
+            --card-hover-bg: rgba(23, 28, 42, 0.9);
             --accent-color: #d4af37;
-            --accent-glow: rgba(212, 175, 55, 0.4);
-            --text-color: #e0e6ed;
+            --accent-glow: rgba(212, 175, 55, 0.35);
+            --text-color: #f1f5f9;
             --text-muted: #94a3b8;
-            --border-color: rgba(212, 175, 55, 0.25);
-            --input-bg: #0d0f17;
-            --reader-bg: #06070a;
-            --header-bg: rgba(9, 10, 15, 0.85);
+            --border-color: rgba(212, 175, 55, 0.22);
+            --input-bg: #0c0e17;
+            --reader-bg: #050609;
+            --header-bg: rgba(8, 10, 17, 0.85);
+            --shadow-color: rgba(0, 0, 0, 0.5);
         }
 
         :root[data-theme="light"] {
             --bg-color: #f8fafc;
-            --bg-pattern: radial-gradient(#b8860b 0.6px, transparent 0.6px);
-            --card-bg: rgba(255, 255, 255, 0.9);
+            --bg-pattern: radial-gradient(rgba(184, 134, 11, 0.15) 0.7px, transparent 0.7px);
+            --card-bg: rgba(255, 255, 255, 0.85);
             --card-hover-bg: #ffffff;
             --accent-color: #b8860b;
-            --accent-glow: rgba(184, 134, 11, 0.3);
+            --accent-glow: rgba(184, 134, 11, 0.25);
             --text-color: #0f172a;
             --text-muted: #475569;
-            --border-color: rgba(184, 134, 11, 0.3);
+            --border-color: rgba(184, 134, 11, 0.25);
             --input-bg: #f1f5f9;
-            --reader-bg: #f8fafc;
+            --reader-bg: #fafafa;
             --header-bg: rgba(248, 250, 252, 0.85);
+            --shadow-color: rgba(0, 0, 0, 0.08);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; }
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        color 0.3s ease, 
+                        border-color 0.3s ease, 
+                        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        box-shadow 0.3s ease; 
+        }
+
         html { scroll-behavior: smooth; }
         
         body {
             background-color: var(--bg-color);
             background-image: var(--bg-pattern);
-            background-size: 24px 24px;
+            background-size: 28px 28px;
             color: var(--text-color);
             font-family: 'Tajawal', sans-serif;
-            line-height: 1.6;
+            line-height: 1.7;
             padding: 0 15px;
+            min-height: 100vh;
         }
+
+        /* شريط التمرير الأنيق */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
 
         header {
             max-width: 1100px;
-            margin: 0 auto;
-            padding: 12px 20px;
+            margin: 10px auto 0;
+            padding: 12px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-color);
+            border: 1px solid var(--border-color);
             position: sticky;
-            top: 0;
+            top: 10px;
             z-index: 100;
             background: var(--header-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 0 0 15px 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px var(--shadow-color);
         }
 
         .logo-container {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             cursor: pointer;
         }
 
@@ -90,84 +114,120 @@
             width: 52px;
             height: 52px;
             border-radius: 50%;
-            object-fit: contain;
+            object-fit: cover;
             background-color: var(--card-bg);
             padding: 2px;
             border: 2px solid var(--accent-color);
-            box-shadow: 0 0 12px var(--accent-glow);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover .logo-img {
+            transform: rotate(5deg) scale(1.05);
         }
 
         .logo { 
             font-family: 'Amiri', serif; 
             font-size: 1.8rem; 
             color: var(--accent-color); 
-            font-weight: bold; 
-            text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+            font-weight: 700; 
+            text-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+            letter-spacing: 0.3px;
         }
 
-        .header-actions { display: flex; align-items: center; gap: 15px; }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
         
         .theme-btn {
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             color: var(--text-color);
-            padding: 8px 16px;
-            border-radius: 20px;
+            padding: 8px 18px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 0.9rem;
-            font-weight: bold;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         
         .theme-btn:hover {
             border-color: var(--accent-color);
-            box-shadow: 0 0 10px var(--accent-glow);
+            box-shadow: 0 0 14px var(--accent-glow);
+            transform: translateY(-2px);
         }
 
-        .admin-trigger { background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; }
-        .admin-trigger:hover { color: var(--accent-color); }
+        .admin-trigger { 
+            background: transparent; 
+            border: 1px solid transparent; 
+            padding: 8px 14px;
+            border-radius: 20px;
+            color: var(--text-muted); 
+            cursor: pointer; 
+            font-size: 0.9rem; 
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 500;
+        }
+        .admin-trigger:hover { 
+            color: var(--accent-color); 
+            border-color: var(--border-color);
+            background: var(--card-bg);
+        }
         
         .hero {
             max-width: 1100px;
             margin: 35px auto 25px;
             text-align: center;
-            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(212, 175, 55, 0.05) 100%);
-            padding: 45px 20px;
-            border-radius: 16px;
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(212, 175, 55, 0.08) 100%);
+            padding: 55px 25px;
+            border-radius: 24px;
             border: 1px solid var(--border-color);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 35px var(--shadow-color);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .hero::before {
             content: '✒️';
             position: absolute;
-            top: -15px;
-            right: 20px;
-            font-size: 5rem;
-            opacity: 0.08;
+            top: -20px;
+            right: 25px;
+            font-size: 6rem;
+            opacity: 0.06;
+            pointer-events: none;
         }
 
         .hero h1 { 
             font-family: 'Amiri', serif; 
-            font-size: 2.5rem; 
+            font-size: 2.8rem; 
             margin-bottom: 15px; 
             color: var(--accent-color);
             letter-spacing: 0.5px;
+            line-height: 1.3;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
-        .hero p { font-size: 1.1rem; color: var(--text-muted); max-width: 680px; margin: 0 auto 25px; }
+        .hero p { 
+            font-size: 1.15rem; 
+            color: var(--text-muted); 
+            max-width: 700px; 
+            margin: 0 auto 30px; 
+            font-weight: 400;
+        }
 
         .about-section {
             max-width: 1100px;
             margin: 35px auto;
-            background: linear-gradient(145deg, var(--card-bg) 0%, rgba(212, 175, 55, 0.04) 100%);
+            background: linear-gradient(145deg, var(--card-bg) 0%, rgba(212, 175, 55, 0.05) 100%);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 12px 35px rgba(0,0,0,0.25);
-            backdrop-filter: blur(8px);
+            border-radius: 24px;
+            padding: 45px 35px;
+            box-shadow: 0 15px 35px var(--shadow-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             position: relative;
             overflow: hidden;
         }
@@ -175,9 +235,9 @@
         .about-section::before {
             content: '“';
             position: absolute;
-            top: -10px;
-            right: 20px;
-            font-size: 8rem;
+            top: -15px;
+            right: 25px;
+            font-size: 9rem;
             font-family: 'Amiri', serif;
             color: var(--accent-color);
             opacity: 0.08;
@@ -188,11 +248,11 @@
         .about-section h2 { 
             font-family: 'Amiri', serif; 
             color: var(--accent-color); 
-            font-size: 2.2rem; 
+            font-size: 2.4rem; 
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             position: relative;
-            padding-bottom: 12px;
+            padding-bottom: 14px;
         }
 
         .about-section h2::after {
@@ -201,7 +261,7 @@
             bottom: 0;
             left: 50%;
             transform: translateX(-50%);
-            width: 90px;
+            width: 100px;
             height: 3px;
             background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
             border-radius: 3px;
@@ -210,286 +270,454 @@
         .about-content-wrapper {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
             align-items: center;
             text-align: center;
-            max-width: 900px;
+            max-width: 920px;
             margin: 0 auto;
         }
 
         .about-text-p {
-            font-size: 1.15rem;
-            line-height: 1.9;
+            font-size: 1.18rem;
+            line-height: 2;
             color: var(--text-color);
             text-align: justify;
             text-justify: inter-word;
+            font-weight: 400;
         }
 
         .about-highlights {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
             width: 100%;
             margin-top: 15px;
         }
 
         .about-badge {
-            background: rgba(212, 175, 55, 0.05);
+            background: rgba(212, 175, 55, 0.04);
             border: 1px dashed var(--border-color);
-            border-radius: 12px;
-            padding: 15px;
+            border-radius: 16px;
+            padding: 20px 15px;
             text-align: center;
             transition: all 0.3s ease;
         }
 
         .about-badge:hover {
             border-color: var(--accent-color);
-            background: rgba(212, 175, 55, 0.1);
-            transform: translateY(-3px);
+            background: rgba(212, 175, 55, 0.09);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--accent-glow);
         }
 
         .about-badge-icon {
-            font-size: 1.6rem;
-            margin-bottom: 6px;
+            font-size: 1.8rem;
+            margin-bottom: 8px;
             display: block;
         }
 
         .about-badge-title {
             font-family: 'Amiri', serif;
             color: var(--accent-color);
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            margin-bottom: 4px;
+            margin-bottom: 6px;
         }
 
         .about-badge-desc {
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
         }
 
         .btn-primary { 
             background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-            color: #fff; 
-            padding: 12px 25px; 
-            border-radius: 25px; 
+            color: #ffffff; 
+            padding: 12px 28px; 
+            border-radius: 30px; 
             text-decoration: none; 
-            font-weight: bold; 
+            font-weight: 700; 
             display: inline-block; 
             border: none; 
             cursor: pointer; 
             text-align: center; 
-            box-shadow: 0 4px 15px var(--accent-glow);
+            box-shadow: 0 4px 18px var(--accent-glow);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px var(--accent-glow);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+            filter: brightness(1.08);
         }
 
         .btn-publish-featured {
             background: linear-gradient(135deg, #f39c12 0%, #e67e22 50%, #d35400 100%);
             color: #ffffff !important;
-            padding: 12px 28px;
-            border-radius: 25px;
+            padding: 12px 30px;
+            border-radius: 30px;
             border: 1px solid #f1c40f;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 1rem;
             cursor: pointer;
             text-align: center;
-            box-shadow: 0 4px 20px rgba(243, 156, 18, 0.45);
+            box-shadow: 0 4px 22px rgba(243, 156, 18, 0.45);
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            font-family: 'Tajawal', sans-serif;
         }
 
         .btn-publish-featured:hover {
             transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 6px 25px rgba(243, 156, 18, 0.7);
+            box-shadow: 0 8px 28px rgba(243, 156, 18, 0.65);
             border-color: #ffffff;
         }
 
         .btn-reviews {
             background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
             color: #fff;
-            padding: 10px 15px;
-            border-radius: 20px;
+            padding: 10px 18px;
+            border-radius: 25px;
             border: none;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             text-align: center;
             width: 100%;
+            font-family: 'Tajawal', sans-serif;
         }
 
         .btn-reviews:hover {
             background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
         }
 
-        .btn-whatsapp { background-color: #25d366; color: #fff; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: bold; display: inline-block; border: none; cursor: pointer; text-align: center; width: 100%; }
-        .btn-download { background-color: #10b981; color: #fff; padding: 10px 15px; border-radius: 20px; text-decoration: none; font-weight: bold; cursor: pointer; text-align: center; display: block; width: 100%; flex: 1; }
-        .btn-download:hover { background-color: #059669; }
-        .btn-secondary { background-color: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; text-align: center; text-decoration: none; display: block; width: 100%; }
-        .btn-edit { background-color: #3b82f6; color: #fff; border: none; padding: 8px 15px; border-radius: 15px; cursor: pointer; font-weight: bold; flex: 1; }
-        .btn-danger { background-color: transparent; color: #ef4444; border: 1px solid #ef4444; padding: 8px 15px; border-radius: 15px; cursor: pointer; font-weight: bold; flex: 1; }
+        .btn-whatsapp { 
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); 
+            color: #fff; 
+            padding: 11px 20px; 
+            border-radius: 25px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            display: inline-block; 
+            border: none; 
+            cursor: pointer; 
+            text-align: center; 
+            width: 100%; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); }
 
-        .btn-share { background-color: #f39c12; color: #fff; border: none; padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; text-align: center; flex: 1; display: inline-block; }
-        .btn-share:hover { background-color: #d35400; }
-        .btn-link { background-color: var(--primary-color, #2c3e50); color: #fff; border: 1px solid var(--border-color); padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; display: block; width: 100%; }
-        .btn-link:hover { background-color: #1a252f; }
+        .btn-download { 
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
+            color: #fff; 
+            padding: 10px 15px; 
+            border-radius: 22px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            cursor: pointer; 
+            text-align: center; 
+            display: block; 
+            width: 100%; 
+            flex: 1; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn-download:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
 
-        .platform-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 12px; border-radius: 15px; text-decoration: none; font-size: 0.85rem; font-weight: bold; color: #fff; width: 100%; margin-top: 4px; }
-        .btn-amazon { background-color: #ff9900; color: #111; }
-        .btn-amazon:hover { background-color: #e68a00; }
-        .btn-googleplay { background-color: #01875f; }
-        .btn-googleplay:hover { background-color: #016c4c; }
-        .btn-publisher { background-color: #8e44ad; }
-        .btn-publisher:hover { background-color: #71368a; }
+        .btn-secondary { 
+            background-color: var(--input-bg); 
+            color: var(--text-color); 
+            border: 1px solid var(--border-color); 
+            padding: 10px 18px; 
+            border-radius: 25px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            text-align: center; 
+            text-decoration: none; 
+            display: block; 
+            width: 100%; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn-secondary:hover { border-color: var(--accent-color); color: var(--accent-color); transform: translateY(-2px); }
 
-        .btn-buy-digital { background-color: #8b5cf6; color: #fff; border: none; padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; text-align: center; width: 100%; display: block; }
-        .btn-buy-paper { background-color: #f59e0b; color: #fff; border: none; padding: 10px 15px; border-radius: 20px; font-weight: bold; cursor: pointer; text-align: center; width: 100%; display: block; }
+        .btn-edit { background-color: #3b82f6; color: #fff; border: none; padding: 8px 15px; border-radius: 18px; cursor: pointer; font-weight: bold; flex: 1; font-family: 'Tajawal', sans-serif; }
+        .btn-edit:hover { background-color: #2563eb; }
+
+        .btn-danger { background-color: transparent; color: #ef4444; border: 1px solid #ef4444; padding: 8px 15px; border-radius: 18px; cursor: pointer; font-weight: bold; flex: 1; font-family: 'Tajawal', sans-serif; }
+        .btn-danger:hover { background-color: #ef4444; color: #fff; }
+
+        .btn-share { 
+            background: linear-gradient(135deg, #f39c12 0%, #d35400 100%); 
+            color: #fff; 
+            border: none; 
+            padding: 10px 15px; 
+            border-radius: 22px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            text-align: center; 
+            flex: 1; 
+            display: inline-block; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn-share:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4); }
+
+        .btn-link { 
+            background-color: rgba(255, 255, 255, 0.05); 
+            color: var(--text-color); 
+            border: 1px solid var(--border-color); 
+            padding: 10px 15px; 
+            border-radius: 22px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            text-align: center; 
+            text-decoration: none; 
+            display: block; 
+            width: 100%; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn-link:hover { border-color: var(--accent-color); color: var(--accent-color); background: rgba(212, 175, 55, 0.08); }
+
+        .platform-btn { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            padding: 9px 14px; 
+            border-radius: 18px; 
+            text-decoration: none; 
+            font-size: 0.88rem; 
+            font-weight: 700; 
+            color: #fff; 
+            width: 100%; 
+            margin-top: 6px; 
+            font-family: 'Tajawal', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .platform-btn:hover { transform: translateY(-2px); }
+        .btn-amazon { background: linear-gradient(135deg, #ff9900 0%, #e68a00 100%); color: #111; }
+        .btn-googleplay { background: linear-gradient(135deg, #01875f 0%, #016c4c 100%); }
+        .btn-publisher { background: linear-gradient(135deg, #8e44ad 0%, #71368a 100%); }
+
+        .btn-buy-digital { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: #fff; border: none; padding: 10px 15px; border-radius: 22px; font-weight: 700; cursor: pointer; text-align: center; width: 100%; display: block; font-family: 'Tajawal', sans-serif; }
+        .btn-buy-digital:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); }
+
+        .btn-buy-paper { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #fff; border: none; padding: 10px 15px; border-radius: 22px; font-weight: 700; cursor: pointer; text-align: center; width: 100%; display: block; font-family: 'Tajawal', sans-serif; }
+        .btn-buy-paper:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); }
+
         .buy-buttons-grid { display: flex; gap: 8px; width: 100%; }
 
         .section-title { 
             font-family: 'Amiri', serif; 
-            font-size: 2.2rem; 
+            font-size: 2.5rem; 
             color: var(--accent-color); 
             text-align: center; 
-            margin: 45px 0 20px; 
+            margin: 50px 0 25px; 
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
-        .category-tabs { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; max-width: 1100px; margin: 0 auto 30px; }
+        .category-tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; max-width: 1100px; margin: 0 auto 35px; }
         
         .tab-btn { 
             background-color: var(--card-bg); 
             color: var(--text-color); 
             border: 1px solid var(--border-color); 
-            padding: 9px 22px; 
-            border-radius: 25px; 
+            padding: 10px 24px; 
+            border-radius: 30px; 
             cursor: pointer; 
-            font-weight: bold; 
+            font-weight: 700; 
             font-size: 0.95rem; 
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-family: 'Tajawal', sans-serif;
         }
 
         .tab-btn:hover {
             border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: translateY(-2px);
         }
 
         .tab-btn.active { 
             background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
-            color: #fff; 
+            color: #ffffff; 
             border-color: transparent;
-            box-shadow: 0 4px 15px var(--accent-glow);
+            box-shadow: 0 4px 18px var(--accent-glow);
         }
 
-        .books-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .books-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 28px; }
         
         .book-card { 
             background-color: var(--card-bg); 
             border: 1px solid var(--border-color); 
-            border-radius: 16px; 
-            padding: 20px; 
+            border-radius: 20px; 
+            padding: 22px; 
             text-align: center; 
             display: flex; 
             flex-direction: column; 
             justify-content: space-between; 
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px var(--shadow-color);
         }
 
         .book-card:hover {
-            transform: translateY(-6px);
+            transform: translateY(-8px);
             background-color: var(--card-hover-bg);
             border-color: var(--accent-color);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4), 0 0 15px var(--accent-glow);
+            box-shadow: 0 16px 35px var(--shadow-color), 0 0 20px var(--accent-glow);
         }
 
         .book-cover { 
             width: 100%; 
-            height: 330px; 
+            height: 340px; 
             background: var(--input-bg); 
-            border: 1px dashed var(--accent-color); 
-            border-radius: 10px; 
-            margin-bottom: 15px; 
+            border: 1px dashed var(--border-color); 
+            border-radius: 14px; 
+            margin-bottom: 18px; 
             display: flex; 
             align-items: center; 
             justify-content: center; 
             color: var(--accent-color); 
             font-weight: bold; 
             overflow: hidden; 
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.5);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
+            position: relative;
         }
 
-        .book-cover img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+        .book-cover img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.5s ease; }
+        .book-card:hover .book-cover img { transform: scale(1.04); }
         
         .book-price { 
-            font-size: 0.95rem; 
+            font-size: 0.92rem; 
             color: var(--accent-color); 
-            font-weight: bold; 
+            font-weight: 700; 
             margin: 12px 0; 
-            background: rgba(212, 175, 55, 0.1); 
-            padding: 8px; 
-            border-radius: 8px; 
-            border: 1px solid rgba(212, 175, 55, 0.15);
+            background: rgba(212, 175, 55, 0.08); 
+            padding: 8px 12px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(212, 175, 55, 0.18);
         }
 
         .action-buttons-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; width: 100%; }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.85); backdrop-filter: blur(8px); justify-content: center; align-items: center; z-index: 1000; padding: 10px; }
-        .modal-content { background-color: var(--card-bg); border: 1px solid var(--accent-color); border-radius: 16px; padding: 25px; max-width: 650px; width: 95%; text-align: center; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 15px 40px rgba(0,0,0,0.5); }
-        .close-modal { position: absolute; top: 12px; left: 15px; color: var(--text-muted); cursor: pointer; font-size: 1.8rem; }
-        .reader-box { background: var(--reader-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; margin: 18px 0; height: 340px; overflow-y: auto; text-align: justify; font-family: 'Amiri', serif; font-size: 1.2rem; line-height: 2; color: var(--text-color); white-space: pre-wrap; }
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.85); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            justify-content: center; 
+            align-items: center; 
+            z-index: 1000; 
+            padding: 15px; 
+        }
 
-        .reviews-list { max-height: 280px; overflow-y: auto; text-align: right; margin: 15px 0; padding-left: 5px; display: flex; flex-direction: column; gap: 10px; }
-        .review-card { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 15px; }
+        .modal-content { 
+            background-color: var(--card-bg); 
+            border: 1px solid var(--accent-color); 
+            border-radius: 24px; 
+            padding: 30px; 
+            max-width: 650px; 
+            width: 100%; 
+            text-align: center; 
+            position: relative; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px var(--accent-glow); 
+        }
+
+        .close-modal { 
+            position: absolute; 
+            top: 16px; 
+            left: 20px; 
+            color: var(--text-muted); 
+            cursor: pointer; 
+            font-size: 2rem; 
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+        .close-modal:hover { color: var(--accent-color); }
+
+        .reader-box { 
+            background: var(--reader-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 16px; 
+            padding: 25px; 
+            margin: 20px 0; 
+            height: 360px; 
+            overflow-y: auto; 
+            text-align: justify; 
+            font-family: 'Amiri', serif; 
+            font-size: 1.25rem; 
+            line-height: 2.1; 
+            color: var(--text-color); 
+            white-space: pre-wrap; 
+            box-shadow: inset 0 2px 10px var(--shadow-color);
+        }
+
+        .reviews-list { max-height: 280px; overflow-y: auto; text-align: right; margin: 15px 0; padding-left: 5px; display: flex; flex-direction: column; gap: 12px; }
+        .review-card { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 14px 18px; }
         .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-        .review-author { font-weight: bold; color: var(--accent-color); font-size: 0.95rem; }
-        .review-date { font-size: 0.75rem; color: var(--text-muted); }
-        .review-text { font-size: 0.95rem; color: var(--text-color); line-height: 1.5; white-space: pre-line; }
+        .review-author { font-weight: 700; color: var(--accent-color); font-size: 0.98rem; }
+        .review-date { font-size: 0.78rem; color: var(--text-muted); }
+        .review-text { font-size: 0.95rem; color: var(--text-color); line-height: 1.6; white-space: pre-line; }
 
-        .payment-methods-list { text-align: right; margin: 15px 0; display: flex; flex-direction: column; gap: 10px; }
-        .payment-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px; cursor: pointer; }
-        .payment-item:hover { border-color: var(--accent-color); }
-        .payment-item.selected { border-color: var(--accent-color); background: rgba(212, 175, 55, 0.08); }
-        .payment-item h4 { color: var(--accent-color); margin-bottom: 4px; }
-        .payment-details { display: none; font-size: 0.95rem; color: var(--text-color); margin-top: 8px; border-top: 1px dashed var(--border-color); padding-top: 8px; }
+        .payment-methods-list { text-align: right; margin: 18px 0; display: flex; flex-direction: column; gap: 12px; }
+        .payment-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px; cursor: pointer; transition: all 0.3s ease; }
+        .payment-item:hover { border-color: var(--accent-color); transform: translateY(-2px); }
+        .payment-item.selected { border-color: var(--accent-color); background: rgba(212, 175, 55, 0.08); box-shadow: 0 4px 15px var(--accent-glow); }
+        .payment-item h4 { color: var(--accent-color); margin-bottom: 4px; font-family: 'Amiri', serif; font-size: 1.2rem; }
+        .payment-details { display: none; font-size: 0.95rem; color: var(--text-color); margin-top: 10px; border-top: 1px dashed var(--border-color); padding-top: 10px; }
 
-        .transfer-form { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; background: rgba(0,0,0,0.2); padding: 12px; border-radius: 8px; }
-        .transfer-form input, .transfer-form select { padding: 9px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 6px; color: var(--text-color); width: 100%; font-family: 'Tajawal', sans-serif; }
+        .transfer-form { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.25); padding: 14px; border-radius: 12px; }
+        .transfer-form input, .transfer-form select { padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); width: 100%; font-family: 'Tajawal', sans-serif; outline: none; }
+        .transfer-form input:focus, .transfer-form select:focus { border-color: var(--accent-color); }
 
         .admin-controls { display: none; margin-top: 10px; gap: 10px; }
-        .admin-panel { display: none; max-width: 1100px; margin: 20px auto; background-color: var(--card-bg); border: 1px solid var(--accent-color); border-radius: 16px; padding: 25px; }
-        .admin-section-box { border-bottom: 1px dashed var(--border-color); padding-bottom: 20px; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; text-align: right; }
-        .form-group label { display: block; margin-bottom: 6px; font-weight: bold; color: var(--accent-color); }
-        .form-group input[type="text"], .form-group input[type="password"], .form-group input[type="file"], .form-group textarea, .form-group select { width: 100%; padding: 10px 14px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-color); font-family: 'Tajawal', sans-serif; }
+        .admin-panel { display: none; max-width: 1100px; margin: 25px auto; background-color: var(--card-bg); border: 1px solid var(--accent-color); border-radius: 24px; padding: 30px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 15px 35px var(--shadow-color); }
+        .admin-section-box { border-bottom: 1px dashed var(--border-color); padding-bottom: 25px; margin-bottom: 25px; }
+        .form-group { margin-bottom: 18px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--accent-color); font-size: 0.95rem; }
+        .form-group input[type="text"], .form-group input[type="password"], .form-group input[type="file"], .form-group textarea, .form-group select { width: 100%; padding: 12px 16px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-color); font-family: 'Tajawal', sans-serif; outline: none; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent-color); box-shadow: 0 0 10px var(--accent-glow); }
 
-        .book-stats { font-size: 0.85rem; color: var(--text-muted); display: flex; justify-content: space-around; align-items: center; margin: 6px 0; background: rgba(255,255,255,0.03); padding: 6px; border-radius: 6px; }
-        .rating-stars { color: #f59e0b; cursor: pointer; font-size: 1.1rem; }
-        .rating-stars span { transition: transform 0.1s; display: inline-block; }
-        .rating-stars span:hover { transform: scale(1.3); }
-        .site-stats-badge { background: var(--card-bg); border: 1px solid var(--accent-color); border-radius: 12px; padding: 15px; margin-bottom: 20px; display: flex; justify-content: space-around; align-items: center; }
+        .book-stats { font-size: 0.88rem; color: var(--text-muted); display: flex; justify-content: space-around; align-items: center; margin: 8px 0; background: rgba(255,255,255,0.03); padding: 8px; border-radius: 8px; }
+        .rating-stars { color: #f59e0b; cursor: pointer; font-size: 1.15rem; }
+        .rating-stars span { transition: transform 0.15s; display: inline-block; padding: 0 1px; }
+        .rating-stars span:hover { transform: scale(1.4); }
+        
+        .site-stats-badge { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--accent-color); border-radius: 16px; padding: 20px; margin-bottom: 25px; display: flex; justify-content: space-around; align-items: center; }
         .site-stats-item { text-align: center; }
-        .site-stats-item strong { display: block; font-size: 1.5rem; color: var(--accent-color); }
+        .site-stats-item strong { display: block; font-size: 1.8rem; color: var(--accent-color); font-family: 'Amiri', serif; }
 
-        .requests-table { width: 100%; border-collapse: collapse; margin-top: 10px; text-align: right; }
-        .requests-table th, .requests-table td { padding: 10px; border: 1px solid var(--border-color); font-size: 0.9rem; }
-        .requests-table th { background: rgba(212, 175, 55, 0.1); color: var(--accent-color); }
+        .requests-table { width: 100%; border-collapse: collapse; margin-top: 12px; text-align: right; }
+        .requests-table th, .requests-table td { padding: 12px; border: 1px solid var(--border-color); font-size: 0.92rem; }
+        .requests-table th { background: rgba(212, 175, 55, 0.12); color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.05rem; }
 
-        footer { text-align: center; padding: 30px 0; color: var(--text-muted); border-top: 1px solid var(--border-color); margin-top: 50px; font-size: 0.9rem; }
-        .social-links { display: flex; justify-content: center; gap: 12px; margin: 20px 0; }
+        footer { text-align: center; padding: 40px 0 30px; color: var(--text-muted); border-top: 1px solid var(--border-color); margin-top: 60px; font-size: 0.95rem; }
+        .social-links { display: flex; justify-content: center; gap: 14px; margin: 22px 0; flex-wrap: wrap; }
         .social-btn { 
             background-color: var(--card-bg); 
             color: var(--text-color); 
             border: 1px solid var(--border-color); 
-            padding: 9px 18px; 
-            border-radius: 25px; 
+            padding: 10px 20px; 
+            border-radius: 30px; 
             text-decoration: none; 
-            font-size: 0.9rem; 
+            font-size: 0.92rem; 
+            font-weight: 500;
         }
 
         .social-btn:hover {
             border-color: var(--accent-color);
+            color: var(--accent-color);
             transform: translateY(-3px);
-            box-shadow: 0 4px 12px var(--accent-glow);
+            box-shadow: 0 6px 16px var(--accent-glow);
         }
     </style>
 </head>
@@ -511,7 +739,7 @@
         <section class="hero">
             <h1 id="heroTitle">حيث تتجسد الحكايات وتستيقظ الظلال</h1>
             <p id="heroSubtitle">مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح واقرأ مباشرة أو اطلب النسخ الورقية والرقمية.</p>
-            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; align-items: center;">
+            <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; align-items: center;">
                 <a href="#books" class="btn-primary" style="width: auto;">تصفح الروايات 📚</a>
                 <button id="openPublishModalBtn" class="btn-publish-featured">انشر معنا ✒️ ✨</button>
             </div>
@@ -547,7 +775,7 @@
         <div id="adminLoginModal" class="modal">
             <div class="modal-content" style="max-width: 400px;">
                 <span class="close-modal" id="closeAdminLoginBtn">&times;</span>
-                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.6rem; margin-bottom: 20px;">🔒 دخول لوحة التحكم</h3>
+                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem; margin-bottom: 20px;">🔒 دخول لوحة التحكم</h3>
                 <form id="adminLoginForm">
                     <div class="form-group">
                         <label>اسم المستخدم:</label>
@@ -566,7 +794,7 @@
         <section id="adminPanel" class="admin-panel">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 style="color: var(--accent-color); font-family: 'Amiri', serif;">🛠️ لوحة تحكم الكاتب الشاملة</h2>
-                <button class="btn-danger" style="flex: none; padding: 5px 12px;" id="closeAdminBtn">إغلاق اللوحة ✖</button>
+                <button class="btn-danger" style="flex: none; padding: 6px 16px;" id="closeAdminBtn">إغلاق اللوحة ✖</button>
             </div>
 
             <div class="site-stats-badge">
@@ -639,8 +867,8 @@
                     <div class="form-group"><label>سعر الورقية (أو اكتب مجاناً/غير متاح):</label><input type="text" id="bookPaperPrice" required></div>
                     <div class="form-group"><label>🔗 رابط مخصص للعمل الأدبي (صفحة قراءة مخصصة):</label><input type="text" id="bookCustomLink" placeholder="https://..."></div>
                     
-                    <div style="background: rgba(212, 175, 55, 0.05); padding: 12px; border-radius: 8px; border: 1px dashed var(--accent-color); margin-bottom: 15px;">
-                        <h4 style="color: var(--accent-color); margin-bottom: 10px; font-size: 0.95rem;">🛒 روابط منصات الشراء الخارجية (اختياري):</h4>
+                    <div style="background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 14px; border: 1px dashed var(--accent-color); margin-bottom: 18px;">
+                        <h4 style="color: var(--accent-color); margin-bottom: 12px; font-size: 1rem; font-family: 'Amiri', serif;">🛒 روابط منصات الشراء الخارجية (اختياري):</h4>
                         <div class="form-group"><label>📦 رابط الشراء من أمازون (Amazon Kindle):</label><input type="text" id="amazonLink" placeholder="https://www.amazon.com/dp/..."></div>
                         <div class="form-group"><label>📲 رابط الشراء من كتب جوجل (Google Play Books):</label><input type="text" id="googlePlayLink" placeholder="https://play.google.com/store/books/details/..."></div>
                         <div class="form-group"><label>📚 رابط شراء النسخة الورقية (موقع/متجر):</label><input type="text" id="paperStoreLink" placeholder="https://..."></div>
@@ -686,17 +914,17 @@
         <div id="reviewsModal" class="modal">
             <div class="modal-content">
                 <span class="close-modal" id="closeReviewsBtn">&times;</span>
-                <h3 id="reviewsModalTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.6rem;">💬 آراء وانطباعات القراء</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">اقرأ ما قاله الآخرون عن العمل أو شاركنا رأيك وانطباعك الخاص!</p>
+                <h3 id="reviewsModalTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem;">💬 آراء وانطباعات القراء</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">اقرأ ما قاله الآخرون عن العمل أو شاركنا رأيك وانطباعك الخاص!</p>
 
                 <div class="reviews-list" id="reviewsListContainer">
                     <p style="color: var(--text-muted); text-align: center;">لا توجد مراجعات مكتوبة بعد. كن أول من يكتب رأيه! ✍️</p>
                 </div>
 
-                <hr style="border: 0; border-top: 1px dashed var(--border-color); margin: 15px 0;">
+                <hr style="border: 0; border-top: 1px dashed var(--border-color); margin: 18px 0;">
 
                 <form id="addReviewForm" style="text-align: right;">
-                    <h4 style="color: var(--accent-color); font-size: 1rem; margin-bottom: 10px;">✍️ أضف رأيك في هذا العمل:</h4>
+                    <h4 style="color: var(--accent-color); font-size: 1.1rem; margin-bottom: 10px; font-family: 'Amiri', serif;">✍️ أضف رأيك في هذا العمل:</h4>
                     <div class="form-group">
                         <input type="text" id="reviewerName" placeholder="اسمك / لقبك" required>
                     </div>
@@ -712,8 +940,8 @@
         <div id="publishModal" class="modal">
             <div class="modal-content">
                 <span class="close-modal" id="closePublishBtn">&times;</span>
-                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.6rem;">✒️ طلب نشر عمل أدبي</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px;">أهلاً بك! يمكنك تقديم طلب لنشر عملك الأدبي على منصتنا وسيتم مراجعته من الكاتب سعيد الشوادفي.</p>
+                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem;">✒️ طلب نشر عمل أدبي</h3>
+                <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 18px;">أهلاً بك! يمكنك تقديم طلب لنشر عملك الأدبي على منصتنا وسيتم مراجعته من الكاتب سعيد الشوادفي.</p>
 
                 <form id="authorPublishForm">
                     <div class="form-group"><label>اسم الكاتب / الكاتبة:</label><input type="text" id="pubAuthorName" required placeholder="اسمك الكامل"></div>
@@ -745,11 +973,11 @@
         <div id="readerModal" class="modal">
             <div class="modal-content">
                 <span class="close-modal" id="closeReaderBtn">&times;</span>
-                <h3 id="readerTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.6rem;"></h3>
+                <h3 id="readerTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem;"></h3>
                 <div id="readerText" class="reader-box"></div>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <button class="btn-secondary" style="width: auto;" id="prevPageBtn">⬅ السابقة</button>
-                    <span id="readerPageIndicator" style="color: var(--text-muted); font-size: 0.85rem;"></span>
+                    <span id="readerPageIndicator" style="color: var(--text-muted); font-size: 0.9rem; font-weight: bold;"></span>
                     <button class="btn-secondary" style="width: auto;" id="nextPageBtn">التالية ➡</button>
                 </div>
             </div>
@@ -759,18 +987,18 @@
         <div id="buyModal" class="modal">
             <div class="modal-content">
                 <span class="close-modal" id="closeBuyBtn">&times;</span>
-                <h3 id="buyTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.5rem;"></h3>
-                <p id="buySubtitle" style="color: var(--text-muted); margin: 10px 0;"></p>
+                <h3 id="buyTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.7rem;"></h3>
+                <p id="buySubtitle" style="color: var(--text-muted); margin: 10px 0; font-size: 0.95rem;"></p>
 
-                <p style="font-weight: bold; color: var(--text-color); margin-top: 10px;">اختر طريقة التحويل المناسبة لك:</p>
+                <p style="font-weight: bold; color: var(--text-color); margin-top: 15px;">اختر طريقة التحويل المناسبة لك:</p>
                 
                 <div class="payment-methods-list">
                     <div class="payment-item" onclick="togglePaymentDetail(this, '01096227242')">
                         <h4>📱 فودافون كاش</h4>
                         <div class="payment-details">
-                            <p style="margin-bottom: 5px;">رقم المحفظة للتحويل: <strong style="color: var(--accent-color); font-size: 1.1rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم تلقائياً 📋)</small></p>
+                            <p style="margin-bottom: 8px;">رقم المحفظة للتحويل: <strong style="color: var(--accent-color); font-size: 1.15rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم تلقائياً 📋)</small></p>
                             <div class="transfer-form" onclick="event.stopPropagation()">
-                                <label style="font-weight: bold; font-size: 0.85rem;">أدخل بيانات التحويل للتأكيد عبر واتساب:</label>
+                                <label style="font-weight: bold; font-size: 0.88rem;">أدخل بيانات التحويل للتأكيد عبر واتساب:</label>
                                 <input type="text" class="buyer-name" placeholder="الاسم الكامل" required>
                                 <input type="text" class="buyer-phone" placeholder="رقم المحفظة التي قمت بالتحويل منها" required>
                                 <input type="number" class="buyer-amount" placeholder="المبلغ المحوّل (بالجنيه)" required>
@@ -782,9 +1010,9 @@
                     <div class="payment-item" onclick="togglePaymentDetail(this, '01096227242')">
                         <h4>🌐 جميع المحافظ الإلكترونية (أورانج / اتصالات / وي / المحافظ البنكية)</h4>
                         <div class="payment-details">
-                            <p style="margin-bottom: 5px;">رقم المحفظة لاستقبال جميع التحويلات: <strong style="color: var(--accent-color); font-size: 1.1rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم 📋)</small></p>
+                            <p style="margin-bottom: 8px;">رقم المحفظة لاستقبال جميع التحويلات: <strong style="color: var(--accent-color); font-size: 1.15rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم 📋)</small></p>
                             <div class="transfer-form" onclick="event.stopPropagation()">
-                                <label style="font-weight: bold; font-size: 0.85rem;">اختر المحفظة المستخدمة وأدخل بيانات التحويل للتأكيد عبر واتساب:</label>
+                                <label style="font-weight: bold; font-size: 0.88rem;">اختر المحفظة المستخدمة وأدخل بيانات التحويل للتأكيد عبر واتساب:</label>
                                 <select class="wallet-type" style="margin-bottom: 5px;" required>
                                     <option value="أورانج كاش">أورانج كاش (Orange Cash)</option>
                                     <option value="اتصالات كاش">اتصالات كاش (Etisalat Cash)</option>
@@ -807,10 +1035,10 @@
                     <div class="payment-item" onclick="togglePaymentDetail(this, '01096227242')">
                         <h4>⚡ InstaPay (إنستا باي)</h4>
                         <div class="payment-details">
-                            <p style="margin-bottom: 5px;">رقم الهاتف للتحويل: <strong style="color: var(--accent-color); font-size: 1.1rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم 📋)</small></p>
-                            <a href="instapay://" class="btn-secondary" style="margin: 8px 0; background: #8b5cf6; color: #fff; border: none;" target="_blank">📲 فتح تطبيق InstaPay مباشر</a>
+                            <p style="margin-bottom: 8px;">رقم الهاتف للتحويل: <strong style="color: var(--accent-color); font-size: 1.15rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم 📋)</small></p>
+                            <a href="instapay://" class="btn-secondary" style="margin: 8px 0; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: #fff; border: none;" target="_blank">📲 فتح تطبيق InstaPay مباشر</a>
                             <div class="transfer-form" onclick="event.stopPropagation()">
-                                <label style="font-weight: bold; font-size: 0.85rem;">أدخل بيانات التحويل للتأكيد عبر واتساب:</label>
+                                <label style="font-weight: bold; font-size: 0.88rem;">أدخل بيانات التحويل للتأكيد عبر واتساب:</label>
                                 <input type="text" class="buyer-name" placeholder="الاسم الكامل" required>
                                 <input type="text" class="buyer-phone" placeholder="رقم الهاتف أو حساب InstaPay المحوّل منه" required>
                                 <input type="number" class="buyer-amount" placeholder="المبلغ المحوّل (بالجنيه)" required>
@@ -822,9 +1050,9 @@
                     <div class="payment-item" id="codMethod" onclick="togglePaymentDetail(this)">
                         <h4>📦 الدفع عند الاستلام (للنسخة الورقية)</h4>
                         <div class="payment-details">
-                            <p style="margin-bottom: 5px;">يتم تحصيل قيمة الكتاب ورسوم الشحن فور الاستلام.</p>
+                            <p style="margin-bottom: 8px;">يتم تحصيل قيمة الكتاب ورسوم الشحن فور الاستلام.</p>
                             <div class="transfer-form" onclick="event.stopPropagation()">
-                                <label style="font-weight: bold; font-size: 0.85rem;">بيانات الشحن والتوصيل:</label>
+                                <label style="font-weight: bold; font-size: 0.88rem;">بيانات الشحن والتوصيل:</label>
                                 <input type="text" class="buyer-name" placeholder="الاسم الكامل" required>
                                 <input type="text" class="buyer-phone" placeholder="رقم للتواصل المباشر" required>
                                 <input type="text" class="buyer-address" placeholder="العنوان بالتفصيل (المحافظة - المدينة - الشارع)" required>
@@ -839,7 +1067,7 @@
         </div>
 
         <footer>
-            <h4 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.3rem;">تواصل وتابع الكاتب</h4>
+            <h4 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.4rem;">تواصل وتابع الكاتب</h4>
             <div class="social-links">
                 <a href="https://www.facebook.com/share/19XWbiVUNM/" class="social-btn" target="_blank">📘 Facebook</a>
                 <a href="https://www.instagram.com/saeid_elshwadfy" class="social-btn" target="_blank">📷 Instagram</a>
@@ -1212,8 +1440,8 @@
                     <div class="book-card">
                         <div>
                             <div class="book-cover">${cover}</div>
-                            <h3 style="font-family: 'Amiri', serif; font-size: 1.4rem;">${book.title}</h3>
-                            <p style="color: var(--text-muted); font-size: 0.9rem; margin: 8px 0;">${book.desc}</p>
+                            <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; line-height: 1.3; color: var(--accent-color);">${book.title}</h3>
+                            <p style="color: var(--text-muted); font-size: 0.92rem; margin: 8px 0;">${book.desc}</p>
                             ${renderStarRating(book.id, book.rating || 0, book.ratingCount || 0)}
                             <div class="book-stats">
                                 <span>📖 القراءات: ${readsCount.toLocaleString('ar-EG')}</span>

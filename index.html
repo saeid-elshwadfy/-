@@ -1,0 +1,1802 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- وسوم تحسين محركات البحث (SEO) لـ سعيد الشوادفي -->
+    <title>موقع الكاتب الروائي | سعيد الشوادفي</title>
+    <meta name="description" content="مرحباً بك في المنصة الأدبية الرسمية للكاتب الروائي سعيد الشوادفي. تصفح واقرأ أحدث الروايات والإصدارات الأدبية مثل رواية ظلال لا تنام ورواية ابن الغزال.">
+    <meta name="keywords" content="سعيد الشوادفي, الكاتب الروائي سعيد الشوادفي, روايات سعيد الشوادفي, ظلال لا تنام, ابن الغزال, روايات غموض, روايات تشويق, قصص وروايات, منصة أدبية">
+    <meta name="author" content="سعيد الشوادفي">
+    <link rel="canonical" href="https://github.io">
+
+    <!-- وسوم النشر على السوشيال ميديا (Open Graph) -->
+    <meta property="og:title" content="المنصة الأدبية الرسمية| موقع الكاتب الروائي سعيد الشوادفي">
+    <meta property="og:description" content="تصفح واقرأ مباشرة أو اطلب النسخ الورقية والرقمية من روايات الكاتب سعيد الشوادفي.">
+    <meta property="og:url" content="https://github.io">
+    <meta property="og:type" content="website">
+
+    <!-- استيراد خطوط عربية فاخرة -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root[data-theme="dark"] {
+            --bg-color: #080a11;
+            --bg-pattern: radial-gradient(rgba(212, 175, 55, 0.15) 0.8px, transparent 0.8px);
+            --card-bg: rgba(16, 19, 28, 0.75);
+            --card-hover-bg: rgba(23, 28, 42, 0.9);
+            --accent-color: #d4af37;
+            --accent-glow: rgba(212, 175, 55, 0.35);
+            --text-color: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: rgba(212, 175, 55, 0.22);
+            --input-bg: #0c0e17;
+            --reader-bg: #050609;
+            --header-bg: rgba(8, 10, 17, 0.85);
+            --shadow-color: rgba(0, 0, 0, 0.5);
+        }
+
+        :root[data-theme="light"] {
+            --bg-color: #f8fafc;
+            --bg-pattern: radial-gradient(rgba(184, 134, 11, 0.15) 0.7px, transparent 0.7px);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --card-hover-bg: #ffffff;
+            --accent-color: #b8860b;
+            --accent-glow: rgba(184, 134, 11, 0.25);
+            --text-color: #0f172a;
+            --text-muted: #475569;
+            --border-color: rgba(184, 134, 11, 0.25);
+            --input-bg: #f1f5f9;
+            --reader-bg: #fafafa;
+            --header-bg: rgba(248, 250, 252, 0.85);
+            --shadow-color: rgba(0, 0, 0, 0.08);
+        }
+
+        * { 
+            box-sizing: border-box; 
+            margin: 0; 
+            padding: 0; 
+            transition: background-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+                        color 0.3s ease, 
+                        border-color 0.3s ease, 
+                        transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        box-shadow 0.3s ease; 
+        }
+
+        html { scroll-behavior: smooth; }
+        
+        body {
+            background-color: var(--bg-color);
+            background-image: var(--bg-pattern);
+            background-size: 28px 28px;
+            color: var(--text-color);
+            font-family: 'Tajawal', sans-serif;
+            line-height: 1.7;
+            padding: 0 15px;
+            min-height: 100vh;
+        }
+
+        /* شريط التمرير الأنيق */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
+
+        header {
+            max-width: 1100px;
+            margin: 10px auto 0;
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            position: sticky;
+            top: 10px;
+            z-index: 100;
+            background: var(--header-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px var(--shadow-color);
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            cursor: pointer;
+        }
+
+        .logo-img {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            background-color: var(--card-bg);
+            padding: 2px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 0 15px var(--accent-glow);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover .logo-img {
+            transform: rotate(5deg) scale(1.05);
+        }
+
+        .logo { 
+            font-family: 'Amiri', serif; 
+            font-size: 1.8rem; 
+            color: var(--accent-color); 
+            font-weight: 700; 
+            text-shadow: 0 0 12px rgba(212, 175, 55, 0.25);
+            letter-spacing: 0.3px;
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 8px 18px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .theme-btn:hover {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 14px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+
+        .admin-trigger { 
+            background: transparent; 
+            border: 1px solid transparent; 
+            padding: 8px 14px;
+            border-radius: 20px;
+            color: var(--text-muted); 
+            cursor: pointer; 
+            font-size: 0.9rem; 
+            font-family: 'Tajawal', sans-serif;
+            font-weight: 500;
+        }
+        .admin-trigger:hover { 
+            color: var(--accent-color); 
+            border-color: var(--border-color);
+            background: var(--card-bg);
+        }
+        
+        .hero {
+            max-width: 1100px;
+            margin: 35px auto 25px;
+            text-align: center;
+            background: linear-gradient(135deg, var(--card-bg) 0%, rgba(212, 175, 55, 0.08) 100%);
+            padding: 55px 25px;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 15px 35px var(--shadow-color);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .hero::before {
+            content: '✒️';
+            position: absolute;
+            top: -20px;
+            right: 25px;
+            font-size: 6rem;
+            opacity: 0.06;
+            pointer-events: none;
+        }
+
+        .hero h1 { 
+            font-family: 'Amiri', serif; 
+            font-size: 2.8rem; 
+            margin-bottom: 15px; 
+            color: var(--accent-color);
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .hero p { 
+            font-size: 1.15rem; 
+            color: var(--text-muted); 
+            max-width: 700px; 
+            margin: 0 auto 30px; 
+            font-weight: 400;
+        }
+
+        .about-section {
+            max-width: 1100px;
+            margin: 35px auto;
+            background: linear-gradient(145deg, var(--card-bg) 0%, rgba(212, 175, 55, 0.05) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 45px 35px;
+            box-shadow: 0 15px 35px var(--shadow-color);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-section::before {
+            content: '“';
+            position: absolute;
+            top: -15px;
+            right: 25px;
+            font-size: 9rem;
+            font-family: 'Amiri', serif;
+            color: var(--accent-color);
+            opacity: 0.08;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .about-section h2 { 
+            font-family: 'Amiri', serif; 
+            color: var(--accent-color); 
+            font-size: 2.4rem; 
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 14px;
+        }
+
+        .about-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+            border-radius: 3px;
+        }
+
+        .about-content-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            align-items: center;
+            text-align: center;
+            max-width: 920px;
+            margin: 0 auto;
+        }
+
+        .about-text-p {
+            font-size: 1.18rem;
+            line-height: 2;
+            color: var(--text-color);
+            text-align: justify;
+            text-justify: inter-word;
+            font-weight: 400;
+        }
+
+        .about-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 18px;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .about-badge {
+            background: rgba(212, 175, 55, 0.04);
+            border: 1px dashed var(--border-color);
+            border-radius: 16px;
+            padding: 20px 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .about-badge:hover {
+            border-color: var(--accent-color);
+            background: rgba(212, 175, 55, 0.09);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+
+        .about-badge-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .about-badge-title {
+            font-family: 'Amiri', serif;
+            color: var(--accent-color);
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .about-badge-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .btn-primary { 
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            color: #ffffff; 
+            padding: 12px 28px; 
+            border-radius: 30px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            display: inline-block; 
+            border: none; 
+            cursor: pointer; 
+            text-align: center; 
+            box-shadow: 0 4px 18px var(--accent-glow);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+            filter: brightness(1.08);
+        }
+
+        .btn-publish-featured {
+            background: linear-gradient(135deg, #f39c12 0%, #e67e22 50%, #d35400 100%);
+            color: #ffffff !important;
+            padding: 12px 30px;
+            border-radius: 30px;
+            border: 1px solid #f1c40f;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            text-align: center;
+            box-shadow: 0 4px 22px rgba(243, 156, 18, 0.45);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-publish-featured:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 8px 28px rgba(243, 156, 18, 0.65);
+            border-color: #ffffff;
+        }
+
+        .btn-reviews {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: #fff;
+            padding: 10px 18px;
+            border-radius: 25px;
+            border: none;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            width: 100%;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-reviews:hover {
+            background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.4);
+        }
+
+        .btn-whatsapp { 
+            background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); 
+            color: #fff; 
+            padding: 11px 20px; 
+            border-radius: 25px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            display: inline-block; 
+            border: none; 
+            cursor: pointer; 
+            text-align: center; 
+            width: 100%; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); }
+
+        .btn-download { 
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
+            color: #fff; 
+            padding: 10px 15px; 
+            border-radius: 22px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            cursor: pointer; 
+            text-align: center; 
+            display: block; 
+            width: 100%; 
+            flex: 1; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn-download:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
+
+        .btn-secondary { 
+            background-color: var(--input-bg); 
+            color: var(--text-color); 
+            border: 1px solid var(--border-color); 
+            padding: 10px 18px; 
+            border-radius: 25px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            text-align: center; 
+            text-decoration: none; 
+            display: block; 
+            width: 100%; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn-secondary:hover { border-color: var(--accent-color); color: var(--accent-color); transform: translateY(-2px); }
+
+        .btn-edit { background-color: #3b82f6; color: #fff; border: none; padding: 8px 15px; border-radius: 18px; cursor: pointer; font-weight: bold; flex: 1; font-family: 'Tajawal', sans-serif; }
+        .btn-edit:hover { background-color: #2563eb; }
+
+        .btn-danger { background-color: transparent; color: #ef4444; border: 1px solid #ef4444; padding: 8px 15px; border-radius: 18px; cursor: pointer; font-weight: bold; flex: 1; font-family: 'Tajawal', sans-serif; }
+        .btn-danger:hover { background-color: #ef4444; color: #fff; }
+
+        .btn-share { 
+            background: linear-gradient(135deg, #f39c12 0%, #d35400 100%); 
+            color: #fff; 
+            border: none; 
+            padding: 10px 15px; 
+            border-radius: 22px; 
+            font-weight: 700; 
+            cursor: pointer; 
+            text-align: center; 
+            flex: 1; 
+            display: inline-block; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn-share:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(243, 156, 18, 0.4); }
+
+        .btn-link { 
+            background-color: rgba(255, 255, 255, 0.05); 
+            color: var(--text-color); 
+            border: 1px solid var(--border-color); 
+            padding: 10px 15px; 
+            border-radius: 22px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            text-align: center; 
+            text-decoration: none; 
+            display: block; 
+            width: 100%; 
+            font-family: 'Tajawal', sans-serif;
+        }
+        .btn-link:hover { border-color: var(--accent-color); color: var(--accent-color); background: rgba(212, 175, 55, 0.08); }
+
+        .platform-btn { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            padding: 9px 14px; 
+            border-radius: 18px; 
+            text-decoration: none; 
+            font-size: 0.88rem; 
+            font-weight: 700; 
+            color: #fff; 
+            width: 100%; 
+            margin-top: 6px; 
+            font-family: 'Tajawal', sans-serif;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .platform-btn:hover { transform: translateY(-2px); }
+        .btn-amazon { background: linear-gradient(135deg, #ff9900 0%, #e68a00 100%); color: #111; }
+        .btn-googleplay { background: linear-gradient(135deg, #01875f 0%, #016c4c 100%); }
+        .btn-publisher { background: linear-gradient(135deg, #8e44ad 0%, #71368a 100%); }
+
+        .btn-buy-digital { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: #fff; border: none; padding: 10px 15px; border-radius: 22px; font-weight: 700; cursor: pointer; text-align: center; width: 100%; display: block; font-family: 'Tajawal', sans-serif; }
+        .btn-buy-digital:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); }
+
+        .btn-buy-paper { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #fff; border: none; padding: 10px 15px; border-radius: 22px; font-weight: 700; cursor: pointer; text-align: center; width: 100%; display: block; font-family: 'Tajawal', sans-serif; }
+        .btn-buy-paper:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); }
+
+        .buy-buttons-grid { display: flex; gap: 8px; width: 100%; }
+
+        .section-title { 
+            font-family: 'Amiri', serif; 
+            font-size: 2.5rem; 
+            color: var(--accent-color); 
+            text-align: center; 
+            margin: 50px 0 25px; 
+            letter-spacing: 0.5px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .category-tabs { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; max-width: 1100px; margin: 0 auto 35px; }
+        
+        .tab-btn { 
+            background-color: var(--card-bg); 
+            color: var(--text-color); 
+            border: 1px solid var(--border-color); 
+            padding: 10px 24px; 
+            border-radius: 30px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            font-size: 0.95rem; 
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .tab-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .tab-btn.active { 
+            background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+            color: #ffffff; 
+            border-color: transparent;
+            box-shadow: 0 4px 18px var(--accent-glow);
+        }
+
+        .books-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 28px; }
+        
+        .book-card { 
+            background-color: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 20px; 
+            padding: 22px; 
+            text-align: center; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: space-between; 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: 0 8px 25px var(--shadow-color);
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            background-color: var(--card-hover-bg);
+            border-color: var(--accent-color);
+            box-shadow: 0 16px 35px var(--shadow-color), 0 0 20px var(--accent-glow);
+        }
+
+        .book-cover { 
+            width: 100%; 
+            height: 340px; 
+            background: var(--input-bg); 
+            border: 1px dashed var(--border-color); 
+            border-radius: 14px; 
+            margin-bottom: 18px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: var(--accent-color); 
+            font-weight: bold; 
+            overflow: hidden; 
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.4);
+            position: relative;
+        }
+
+        .book-cover img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.5s ease; }
+        .book-card:hover .book-cover img { transform: scale(1.04); }
+        
+        .book-price { 
+            font-size: 0.92rem; 
+            color: var(--accent-color); 
+            font-weight: 700; 
+            margin: 12px 0; 
+            background: rgba(212, 175, 55, 0.08); 
+            padding: 8px 12px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(212, 175, 55, 0.18);
+        }
+
+        .action-buttons-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; width: 100%; }
+
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background-color: rgba(0, 0, 0, 0.85); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            justify-content: center; 
+            align-items: center; 
+            z-index: 1000; 
+            padding: 15px; 
+        }
+
+        .modal-content { 
+            background-color: var(--card-bg); 
+            border: 1px solid var(--accent-color); 
+            border-radius: 24px; 
+            padding: 30px; 
+            max-width: 650px; 
+            width: 100%; 
+            text-align: center; 
+            position: relative; 
+            max-height: 90vh; 
+            overflow-y: auto; 
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px var(--accent-glow); 
+        }
+
+        .close-modal { 
+            position: absolute; 
+            top: 16px; 
+            left: 20px; 
+            color: var(--text-muted); 
+            cursor: pointer; 
+            font-size: 2rem; 
+            line-height: 1;
+            transition: color 0.2s ease;
+        }
+        .close-modal:hover { color: var(--accent-color); }
+
+        .reader-box { 
+            background: var(--reader-bg); 
+            border: 1px solid var(--border-color); 
+            border-radius: 16px; 
+            padding: 25px; 
+            margin: 20px 0; 
+            height: 360px; 
+            overflow-y: auto; 
+            text-align: justify; 
+            font-family: 'Amiri', serif; 
+            font-size: 1.25rem; 
+            line-height: 2.1; 
+            color: var(--text-color); 
+            white-space: pre-wrap; 
+            box-shadow: inset 0 2px 10px var(--shadow-color);
+        }
+
+        .reviews-list { max-height: 280px; overflow-y: auto; text-align: right; margin: 15px 0; padding-left: 5px; display: flex; flex-direction: column; gap: 12px; }
+        .review-card { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 14px 18px; }
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .review-author { font-weight: 700; color: var(--accent-color); font-size: 0.98rem; }
+        .review-date { font-size: 0.78rem; color: var(--text-muted); }
+        .review-text { font-size: 0.95rem; color: var(--text-color); line-height: 1.6; white-space: pre-line; }
+
+        .payment-methods-list { text-align: right; margin: 18px 0; display: flex; flex-direction: column; gap: 12px; }
+        .payment-item { background: var(--input-bg); border: 1px solid var(--border-color); border-radius: 14px; padding: 16px; cursor: pointer; transition: all 0.3s ease; }
+        .payment-item:hover { border-color: var(--accent-color); transform: translateY(-2px); }
+        .payment-item.selected { border-color: var(--accent-color); background: rgba(212, 175, 55, 0.08); box-shadow: 0 4px 15px var(--accent-glow); }
+        .payment-item h4 { color: var(--accent-color); margin-bottom: 4px; font-family: 'Amiri', serif; font-size: 1.2rem; }
+        .payment-details { display: none; font-size: 0.95rem; color: var(--text-color); margin-top: 10px; border-top: 1px dashed var(--border-color); padding-top: 10px; }
+
+        .transfer-form { margin-top: 12px; display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.25); padding: 14px; border-radius: 12px; }
+        .transfer-form input, .transfer-form select { padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-color); width: 100%; font-family: 'Tajawal', sans-serif; outline: none; }
+        .transfer-form input:focus, .transfer-form select:focus { border-color: var(--accent-color); }
+
+        .admin-controls { display: none; margin-top: 10px; gap: 10px; }
+        .admin-panel { display: none; max-width: 1100px; margin: 25px auto; background-color: var(--card-bg); border: 1px solid var(--accent-color); border-radius: 24px; padding: 30px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); box-shadow: 0 15px 35px var(--shadow-color); }
+        .admin-section-box { border-bottom: 1px dashed var(--border-color); padding-bottom: 25px; margin-bottom: 25px; }
+        .form-group { margin-bottom: 18px; text-align: right; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--accent-color); font-size: 0.95rem; }
+        .form-group input[type="text"], .form-group input[type="password"], .form-group input[type="file"], .form-group textarea, .form-group select { width: 100%; padding: 12px 16px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-color); font-family: 'Tajawal', sans-serif; outline: none; }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent-color); box-shadow: 0 0 10px var(--accent-glow); }
+
+        .book-stats { font-size: 0.88rem; color: var(--text-muted); display: flex; justify-content: space-around; align-items: center; margin: 8px 0; background: rgba(255,255,255,0.03); padding: 8px; border-radius: 8px; }
+        .rating-stars { color: #f59e0b; cursor: pointer; font-size: 1.15rem; }
+        .rating-stars span { transition: transform 0.15s; display: inline-block; padding: 0 1px; }
+        .rating-stars span:hover { transform: scale(1.4); }
+        
+        .site-stats-badge { background: rgba(212, 175, 55, 0.05); border: 1px solid var(--accent-color); border-radius: 16px; padding: 20px; margin-bottom: 25px; display: flex; justify-content: space-around; align-items: center; }
+        .site-stats-item { text-align: center; }
+        .site-stats-item strong { display: block; font-size: 1.8rem; color: var(--accent-color); font-family: 'Amiri', serif; }
+
+        .requests-table { width: 100%; border-collapse: collapse; margin-top: 12px; text-align: right; }
+        .requests-table th, .requests-table td { padding: 12px; border: 1px solid var(--border-color); font-size: 0.92rem; }
+        .requests-table th { background: rgba(212, 175, 55, 0.12); color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.05rem; }
+
+        footer { text-align: center; padding: 40px 0 30px; color: var(--text-muted); border-top: 1px solid var(--border-color); margin-top: 60px; font-size: 0.95rem; }
+        .social-links { display: flex; justify-content: center; gap: 14px; margin: 22px 0; flex-wrap: wrap; }
+        .social-btn { 
+            background-color: var(--card-bg); 
+            color: var(--text-color); 
+            border: 1px solid var(--border-color); 
+            padding: 10px 20px; 
+            border-radius: 30px; 
+            text-decoration: none; 
+            font-size: 0.92rem; 
+            font-weight: 500;
+        }
+
+        .social-btn:hover {
+            border-color: var(--accent-color);
+            color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px var(--accent-glow);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Website Wrapper -->
+    <div id="mainWebsite">
+        <header>
+            <div class="logo-container">
+                <img src="https://i.ibb.co/MDstFfTz/6.jpg" id="siteLogoImg" class="logo-img" alt="موقع الكاتب الروائي | سعيد الشوادفي">
+                <div class="logo" id="siteLogo">موقع الكاتب الروائي | سعيد الشوادفي</div>
+            </div>
+            <div class="header-actions">
+                <button class="theme-btn" id="themeToggleBtn">🌙 المظهر الليلي</button>
+                <button class="admin-trigger" id="adminToggleBtn">🔒 لوحة التحكم</button>
+            </div>
+        </header>
+
+        <section class="hero">
+            <h1 id="heroTitle">حيث تتجسد الحكايات وتستيقظ الظلال</h1>
+            <p id="heroSubtitle">مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح واقرأ مباشرة أو اطلب النسخ الورقية والرقمية.</p>
+            <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; align-items: center;">
+                <a href="#books" class="btn-primary" style="width: auto;">تصفح الروايات 📚</a>
+                <button id="openPublishModalBtn" class="btn-publish-featured">انشر معنا ✒️ ✨</button>
+            </div>
+        </section>
+
+        <section class="about-section">
+            <h2 id="aboutTitle">عن الكاتب سعيد الشوادفي 🖋️</h2>
+            <div class="about-content-wrapper">
+                <p id="aboutText" class="about-text-p">
+                    كاتب وروائي ومصمم محتوى أدبي، يتخذ من أزقة التشويق وحبكات الغموض والدراما الإنسانية العميقة محطاً لرحاله الأدبية. ينسج سعيد الشوادفي بعناية عوالمه الروائية ليأخذ القارئ في رحلات حبس الأنفاس بين أغوار النفس البشرية وأسرارها المخبأة. قدم للساحة الأدبية العديد من الأعمال البارزة التي حققت حضوراً لافتاً، من بينها رواية "ظلال لا تنام"، ورواية "ابن الغزال"، إلى جانب نخبة مميزة من الإصدارات القصصية والأعمال الإبداعية.
+                </p>
+                <div class="about-highlights">
+                    <div class="about-badge">
+                        <span class="about-badge-icon">🕵️‍♂️</span>
+                        <div class="about-badge-title">حبكة الغموض والتشويق</div>
+                        <div class="about-badge-desc">صياغة درامية مشوقة تحبس الأنفاس</div>
+                    </div>
+                    <div class="about-badge">
+                        <span class="about-badge-icon">📖</span>
+                        <div class="about-badge-title">إصدارات متنوعة</div>
+                        <div class="about-badge-desc">تنوع ثري بين الرواية والقصة والشعر</div>
+                    </div>
+                    <div class="about-badge">
+                        <span class="about-badge-icon">🎨</span>
+                        <div class="about-badge-title">رؤية إبداعية</div>
+                        <div class="about-badge-desc">دمج بليغ بين الفن الأدبي والتصميم البصري</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin Login Modal -->
+        <div id="adminLoginModal" class="modal">
+            <div class="modal-content" style="max-width: 400px;">
+                <span class="close-modal" id="closeAdminLoginBtn">&times;</span>
+                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem; margin-bottom: 20px;">🔒 دخول لوحة التحكم</h3>
+                <form id="adminLoginForm">
+                    <div class="form-group">
+                        <label>اسم المستخدم:</label>
+                        <input type="text" id="adminUsernameInput" placeholder="أدخل اسم المستخدم" required>
+                    </div>
+                    <div class="form-group">
+                        <label>كلمة السر:</label>
+                        <input type="password" id="adminPasswordInput" placeholder="أدخل كلمة السر" required>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">تسجيل الدخول 🚀</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Admin Panel -->
+        <section id="adminPanel" class="admin-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: var(--accent-color); font-family: 'Amiri', serif;">🛠️ لوحة تحكم الكاتب الشاملة</h2>
+                <button class="btn-danger" style="flex: none; padding: 6px 16px;" id="closeAdminBtn">إغلاق اللوحة ✖</button>
+            </div>
+
+            <div class="site-stats-badge">
+                <div class="site-stats-item">
+                    <span>👁️ عدد زوار الموقع الإجمالي</span>
+                    <strong id="totalVisitsCount">0</strong>
+                </div>
+                <div class="site-stats-item">
+                    <span>📖 إجمالي قراءات الكتب</span>
+                    <strong id="totalBookReadsCount">0</strong>
+                </div>
+            </div>
+
+            <div class="admin-section-box">
+                <h3 style="color: var(--accent-color); margin-bottom: 12px; font-family: 'Amiri', serif;">📥 طلبات النشر المقدمة من الكتاب والكاتبات:</h3>
+                <div id="publishRequestsContainer" style="overflow-x: auto;">
+                    <p style="color: var(--text-muted);">لا توجد طلبات نشر جديدة حالياً.</p>
+                </div>
+            </div>
+
+            <div class="admin-section-box">
+                <h3 style="color: var(--text-color); margin-bottom: 12px; font-family: 'Amiri', serif;">⚙️ التحكم في نصوص اللوجو والواجهة:</h3>
+                <form id="siteContentForm">
+                    <div class="form-group">
+                        <label>اسم الموقع (اللوجو النصي):</label>
+                        <input type="text" id="adminSiteLogo">
+                    </div>
+                    <div class="form-group">
+                        <label>📸 صورة اللوجو الشخصية (رابط الصورة):</label>
+                        <input type="text" id="adminSiteLogoImg" placeholder="ضع رابط صورتك المباشر لتعمل كلوجو بجانب الاسم">
+                    </div>
+                    <div class="form-group">
+                        <label>العنوان الرئيسي (Hero Title):</label>
+                        <input type="text" id="adminHeroTitle">
+                    </div>
+                    <div class="form-group">
+                        <label>الوصف الفرعي للرئيسية:</label>
+                        <textarea id="adminHeroSubtitle" rows="2"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>عنوان قسم التعريف:</label>
+                        <input type="text" id="adminAboutTitle">
+                    </div>
+                    <div class="form-group">
+                        <label>نص قسم عن الكاتب:</label>
+                        <textarea id="adminAboutText" rows="4"></textarea>
+                    </div>
+                    <button type="submit" id="saveContentBtn" class="btn-secondary">تحديث نصوص الواجهة واللوجو 💾</button>
+                </form>
+            </div>
+
+            <div>
+                <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">📚 إضافة أو تعديل عمل أدبي:</h3>
+                <form id="addBookForm">
+                    <input type="hidden" id="editBookId" value="">
+                    <div class="form-group"><label>عنوان الكتاب:</label><input type="text" id="bookTitle" required></div>
+                    <div class="form-group">
+                        <label>القسم / نوع العمل الأدبي:</label>
+                        <select id="bookCategory" required>
+                            <option value="novel">روايات</option>
+                            <option value="story">قصص</option>
+                            <option value="poetry">شعر</option>
+                            <option value="messages">رسائل</option>
+                            <option value="other">أخرى</option>
+                            <option value="free">كتب مجانية 🎁</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>الوصف:</label><textarea id="bookDesc" rows="2" required></textarea></div>
+                    <div class="form-group"><label>سعر الرقمية (اكتب مجاناً للقسم المجاني):</label><input type="text" id="bookPrice" required></div>
+                    <div class="form-group"><label>سعر الورقية (أو اكتب مجاناً/غير متاح):</label><input type="text" id="bookPaperPrice" required></div>
+                    <div class="form-group"><label>🔗 رابط مخصص للعمل الأدبي (صفحة قراءة مخصصة):</label><input type="text" id="bookCustomLink" placeholder="https://..."></div>
+                    
+                    <div style="background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 14px; border: 1px dashed var(--accent-color); margin-bottom: 18px;">
+                        <h4 style="color: var(--accent-color); margin-bottom: 12px; font-size: 1rem; font-family: 'Amiri', serif;">🛒 روابط منصات الشراء الخارجية (اختياري):</h4>
+                        <div class="form-group"><label>📦 رابط الشراء من أمازون (Amazon Kindle):</label><input type="text" id="amazonLink" placeholder="https://www.amazon.com/dp/..."></div>
+                        <div class="form-group"><label>📲 رابط الشراء من كتب جوجل (Google Play Books):</label><input type="text" id="googlePlayLink" placeholder="https://play.google.com/store/books/details/..."></div>
+                        <div class="form-group"><label>📚 رابط شراء النسخة الورقية (موقع/متجر):</label><input type="text" id="paperStoreLink" placeholder="https://..."></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🖼️ صورة الغلاف:</label>
+                        <input type="file" id="coverFileInput" accept="image/*" style="margin-bottom: 8px;">
+                        <input type="text" id="coverUrlInput" placeholder="أو ضع رابط الصورة المباشر هنا">
+                    </div>
+
+                    <div class="form-group">
+                        <label>📄 ملف الكتاب (PDF):</label>
+                        <input type="file" id="docFileInput" accept=".pdf" style="margin-bottom: 8px;">
+                        <input type="text" id="docUrlInput" placeholder="أو ضع رابط التحميل المباشر للملف">
+                    </div>
+
+                    <div class="form-group">
+                        <label>صفحات القراءة المباشرة بالموقع (افصل بين الصفحات بـ ---):</label>
+                        <textarea id="bookFreePages" rows="4" placeholder="الفصل الأول...&#10;---&#10;الفصل الثاني..."></textarea>
+                    </div>
+
+                    <button type="submit" id="submitBtn" class="btn-primary" style="width: 100%;">حفظ ونشر العمل للجميع 🚀</button>
+                </form>
+            </div>
+        </section>
+
+        <h2 id="books" class="section-title">✨ الأعمال الأدبية والمعرض ✨</h2>
+        
+        <div class="category-tabs" id="categoryTabs">
+            <button class="tab-btn active" data-cat="all">الكل</button>
+            <button class="tab-btn" data-cat="novel">روايات</button>
+            <button class="tab-btn" data-cat="story">قصص</button>
+            <button class="tab-btn" data-cat="poetry">شعر</button>
+            <button class="tab-btn" data-cat="messages">رسائل</button>
+            <button class="tab-btn" data-cat="other">أخرى</button>
+            <button class="tab-btn" data-cat="free">🎁 كتب مجانية</button>
+        </div>
+
+        <div class="books-grid" id="booksGrid"></div>
+
+        <!-- Reviews Modal -->
+        <div id="reviewsModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="closeReviewsBtn">&times;</span>
+                <h3 id="reviewsModalTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem;">💬 آراء وانطباعات القراء</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px;">اقرأ ما قاله الآخرون عن العمل أو شاركنا رأيك وانطباعك الخاص!</p>
+
+                <div class="reviews-list" id="reviewsListContainer">
+                    <p style="color: var(--text-muted); text-align: center;">لا توجد مراجعات مكتوبة بعد. كن أول من يكتب رأيه! ✍️</p>
+                </div>
+
+                <hr style="border: 0; border-top: 1px dashed var(--border-color); margin: 18px 0;">
+
+                <form id="addReviewForm" style="text-align: right;">
+                    <h4 style="color: var(--accent-color); font-size: 1.1rem; margin-bottom: 10px; font-family: 'Amiri', serif;">✍️ أضف رأيك في هذا العمل:</h4>
+                    <div class="form-group">
+                        <input type="text" id="reviewerName" placeholder="اسمك / لقبك" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="reviewerText" rows="3" placeholder="اكتب انطباعك ورأيك في الرواية هنا..." required></textarea>
+                    </div>
+                    <button type="submit" id="submitReviewBtn" class="btn-primary" style="width: 100%;">إرسال الرأي 🚀</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Publish Form Modal -->
+        <div id="publishModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="closePublishBtn">&times;</span>
+                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem;">✒️ طلب نشر عمل أدبي</h3>
+                <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 18px;">أهلاً بك! يمكنك تقديم طلب لنشر عملك الأدبي على منصتنا وسيتم مراجعته من الكاتب سعيد الشوادفي.</p>
+
+                <form id="authorPublishForm">
+                    <div class="form-group"><label>اسم الكاتب / الكاتبة:</label><input type="text" id="pubAuthorName" required placeholder="اسمك الكامل"></div>
+                    <div class="form-group"><label>رقم التواصل (واتساب):</label><input type="text" id="pubAuthorPhone" required placeholder="01xxxxxxxxx"></div>
+                    <div class="form-group"><label>عنوان العمل الأدبي:</label><input type="text" id="pubBookTitle" required></div>
+                    <div class="form-group">
+                        <label>نوع العمل:</label>
+                        <select id="pubBookCategory" required>
+                            <option value="novel">رواية</option>
+                            <option value="story">قصة</option>
+                            <option value="poetry">شعر</option>
+                            <option value="messages">رسائل</option>
+                            <option value="other">أخرى</option>
+                        </select>
+                    </div>
+                    <div class="form-group"><label>نبذة عن العمل:</label><textarea id="pubBookDesc" rows="2" required></textarea></div>
+                    <div class="form-group"><label>سعر النسخة الرقمية (أو مجاناً):</label><input type="text" id="pubBookPrice" required placeholder="مثال: 50 جنيه أو مجاناً"></div>
+                    <div class="form-group"><label>سعر النسخة الورقية (أو غير متاح):</label><input type="text" id="pubBookPaperPrice" required placeholder="مثال: 100 جنيه أو غير متاح"></div>
+                    <div class="form-group"><label>🖼️ رابط صورة الغلاف (مباشر):</label><input type="text" id="pubCoverUrl" placeholder="https://..."></div>
+                    <div class="form-group"><label>📄 رابط ملف الرواية PDF:</label><input type="text" id="pubFileUrl" placeholder="https://..."></div>
+                    <div class="form-group"><label>صفحات للقراءة المباشرة بالموقع (افصل بين الصفحات بـ ---):</label><textarea id="pubFreePages" rows="3" placeholder="مقدمة...&#10;---&#10;الفصل الأول..."></textarea></div>
+                    
+                    <button type="submit" id="submitPublishBtn" class="btn-primary" style="width: 100%;">إرسال طلب النشر 📩</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Reader Modal -->
+        <div id="readerModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="closeReaderBtn">&times;</span>
+                <h3 id="readerTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem;"></h3>
+                <div id="readerText" class="reader-box"></div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <button class="btn-secondary" style="width: auto;" id="prevPageBtn">⬅ السابقة</button>
+                    <span id="readerPageIndicator" style="color: var(--text-muted); font-size: 0.9rem; font-weight: bold;"></span>
+                    <button class="btn-secondary" style="width: auto;" id="nextPageBtn">التالية ➡</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buy Modal -->
+        <div id="buyModal" class="modal">
+            <div class="modal-content">
+                <span class="close-modal" id="closeBuyBtn">&times;</span>
+                <h3 id="buyTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.7rem;"></h3>
+                <p id="buySubtitle" style="color: var(--text-muted); margin: 10px 0; font-size: 0.95rem;"></p>
+
+                <p style="font-weight: bold; color: var(--text-color); margin-top: 15px;">اختر طريقة التحويل المناسبة لك:</p>
+                
+                <div class="payment-methods-list">
+                    <div class="payment-item" onclick="togglePaymentDetail(this, '01096227242')">
+                        <h4>📱 فودافون كاش</h4>
+                        <div class="payment-details">
+                            <p style="margin-bottom: 8px;">رقم المحفظة للتحويل: <strong style="color: var(--accent-color); font-size: 1.15rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم تلقائياً 📋)</small></p>
+                            <div class="transfer-form" onclick="event.stopPropagation()">
+                                <label style="font-weight: bold; font-size: 0.88rem;">أدخل بيانات التحويل للتأكيد عبر واتساب:</label>
+                                <input type="text" class="buyer-name" placeholder="الاسم الكامل" required>
+                                <input type="text" class="buyer-phone" placeholder="رقم المحفظة التي قمت بالتحويل منها" required>
+                                <input type="number" class="buyer-amount" placeholder="المبلغ المحوّل (بالجنيه)" required>
+                                <button type="button" class="btn-whatsapp" style="margin-top: 5px;" onclick="sendViaWhatsApp('فودافون كاش', this)">💬 إرسال الطلب عبر واتساب</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-item" onclick="togglePaymentDetail(this, '01096227242')">
+                        <h4>🌐 جميع المحافظ الإلكترونية (أورانج / اتصالات / وي / المحافظ البنكية)</h4>
+                        <div class="payment-details">
+                            <p style="margin-bottom: 8px;">رقم المحفظة لاستقبال جميع التحويلات: <strong style="color: var(--accent-color); font-size: 1.15rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم 📋)</small></p>
+                            <div class="transfer-form" onclick="event.stopPropagation()">
+                                <label style="font-weight: bold; font-size: 0.88rem;">اختر المحفظة المستخدمة وأدخل بيانات التحويل للتأكيد عبر واتساب:</label>
+                                <select class="wallet-type" style="margin-bottom: 5px;" required>
+                                    <option value="أورانج كاش">أورانج كاش (Orange Cash)</option>
+                                    <option value="اتصالات كاش">اتصالات كاش (Etisalat Cash)</option>
+                                    <option value="وي باي">وي باي (WE Pay)</option>
+                                    <option value="محفظة البنك الأهلي (الأهلي فون كاش)">محفظة البنك الأهلي (الأهلي فون كاش)</option>
+                                    <option value="محفظة بنك مصر (BM Wallet)">محفظة بنك مصر (BM Wallet)</option>
+                                    <option value="محفظة بنك CIB (Smart Wallet)">محفظة بنك CIB (Smart Wallet)</option>
+                                    <option value="محفظة بنك القاهرة (قاهرة كاش)">محفظة بنك القاهرة (قاهرة كاش)</option>
+                                    <option value="محفظة بنك الإسكندرية">محفظة بنك الإسكندرية</option>
+                                    <option value="محفظة إلكترونية أخرى">محفظة إلكترونية أخرى</option>
+                                </select>
+                                <input type="text" class="buyer-name" placeholder="الاسم الكامل" required>
+                                <input type="text" class="buyer-phone" placeholder="رقم المحفظة التي قمت بالتحويل منها" required>
+                                <input type="number" class="buyer-amount" placeholder="المبلغ المحوّل (بالجنيه)" required>
+                                <button type="button" class="btn-whatsapp" style="margin-top: 5px;" onclick="sendViaWhatsApp('محفظة إلكترونية', this)">💬 إرسال الطلب عبر واتساب</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-item" onclick="togglePaymentDetail(this, '01096227242')">
+                        <h4>⚡ InstaPay (إنستا باي)</h4>
+                        <div class="payment-details">
+                            <p style="margin-bottom: 8px;">رقم الهاتف للتحويل: <strong style="color: var(--accent-color); font-size: 1.15rem;">01096227242</strong> <small style="color:#10b981;">(تم نسخ الرقم 📋)</small></p>
+                            <a href="instapay://" class="btn-secondary" style="margin: 8px 0; background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); color: #fff; border: none;" target="_blank">📲 فتح تطبيق InstaPay مباشر</a>
+                            <div class="transfer-form" onclick="event.stopPropagation()">
+                                <label style="font-weight: bold; font-size: 0.88rem;">أدخل بيانات التحويل للتأكيد عبر واتساب:</label>
+                                <input type="text" class="buyer-name" placeholder="الاسم الكامل" required>
+                                <input type="text" class="buyer-phone" placeholder="رقم الهاتف أو حساب InstaPay المحوّل منه" required>
+                                <input type="number" class="buyer-amount" placeholder="المبلغ المحوّل (بالجنيه)" required>
+                                <button type="button" class="btn-whatsapp" style="margin-top: 5px;" onclick="sendViaWhatsApp('InstaPay', this)">💬 إرسال الطلب عبر واتساب</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-item" id="codMethod" onclick="togglePaymentDetail(this)">
+                        <h4>📦 الدفع عند الاستلام (للنسخة الورقية)</h4>
+                        <div class="payment-details">
+                            <p style="margin-bottom: 8px;">يتم تحصيل قيمة الكتاب ورسوم الشحن فور الاستلام.</p>
+                            <div class="transfer-form" onclick="event.stopPropagation()">
+                                <label style="font-weight: bold; font-size: 0.88rem;">بيانات الشحن والتوصيل:</label>
+                                <input type="text" class="buyer-name" placeholder="الاسم الكامل" required>
+                                <input type="text" class="buyer-phone" placeholder="رقم للتواصل المباشر" required>
+                                <input type="text" class="buyer-address" placeholder="العنوان بالتفصيل (المحافظة - المدينة - الشارع)" required>
+                                <button type="button" class="btn-whatsapp" style="margin-top: 5px;" onclick="sendViaWhatsApp('الدفع عند الاستلام', this)">💬 إرسال طلب الشحن عبر واتساب</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-secondary" id="closeBuyBtn2" style="margin-top: 10px;">إغلاق</button>
+            </div>
+        </div>
+
+        <footer>
+            <h4 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.4rem;">تواصل وتابع الكاتب</h4>
+            <div class="social-links">
+                <a href="https://www.facebook.com/share/19XWbiVUNM/" class="social-btn" target="_blank">📘 Facebook</a>
+                <a href="https://www.instagram.com/saeid_elshwadfy" class="social-btn" target="_blank">📷 Instagram</a>
+                <a href="https://www.tiktok.com/@saeid.elshwadfy" class="social-btn" target="_blank">🎵 TikTok</a>
+                <a href="https://x.com/Saeidelshwadfy" class="social-btn" target="_blank">🐦 X</a>
+            </div>
+            <p>© 2026 سعيد الشوادفي - جميع الحقوق محفوظة.</p>
+        </footer>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+        import { getDatabase, ref, onValue, set, push, update, remove, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyDGG6NxTUZl5lLqD7qPq_nE0h6c_jVbaNA",
+          authDomain: "saeid-elshwadfy.firebaseapp.com",
+          projectId: "saeid-elshwadfy",
+          storageBucket: "saeid-elshwadfy.firebasestorage.app",
+          messagingSenderId: "369531285459",
+          appId: "1:369531285459:web:c2ff96822a96162a804926",
+          measurementId: "G-ET702105DC"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getDatabase(app);
+        const storage = getStorage(app);
+
+        let allBooks = [];
+        let allRequests = [];
+        let currentFilter = 'all';
+        let isAdmin = false;
+        let selectedBookForBuy = null;
+        let selectedOrderType = 'digital';
+        let selectedBookForReviews = null;
+
+        if (!sessionStorage.getItem('visited')) {
+            sessionStorage.setItem('visited', 'true');
+            runTransaction(ref(db, 'siteStats/visits'), (currentVisits) => {
+                return (currentVisits || 0) + 1;
+            });
+        }
+
+        onValue(ref(db, 'siteStats/visits'), (snapshot) => {
+            const count = snapshot.val() || 0;
+            const element = document.getElementById('totalVisitsCount');
+            if (element) element.innerText = count.toLocaleString('ar-EG');
+        });
+
+        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+            const html = document.documentElement;
+            const themeBtn = document.getElementById('themeToggleBtn');
+            const currentTheme = html.getAttribute('data-theme');
+            if (currentTheme === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                themeBtn.innerText = '☀️ المظهر النهاري';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeBtn.innerText = '🌙 المظهر الليلي';
+            }
+        });
+
+        const toggleAdminLogin = () => {
+            if (!isAdmin) {
+                document.getElementById('adminLoginModal').style.display = 'flex';
+            } else {
+                isAdmin = false;
+                document.getElementById('adminPanel').style.display = 'none';
+                renderBooks();
+            }
+        };
+
+        document.getElementById('adminToggleBtn').addEventListener('click', toggleAdminLogin);
+        document.getElementById('closeAdminBtn').addEventListener('click', toggleAdminLogin);
+        document.getElementById('closeAdminLoginBtn').addEventListener('click', () => {
+            document.getElementById('adminLoginModal').style.display = 'none';
+        });
+
+        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const username = document.getElementById('adminUsernameInput').value;
+            const pass = document.getElementById('adminPasswordInput').value;
+
+            if (username === "Saeid74" && pass === "S1629r") {
+                isAdmin = true;
+                document.getElementById('adminLoginModal').style.display = 'none';
+                document.getElementById('adminLoginForm').reset();
+                document.getElementById('adminPanel').style.display = 'block';
+                renderBooks();
+            } else {
+                alert("اسم المستخدم أو كلمة السر غير صحيحة!");
+            }
+        });
+
+        document.getElementById('openPublishModalBtn').addEventListener('click', () => {
+            document.getElementById('publishModal').style.display = 'flex';
+        });
+
+        document.getElementById('closePublishBtn').addEventListener('click', () => {
+            document.getElementById('publishModal').style.display = 'none';
+        });
+
+        document.getElementById('authorPublishForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitPublishBtn');
+            btn.innerText = "جاري إرسال الطلب... ⏳";
+            btn.disabled = true;
+
+            const requestData = {
+                authorName: document.getElementById('pubAuthorName').value,
+                authorPhone: document.getElementById('pubAuthorPhone').value,
+                title: document.getElementById('pubBookTitle').value,
+                category: document.getElementById('pubBookCategory').value,
+                desc: document.getElementById('pubBookDesc').value,
+                price: document.getElementById('pubBookPrice').value,
+                paperPrice: document.getElementById('pubBookPaperPrice').value,
+                coverUrl: document.getElementById('pubCoverUrl').value,
+                fileUrl: document.getElementById('pubFileUrl').value,
+                freePages: document.getElementById('pubFreePages').value.split('---').map(p => p.trim()),
+                date: new Date().toLocaleDateString('ar-EG'),
+                updatedAt: Date.now()
+            };
+
+            push(ref(db, 'publishRequests'), requestData).then(() => {
+                alert("تم إرسال طلب النشر بنجاح! سيتم مراجعة عملك والرد عليك. ✨");
+                document.getElementById('authorPublishForm').reset();
+                document.getElementById('publishModal').style.display = 'none';
+            }).catch(err => alert("خطأ أثناء إرسال الطلب: " + err.message))
+            .finally(() => {
+                btn.innerText = "إرسال طلب النشر 📩";
+                btn.disabled = false;
+            });
+        });
+
+        onValue(ref(db, 'publishRequests'), (snapshot) => {
+            const data = snapshot.val();
+            const container = document.getElementById('publishRequestsContainer');
+            allRequests = [];
+            if (data) {
+                let html = `
+                    <table class="requests-table">
+                        <thead>
+                            <tr>
+                                <th>الكاتب</th>
+                                <th>التواصل</th>
+                                <th>عنوان العمل</th>
+                                <th>النوع</th>
+                                <th>الوصف</th>
+                                <th>الإجراءات</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+                Object.keys(data).forEach(key => {
+                    const req = { id: key, ...data[key] };
+                    allRequests.push(req);
+                    html += `
+                        <tr>
+                            <td><strong>${req.authorName}</strong></td>
+                            <td><a href="https://wa.me/${req.authorPhone}" target="_blank" style="color:#25d366; text-decoration:none;">💬 ${req.authorPhone}</a></td>
+                            <td>${req.title}</td>
+                            <td>${req.category}</td>
+                            <td>${req.desc}</td>
+                            <td>
+                                <div style="display:flex; gap:5px;">
+                                    <button class="btn-primary" style="padding:4px 8px; font-size:0.8rem;" onclick="approveRequest('${req.id}')">قبول ونشر ✅</button>
+                                    <button class="btn-danger" style="padding:4px 8px; font-size:0.8rem;" onclick="rejectRequest('${req.id}')">رفض ❌</button>
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                });
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = '<p style="color: var(--text-muted);">لا توجد طلبات نشر جديدة حالياً.</p>';
+            }
+        });
+
+        window.approveRequest = function(reqId) {
+            const req = allRequests.find(r => r.id === reqId);
+            if (!req) return;
+
+            const newBook = {
+                title: `${req.title} (لـ ${req.authorName})`,
+                category: req.category,
+                desc: req.desc,
+                price: req.price,
+                paperPrice: req.paperPrice,
+                coverUrl: req.coverUrl || '',
+                fileUrl: req.fileUrl || '',
+                freePages: req.freePages || [],
+                reads: 0,
+                rating: 0,
+                ratingSum: 0,
+                ratingCount: 0,
+                updatedAt: Date.now()
+            };
+
+            push(ref(db, 'books'), newBook).then(() => {
+                remove(ref(db, 'publishRequests/' + reqId));
+                alert("تم قبول العمل ونشره بنجاح في المنصة! 🎉");
+            });
+        };
+
+        window.rejectRequest = function(reqId) {
+            if (confirm("هل انت متأكد من رفض وحذف طلب النشر هذا؟")) {
+                remove(ref(db, 'publishRequests/' + reqId)).then(() => {
+                    alert("تم رفض الطلب وحذفه.");
+                });
+            }
+        };
+
+        onValue(ref(db, 'siteContent'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                if (data.logo) {
+                    document.getElementById('siteLogo').innerText = data.logo;
+                    document.getElementById('adminSiteLogo').value = data.logo;
+                }
+                if (data.logoImg) {
+                    const imgEl = document.getElementById('siteLogoImg');
+                    imgEl.src = data.logoImg;
+                    imgEl.style.display = 'block';
+                    document.getElementById('adminSiteLogoImg').value = data.logoImg;
+                }
+                if (data.heroTitle) {
+                    document.getElementById('heroTitle').innerText = data.heroTitle;
+                    document.getElementById('adminHeroTitle').value = data.heroTitle;
+                }
+                if (data.heroSubtitle) {
+                    document.getElementById('heroSubtitle').innerText = data.heroSubtitle;
+                    document.getElementById('adminHeroSubtitle').value = data.heroSubtitle;
+                }
+                if (data.aboutTitle) {
+                    document.getElementById('aboutTitle').innerText = data.aboutTitle;
+                    document.getElementById('adminAboutTitle').value = data.aboutTitle;
+                }
+                if (data.aboutText) {
+                    document.getElementById('aboutText').innerText = data.aboutText;
+                    document.getElementById('adminAboutText').value = data.aboutText;
+                }
+            }
+        });
+
+        document.getElementById('siteContentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('saveContentBtn');
+            btn.innerText = "جاري الحفظ... ⏳";
+
+            const siteContent = {
+                logo: document.getElementById('adminSiteLogo').value,
+                logoImg: document.getElementById('adminSiteLogoImg').value,
+                heroTitle: document.getElementById('adminHeroTitle').value,
+                heroSubtitle: document.getElementById('adminHeroSubtitle').value,
+                aboutTitle: document.getElementById('adminAboutTitle').value,
+                aboutText: document.getElementById('adminAboutText').value
+            };
+
+            set(ref(db, 'siteContent'), siteContent).then(() => {
+                alert("تم تحديث نصوص الواجهة واللوجو بنجاح! 🎉");
+                btn.innerText = "تحديث نصوص الواجهة واللوجو 💾";
+            });
+        });
+
+        onValue(ref(db, 'books'), (snapshot) => {
+            const data = snapshot.val();
+            allBooks = [];
+            let totalReads = 0;
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    const book = { id: key, ...data[key] };
+                    allBooks.push(book);
+                    totalReads += (book.reads || 0);
+                });
+            }
+            const totalReadsElem = document.getElementById('totalBookReadsCount');
+            if (totalReadsElem) totalReadsElem.innerText = totalReads.toLocaleString('ar-EG');
+            renderBooks();
+        });
+
+        function renderStarRating(bookId, currentRating = 0, totalRatings = 0) {
+            const rounded = Math.round(currentRating);
+            let starsHtml = `<div class="rating-stars" data-id="${bookId}">`;
+            for (let i = 1; i <= 5; i++) {
+                const starChar = i <= rounded ? '★' : '☆';
+                starsHtml += `<span data-value="${i}">${starChar}</span>`;
+            }
+            starsHtml += ` <small>(${currentRating > 0 ? currentRating.toFixed(1) : '0'} / 5 - ${totalRatings} تقييم)</small></div>`;
+            return starsHtml;
+        }
+
+        window.rateBook = function(bookId, stars) {
+            runTransaction(ref(db, `books/${bookId}`), (book) => {
+                if (book) {
+                    const ratingSum = (book.ratingSum || 0) + stars;
+                    const ratingCount = (book.ratingCount || 0) + 1;
+                    book.ratingSum = ratingSum;
+                    book.ratingCount = ratingCount;
+                    book.rating = ratingSum / ratingCount;
+                }
+                return book;
+            }).then(() => alert("شكراً لتقييمك العمل! ⭐"));
+        };
+
+        window.shareBook = function(bookId) {
+            const book = allBooks.find(b => b.id === bookId);
+            if (!book) return;
+            
+            const shareUrl = book.customLink || `${window.location.origin}${window.location.pathname}?book=${book.id}`;
+            const textToShare = `إليك هذا العمل الأدبي للكاتب سعيد الشوادفي: ${book.title}`;
+
+            if (navigator.share) {
+                navigator.share({
+                    title: book.title,
+                    text: textToShare,
+                    url: shareUrl
+                }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(shareUrl).then(() => {
+                    alert('تم نسخ رابط العمل إلى الحافظة بنجاح! 📋');
+                }).catch(() => {
+                    alert('رابط العمل: ' + shareUrl);
+                });
+            }
+        };
+
+        window.handleDownload = function(bookId) {
+            const book = allBooks.find(b => b.id === bookId);
+            if (book && book.fileUrl) {
+                window.open(book.fileUrl, '_blank');
+            } else {
+                alert('عذراً، ملف الـ PDF غير متوفر للتحميل المباشر حالياً لهذه الرواية.');
+            }
+        };
+
+        function renderBooks() {
+            const grid = document.getElementById('booksGrid');
+            grid.innerHTML = '';
+            
+            let filtered = currentFilter === 'all' ? [...allBooks] : allBooks.filter(b => b.category === currentFilter);
+
+            filtered.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p style="text-align: center; grid-column: 1/-1; color: var(--text-muted);">لا توجد أعمال معروضة حالياً.</p>';
+                return;
+            }
+
+            filtered.forEach(book => {
+                const cover = book.coverUrl ? `<img src="${book.coverUrl}">` : book.title;
+                const bookUrl = book.customLink || `${window.location.origin}${window.location.pathname}?book=${book.id}`;
+                const readsCount = book.reads || 0;
+                
+                let storeLinksHtml = '';
+                if (book.amazonLink) {
+                    storeLinksHtml += `<a href="${book.amazonLink}" target="_blank" class="platform-btn btn-amazon">📦 متوفر على Amazon Kindle</a>`;
+                }
+                if (book.googlePlayLink) {
+                    storeLinksHtml += `<a href="${book.googlePlayLink}" target="_blank" class="platform-btn btn-googleplay">📲 متوفر على Google Play Books</a>`;
+                }
+                if (book.paperStoreLink) {
+                    storeLinksHtml += `<a href="${book.paperStoreLink}" target="_blank" class="platform-btn btn-publisher">📚 شراء النسخة الورقية</a>`;
+                }
+
+                const html = `
+                    <div class="book-card">
+                        <div>
+                            <div class="book-cover">${cover}</div>
+                            <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; line-height: 1.3; color: var(--accent-color);">${book.title}</h3>
+                            <p style="color: var(--text-muted); font-size: 0.92rem; margin: 8px 0;">${book.desc}</p>
+                            ${renderStarRating(book.id, book.rating || 0, book.ratingCount || 0)}
+                            <div class="book-stats">
+                                <span>📖 القراءات: ${readsCount.toLocaleString('ar-EG')}</span>
+                            </div>
+                            <div class="book-price">📱 الرقمية: ${book.price} | 📦 الورقية: ${book.paperPrice}</div>
+                            ${storeLinksHtml}
+                        </div>
+                        <div class="action-buttons-group">
+                            <button class="btn-primary btn-read" data-id="${book.id}">📖 قراءة بالموقع</button>
+                            <button class="btn-reviews btn-reviews-trigger" data-id="${book.id}">💬 آراء القراء</button>
+                            <div class="buy-buttons-grid">
+                                <button class="btn-buy-digital" data-id="${book.id}">📲 شراء الرقمية</button>
+                                <button class="btn-buy-paper" data-id="${book.id}">📦 شراء الورقية</button>
+                            </div>
+                            <a href="${bookUrl}" target="_blank" class="btn-link">🔗 رابط العمل</a>
+                            <div style="display: flex; gap: 8px; width: 100%;">
+                                <button class="btn-download" onclick="handleDownload('${book.id}')">📥 تحميل PDF</button>
+                                <button class="btn-share" onclick="shareBook('${book.id}')">🔗 مشاركة</button>
+                            </div>
+                            <div class="admin-controls" style="display: ${isAdmin ? 'flex' : 'none'};">
+                                <button class="btn-edit" data-id="${book.id}">تعديل ✏️</button>
+                                <button class="btn-danger btn-delete" data-id="${book.id}">حذف 🗑️</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.insertAdjacentHTML('beforeend', html);
+            });
+
+            document.querySelectorAll('.rating-stars span').forEach(star => {
+                star.addEventListener('click', (e) => {
+                    const bookId = e.target.parentElement.dataset.id;
+                    const val = parseInt(e.target.dataset.value);
+                    window.rateBook(bookId, val);
+                });
+            });
+
+            document.querySelectorAll('.btn-read').forEach(b => b.addEventListener('click', (e) => openReader(e.target.dataset.id)));
+            document.querySelectorAll('.btn-reviews-trigger').forEach(b => b.addEventListener('click', (e) => openReviewsModal(e.target.dataset.id)));
+            document.querySelectorAll('.btn-buy-digital').forEach(b => b.addEventListener('click', (e) => openBuyModal(e.target.dataset.id, 'digital')));
+            document.querySelectorAll('.btn-buy-paper').forEach(b => b.addEventListener('click', (e) => openBuyModal(e.target.dataset.id, 'paper')));
+            document.querySelectorAll('.btn-edit').forEach(b => b.addEventListener('click', (e) => editBook(e.target.dataset.id)));
+            document.querySelectorAll('.btn-delete').forEach(b => b.addEventListener('click', (e) => deleteBook(e.target.dataset.id)));
+        }
+
+        function openReviewsModal(bookId) {
+            selectedBookForReviews = allBooks.find(b => b.id === bookId);
+            if (!selectedBookForReviews) return;
+
+            document.getElementById('reviewsModalTitle').innerText = `💬 آراء القراء: ${selectedBookForReviews.title}`;
+            document.getElementById('reviewsModal').style.display = 'flex';
+            loadReviews(bookId);
+        }
+
+        function loadReviews(bookId) {
+            const container = document.getElementById('reviewsListContainer');
+            onValue(ref(db, `reviews/${bookId}`), (snapshot) => {
+                const data = snapshot.val();
+                container.innerHTML = '';
+                if (data) {
+                    Object.keys(data).forEach(reviewId => {
+                        const rev = data[reviewId];
+                        const deleteBtn = isAdmin ? `<button class="btn-danger" style="padding: 2px 6px; font-size: 0.75rem; width: auto;" onclick="deleteReview('${bookId}', '${reviewId}')">حذف 🗑️</button>` : '';
+                        const html = `
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <span class="review-author">👤 ${rev.name}</span>
+                                    <div style="display:flex; gap:8px; align-items:center;">
+                                        <span class="review-date">${rev.date}</span>
+                                        ${deleteBtn}
+                                    </div>
+                                </div>
+                                <div class="review-text">${rev.text}</div>
+                            </div>
+                        `;
+                        container.insertAdjacentHTML('beforeend', html);
+                    });
+                } else {
+                    container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">لا توجد مراجعات مكتوبة بعد. كن أول من يكتب رأيه! ✍️</p>';
+                }
+            });
+        }
+
+        document.getElementById('addReviewForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!selectedBookForReviews) return;
+
+            const nameInput = document.getElementById('reviewerName');
+            const textInput = document.getElementById('reviewerText');
+            const submitBtn = document.getElementById('submitReviewBtn');
+
+            submitBtn.innerText = "جاري الحفظ... ⏳";
+            submitBtn.disabled = true;
+
+            const newReview = {
+                name: nameInput.value.trim(),
+                text: textInput.value.trim(),
+                date: new Date().toLocaleDateString('ar-EG')
+            };
+
+            push(ref(db, `reviews/${selectedBookForReviews.id}`), newReview).then(() => {
+                alert("تم إضافة انطباعك ورأيك بنجاح! شكراً لك ❤️");
+                nameInput.value = '';
+                textInput.value = '';
+            }).catch(err => alert("حدث خطأ أثناء إضافة الرأي: " + err.message))
+            .finally(() => {
+                submitBtn.innerText = "إرسال الرأي 🚀";
+                submitBtn.disabled = false;
+            });
+        });
+
+        window.deleteReview = function(bookId, reviewId) {
+            if (confirm("هل انت متأكد من حذف هذه المراجعة؟")) {
+                remove(ref(db, `reviews/${bookId}/${reviewId}`)).then(() => {
+                    alert("تم حذف المراجعة بنجاح.");
+                });
+            }
+        };
+
+        document.getElementById('closeReviewsBtn').addEventListener('click', () => {
+            document.getElementById('reviewsModal').style.display = 'none';
+        });
+
+        document.getElementById('categoryTabs').addEventListener('click', (e) => {
+            if (e.target.classList.contains('tab-btn')) {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentFilter = e.target.dataset.cat;
+                renderBooks();
+            }
+        });
+
+        async function uploadFileToStorage(file, path) {
+            const sRef = storageRef(storage, `${path}/${Date.now()}_${file.name}`);
+            const snapshot = await uploadBytes(sRef, file);
+            return await getDownloadURL(snapshot.ref);
+        }
+
+        document.getElementById('addBookForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerText = "جاري رفع الملفات والحفظ... ⏳";
+            submitBtn.disabled = true;
+
+            try {
+                const coverFile = document.getElementById('coverFileInput').files[0];
+                const docFile = document.getElementById('docFileInput').files[0];
+
+                let finalCoverUrl = document.getElementById('coverUrlInput').value;
+                let finalDocUrl = document.getElementById('docUrlInput').value;
+
+                if (coverFile) {
+                    finalCoverUrl = await uploadFileToStorage(coverFile, 'covers');
+                }
+
+                if (docFile) {
+                    finalDocUrl = await uploadFileToStorage(docFile, 'documents');
+                }
+
+                const editId = document.getElementById('editBookId').value;
+                const bookData = {
+                    title: document.getElementById('bookTitle').value,
+                    category: document.getElementById('bookCategory').value,
+                    desc: document.getElementById('bookDesc').value,
+                    price: document.getElementById('bookPrice').value,
+                    paperPrice: document.getElementById('bookPaperPrice').value,
+                    customLink: document.getElementById('bookCustomLink').value,
+                    amazonLink: document.getElementById('amazonLink').value,
+                    googlePlayLink: document.getElementById('googlePlayLink').value,
+                    paperStoreLink: document.getElementById('paperStoreLink').value,
+                    coverUrl: finalCoverUrl,
+                    fileUrl: finalDocUrl,
+                    freePages: document.getElementById('bookFreePages').value.split('---').map(p => p.trim()),
+                    updatedAt: Date.now()
+                };
+
+                if (editId) {
+                    await update(ref(db, 'books/' + editId), bookData);
+                    alert("تم تحديث العمل بنجاح! 🎉");
+                } else {
+                    bookData.reads = 0;
+                    bookData.rating = 0;
+                    bookData.ratingSum = 0;
+                    bookData.ratingCount = 0;
+                    await push(ref(db, 'books'), bookData);
+                    alert("تم رفع الملفات ونشر العمل للجميع بنجاح! 🚀");
+                }
+                resetForm();
+            } catch (error) {
+                alert("حدث خطأ أثناء الرفع: " + error.message);
+            } finally {
+                submitBtn.innerText = "حفظ ونشر العمل للجميع 🚀";
+                submitBtn.disabled = false;
+            }
+        });
+
+        function resetForm() {
+            document.getElementById('addBookForm').reset();
+            document.getElementById('editBookId').value = '';
+            document.getElementById('bookCustomLink').value = '';
+            document.getElementById('amazonLink').value = '';
+            document.getElementById('googlePlayLink').value = '';
+            document.getElementById('paperStoreLink').value = '';
+        }
+
+        function editBook(id) {
+            const book = allBooks.find(b => b.id === id);
+            if (!book) return;
+
+            document.getElementById('editBookId').value = book.id;
+            document.getElementById('bookTitle').value = book.title;
+            document.getElementById('bookCategory').value = book.category || 'novel';
+            document.getElementById('bookDesc').value = book.desc;
+            document.getElementById('bookPrice').value = book.price;
+            document.getElementById('bookPaperPrice').value = book.paperPrice;
+            document.getElementById('bookCustomLink').value = book.customLink || '';
+            document.getElementById('amazonLink').value = book.amazonLink || '';
+            document.getElementById('googlePlayLink').value = book.googlePlayLink || '';
+            document.getElementById('paperStoreLink').value = book.paperStoreLink || '';
+            document.getElementById('coverUrlInput').value = book.coverUrl || '';
+            document.getElementById('docUrlInput').value = book.fileUrl || '';
+            document.getElementById('bookFreePages').value = book.freePages ? book.freePages.join('\n---\n') : '';
+
+            window.scrollTo({ top: document.getElementById('addBookForm').offsetTop - 20, behavior: 'smooth' });
+        }
+
+        function deleteBook(id) {
+            if (confirm('هل أنت متأكد من حذف هذا العمل نهائياً؟')) {
+                remove(ref(db, 'books/' + id)).then(() => {
+                    alert("تم حذف العمل بنجاح.");
+                });
+            }
+        }
+
+        let currentPages = [];
+        let currentPageIndex = 0;
+
+        function openReader(id) {
+            const book = allBooks.find(b => b.id === id);
+            if (!book) return;
+
+            runTransaction(ref(db, `books/${id}/reads`), (currentReads) => {
+                return (currentReads || 0) + 1;
+            });
+
+            currentPages = (book.freePages && book.freePages.length > 0 && book.freePages[0] !== "") ? book.freePages : ["المحتوى غير متاح حالياً."];
+            currentPageIndex = 0;
+
+            document.getElementById('readerTitle').innerText = book.title;
+            updateReader();
+            document.getElementById('readerModal').style.display = 'flex';
+        }
+
+        function updateReader() {
+            document.getElementById('readerText').innerText = currentPages[currentPageIndex];
+            document.getElementById('readerPageIndicator').innerText = `صفحة ${currentPageIndex + 1} من ${currentPages.length}`;
+        }
+
+        document.getElementById('prevPageBtn').addEventListener('click', () => {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                updateReader();
+            }
+        });
+
+        document.getElementById('nextPageBtn').addEventListener('click', () => {
+            if (currentPageIndex < currentPages.length - 1) {
+                currentPageIndex++;
+                updateReader();
+            }
+        });
+
+        document.getElementById('closeReaderBtn').addEventListener('click', () => {
+            document.getElementById('readerModal').style.display = 'none';
+        });
+
+        function openBuyModal(id, type) {
+            selectedBookForBuy = allBooks.find(b => b.id === id);
+            if (!selectedBookForBuy) return;
+
+            selectedOrderType = type;
+            const isDigital = type === 'digital';
+            const price = isDigital ? selectedBookForBuy.price : selectedBookForBuy.paperPrice;
+            const typeLabel = isDigital ? 'النسخة الرقمية (PDF)' : 'النسخة الورقية';
+
+            document.getElementById('buyTitle').innerText = `طلب: ${selectedBookForBuy.title}`;
+            document.getElementById('buySubtitle').innerText = `النوع: ${typeLabel} | السعر: ${price}`;
+            
+            document.getElementById('codMethod').style.display = isDigital ? 'none' : 'block';
+
+            document.querySelectorAll('.payment-details').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.payment-item').forEach(el => el.classList.remove('selected'));
+
+            document.getElementById('buyModal').style.display = 'flex';
+        }
+
+        window.togglePaymentDetail = function(element, phoneToCopy = null) {
+            const details = element.querySelector('.payment-details');
+            const isVisible = details.style.display === 'block';
+
+            document.querySelectorAll('.payment-details').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.payment-item').forEach(el => el.classList.remove('selected'));
+
+            if (!isVisible) {
+                details.style.display = 'block';
+                element.classList.add('selected');
+
+                if (phoneToCopy) {
+                    navigator.clipboard.writeText(phoneToCopy);
+                }
+            }
+        }
+
+        window.sendViaWhatsApp = function(method, btnElement) {
+            const formBox = btnElement.closest('.transfer-form');
+            const walletType = formBox.querySelector('.wallet-type')?.value;
+            const name = formBox.querySelector('.buyer-name')?.value.trim();
+            const phone = formBox.querySelector('.buyer-phone')?.value.trim();
+            const amount = formBox.querySelector('.buyer-amount')?.value.trim();
+            const address = formBox.querySelector('.buyer-address')?.value.trim();
+
+            if (!name || !phone || (method !== 'الدفع عند الاستلام' && !amount)) {
+                alert("يرجى ملء كافة البيانات المطلوبة أولاً.");
+                return;
+            }
+
+            const myWhatsAppNumber = "201096227242";
+            const orderTypeLabel = selectedOrderType === 'digital' ? 'النسخة الرقمية (PDF)' : 'النسخة الورقية';
+            
+            const finalPaymentMethod = walletType ? `${method} (${walletType})` : method;
+
+            let message = `مرحباً أستاذ سعيد، أود تأكيد طلب شراء كتاب:\n\n`;
+            message += `📖 *اسم الكتاب:* ${selectedBookForBuy.title}\n`;
+            message += `📌 *نوع النسخة:* ${orderTypeLabel}\n`;
+            message += `💳 *طريقة الدفع:* ${finalPaymentMethod}\n`;
+            message += `👤 *اسم المشتري:* ${name}\n`;
+            message += `📱 *رقم التواصل / المحول منه:* ${phone}\n`;
+
+            if (method === 'الدفع عند الاستلام') {
+                message += `📍 *عنوان الشحن:* ${address}\n`;
+            } else {
+                message += `💰 *المبلغ المحوّل:* ${amount} جنيه\n`;
+                message += `مرفق لكم إشعار التحويل للتأكيد.`;
+            }
+
+            const encodedMessage = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${encodedMessage}`;
+
+            window.open(whatsappUrl, '_blank');
+            closeBuy();
+        };
+
+        const closeBuy = () => { document.getElementById('buyModal').style.display = 'none'; };
+        document.getElementById('closeBuyBtn').addEventListener('click', closeBuy);
+        document.getElementById('closeBuyBtn2').addEventListener('click', closeBuy);
+    </script>
+</body>
+</html>

@@ -438,7 +438,7 @@
 
         <section class="hero">
             <h1 id="heroTitle">حيث تتجسد الحكايات وتستيقظ الظلال</h1>
-            <p id="heroSubtitle">مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح واقرأ العينات مباشرة أو اطلب النسخ الورقية والرقمية.</p>
+            <p id="heroSubtitle">مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي.<br>تصفح واقرأ مباشرة أو اطلب النسخ الورقية والرقمية.</p>
             <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; align-items: center;">
                 <a href="#books" class="btn-primary" style="width: auto;">تصفح الروايات 📚</a>
                 <button id="openPublishModalBtn" class="btn-publish-featured">انشر معنا ✒️ ✨</button>
@@ -447,7 +447,7 @@
 
         <section class="about-section">
             <h2 id="aboutTitle">عن الكاتب سعيد الشوادفي 🖋️</h2>
-            <p id="aboutText">كاتب وروائي ومصمم محتوى أدبي، يعتمد في أعماله على حبكة الغموض والتشويق والدراما الإنسانية. صدرت له العديد من الأعمال المميزة مثل رواية "ظلال لا تنام"، ورواية "ابن الغزال"، وإصدارات "كاتليا للنشر والتوزيع".</p>
+            <p id="aboutText">كاتب وروائي ومصمم محتوى أدبي، يعتمد في أعماله على حبكة الغموض والتشويق والدراما الإنسانية. صدرت له العديد من الأعمال المميزة مثل رواية "ظلال لا تنام"، ورواية "ابن الغزال".</p>
         </section>
 
         <!-- Admin Login Modal -->
@@ -550,7 +550,7 @@
                         <h4 style="color: var(--accent-color); margin-bottom: 10px; font-size: 0.95rem;">🛒 روابط منصات الشراء الخارجية (اختياري):</h4>
                         <div class="form-group"><label>📦 رابط الشراء من أمازون (Amazon Kindle):</label><input type="text" id="amazonLink" placeholder="https://www.amazon.com/dp/..."></div>
                         <div class="form-group"><label>📲 رابط الشراء من كتب جوجل (Google Play Books):</label><input type="text" id="googlePlayLink" placeholder="https://play.google.com/store/books/details/..."></div>
-                        <div class="form-group"><label>📚 رابط شراء النسخة الورقية (دار النشر/موقع):</label><input type="text" id="paperStoreLink" placeholder="https://..."></div>
+                        <div class="form-group"><label>📚 رابط شراء النسخة الورقية (موقع/مكتبة):</label><input type="text" id="paperStoreLink" placeholder="https://..."></div>
                     </div>
 
                     <div class="form-group">
@@ -1113,7 +1113,7 @@
                     storeLinksHtml += `<a href="${book.googlePlayLink}" target="_blank" class="platform-btn btn-googleplay">📲 متوفر على Google Play Books</a>`;
                 }
                 if (book.paperStoreLink) {
-                    storeLinksHtml += `<a href="${book.paperStoreLink}" target="_blank" class="platform-btn btn-publisher">📚 شراء الورقية عبر النشر والتوزيع</a>`;
+                    storeLinksHtml += `<a href="${book.paperStoreLink}" target="_blank" class="platform-btn btn-publisher">📚 شراء النسخة الورقية</a>`;
                 }
 
                 const html = `

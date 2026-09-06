@@ -870,7 +870,7 @@
                 </form>
             </div>
 
-            <div>
+            <div class="admin-section-box">
                 <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">📚 إضافة أو تعديل عمل أدبي:</h3>
                 <form id="addBookForm">
                     <input type="hidden" id="editBookId" value="">
@@ -917,6 +917,43 @@
                     <button type="submit" id="submitBtn" class="btn-primary" style="width: 100%;">حفظ ونشر العمل للجميع 🚀</button>
                 </form>
             </div>
+
+            <!-- التحكم في الخدمات الأدبية -->
+            <div class="admin-section-box">
+                <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">✍️ التحكم في قسم الخدمات الأدبية:</h3>
+                <form id="addServiceForm">
+                    <input type="hidden" id="editServiceId" value="">
+                    <div class="form-group"><label>عنوان الخدمة (مع الإيموجي):</label><input type="text" id="serviceTitle" placeholder="مثال: ✍️ التدقيق اللغوي والنحوي" required></div>
+                    <div class="form-group"><label>وصف الخدمة:</label><textarea id="serviceDesc" rows="2" placeholder="وصف الخدمة والتعريف بها..." required></textarea></div>
+                    <div class="form-group"><label>تفاصيل السعر / التكلفة:</label><input type="text" id="servicePrice" placeholder="مثال: التقييم حسب عدد الكلمات أو يبدأ من 300 جنيه" required></div>
+                    <button type="submit" id="submitServiceBtn" class="btn-primary" style="width: 100%;">حفظ الخدمة الأدبية 💾</button>
+                </form>
+            </div>
+
+            <!-- التحكم في الدورات والورش -->
+            <div class="admin-section-box">
+                <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">🎓 التحكم في قسم الدورات والورش:</h3>
+                <form id="addCourseForm">
+                    <input type="hidden" id="editCourseId" value="">
+                    <div class="form-group"><label>عنوان الدورة (مع الإيموجي):</label><input type="text" id="courseTitle" placeholder="مثال: 🖊️ ورشة صناعة الحبكة الروائية" required></div>
+                    <div class="form-group"><label>وصف الدورة:</label><textarea id="courseDesc" rows="2" placeholder="ماذا سيتعلم المتدرب..." required></textarea></div>
+                    <div class="form-group"><label>سعر الاشتراك:</label><input type="text" id="coursePrice" placeholder="مثال: الاشتراك: 250 جنيه" required></div>
+                    <div class="form-group"><label>رابط فيديو المقدمة (Embed URL):</label><input type="text" id="courseVideoUrl" placeholder="https://www.youtube.com/embed/..."></div>
+                    <button type="submit" id="submitCourseBtn" class="btn-primary" style="width: 100%;">حفظ الدورة التدريبية 💾</button>
+                </form>
+            </div>
+
+            <!-- التحكم في المنتجات الرقمية -->
+            <div>
+                <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">🛍️ التحكم في قسم المنتجات الرقمية:</h3>
+                <form id="addProductForm">
+                    <input type="hidden" id="editProductId" value="">
+                    <div class="form-group"><label>اسم المنتج الرقمي (مع الإيموجي):</label><input type="text" id="productTitle" placeholder="مثال: 📑 قوالب تنسيق الكتب الجاهزة" required></div>
+                    <div class="form-group"><label>وصف المنتج:</label><textarea id="productDesc" rows="2" placeholder="وصف المنتج ومميزاته..." required></textarea></div>
+                    <div class="form-group"><label>السعر:</label><input type="text" id="productPrice" placeholder="مثال: السعر: 100 جنيه" required></div>
+                    <button type="submit" id="submitProductBtn" class="btn-primary" style="width: 100%;">حفظ المنتج الرقمي 💾</button>
+                </form>
+            </div>
         </section>
 
         <h2 id="books" class="section-title">✨ الأعمال الأدبية والمعرض ✨</h2>
@@ -935,80 +972,15 @@
 
         <!-- 1. قسم الخدمات الأدبية والاستشارات -->
         <h2 id="services" class="section-title">✨ الخدمات الأدبية والاستشارات ✨</h2>
-        <div class="grid-container">
-            <div class="custom-card">
-                <div>
-                    <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent-color);">✍️ التدقيق اللغوي والنحوي</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">مراجعة وشاملة للنصوص، الروايات، والقصص مع تصحيح الأخطاء النحوية والإملائية وبناء الجمل.</p>
-                    <div class="card-price">التقييم حسب عدد الكلمات</div>
-                </div>
-                <button class="btn-primary" onclick="requestService('التدقيق اللغوي والنحوي')">أطلب الخدمة الآن 📲</button>
-            </div>
-            <div class="custom-card">
-                <div>
-                    <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent-color);">🎨 تصميم أغلفة الكتب</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">تصميم أغلفة إبداعية واحترافية متوافقة مع المقاييس العالمية للطباعة والنشر الإلكتروني.</p>
-                    <div class="card-price">يبدأ من 300 جنيه</div>
-                </div>
-                <button class="btn-primary" onclick="requestService('تصميم أغلفة الكتب')">أطلب الخدمة الآن 📲</button>
-            </div>
-            <div class="custom-card">
-                <div>
-                    <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent-color);">📖 تقييم وتطوير المسودات</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">قراءة نقدية احترافية للمسودة وتقييم الحبكة والأشخاص مع تقديم تقرير تحسيني متكامل.</p>
-                    <div class="card-price">حسب حجم المسودة</div>
-                </div>
-                <button class="btn-primary" onclick="requestService('تقييم وتطوير المسودات')">أطلب الخدمة الآن 📲</button>
-            </div>
-        </div>
+        <div class="grid-container" id="servicesGrid"></div>
 
         <!-- 2. قسم الدورات وورش العمل -->
         <h2 id="courses" class="section-title">🎓 الدورات وورش العمل 🎓</h2>
-        <div class="grid-container">
-            <div class="custom-card">
-                <div>
-                    <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent-color);">🖊️ ورشة صناعة الحبكة الروائية</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">تعلم أساسيات بناء الصراع، كتابة الشخصيات، ورسم أبعاد الرواية التشويقية من الفكرة حتى النهاية.</p>
-                    <div class="card-price">الاشتراك: 250 جنيه</div>
-                </div>
-                <div class="action-buttons-group">
-                    <button class="btn-secondary" onclick="openPreviewVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">🎬 مشاهدة المقدمة</button>
-                    <button class="btn-primary" onclick="requestCourse('ورشة صناعة الحبكة الروائية')">الاشتراك والدفع 🚀</button>
-                </div>
-            </div>
-            <div class="custom-card">
-                <div>
-                    <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent-color);">📚 أسرار النشر الرقمي والواجهات</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">دورة متكاملة تهدف لنشر كتبك عبر أمازون وجوجل بلاي وإنشاء المنصات الأدبية المخصصة.</p>
-                    <div class="card-price">الاشتراك: 300 جنيه</div>
-                </div>
-                <div class="action-buttons-group">
-                    <button class="btn-secondary" onclick="openPreviewVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">🎬 مشاهدة المقدمة</button>
-                    <button class="btn-primary" onclick="requestCourse('أسرار النشر الرقمي والواجهات')">الاشتراك والدفع 🚀</button>
-                </div>
-            </div>
-        </div>
+        <div class="grid-container" id="coursesGrid"></div>
 
         <!-- 5. قسم المنتجات الرقمية (Digital Goods) -->
         <h2 id="store" class="section-title">🛍️ متجر المنتجات الرقمية 🛍️</h2>
-        <div class="grid-container">
-            <div class="custom-card">
-                <div>
-                    <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent-color);">📑 قوالب تنسيق الكتب الجاهزة</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">قوالب Word وInDesign مصممة طبقاً لمقاسات الطباعة المعتمدة (14x20 سم) جاهزة للاستخدام.</p>
-                    <div class="card-price">السعر: 100 جنيه</div>
-                </div>
-                <button class="btn-buy-digital" onclick="requestDigitalProduct('قوالب تنسيق الكتب الجاهزة')">شراء وتحميل مباشر 📥</button>
-            </div>
-            <div class="custom-card">
-                <div>
-                    <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent-color);">🔖 فواصل كتب (Bookmarks) احترافية</h3>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">حزمة تصاميم جرافيك عالية الدقة لفواصل الكتب جاهزة للطباعة المباشرة بنفسك.</p>
-                    <div class="card-price">السعر: 50 جنيه</div>
-                </div>
-                <button class="btn-buy-digital" onclick="requestDigitalProduct('فواصل كتب احترافية')">شراء وتحميل مباشر 📥</button>
-            </div>
-        </div>
+        <div class="grid-container" id="productsGrid"></div>
 
         <!-- 4. روابط التسويق بالعمولة (Affiliate & Articles) -->
         <h2 id="blog" class="section-title">📝 المقالات والترشيحات الأدبية 📝</h2>
@@ -1019,7 +991,7 @@
                 <ul style="list-style-type: square; padding-right: 20px; font-size: 0.95rem; color: var(--text-color);">
                     <li style="margin-bottom: 8px;"><a href="https://www.scrivener.com" target="_blank" rel="sponsored" style="color: var(--accent-color); font-weight: bold;">Scrivener</a> - البرنامج الأفضل لتنظيم مسودات الروايات الكبيرة.</li>
                     <li style="margin-bottom: 8px;"><a href="https://www.canva.com" target="_blank" rel="sponsored" style="color: var(--accent-color); font-weight: bold;">Canva Pro</a> - لتصميم البوسترات الترويجية وفواصل الكتب.</li>
-                    <li style="margin-bottom: 8px;"><a href="https://www.amazon.com" target="_blank" rel="sponsored" style="color: var(--accent-color); font-weight: bold;">جهاز Kindle Paperwhite</a> - التجربة المثال لقراءة وتدقيق المسودات الأدبية.</li>
+                    <li style="margin-bottom: 8px;"><a href="https://www.amazon.com" target="_blank" rel="sponsored" style="color: var(--accent-color); font-weight: bold;">جهاز Kindle Paperwhite</a> - التجربة المثالية لقراءة وتدقيق المسودات الأدبية.</li>
                 </ul>
             </div>
         </div>
@@ -1231,6 +1203,9 @@
         const storage = getStorage(app);
 
         let allBooks = [];
+        let allServices = [];
+        let allCourses = [];
+        let allProducts = [];
         let allRequests = [];
         let currentFilter = 'all';
         let isAdmin = false;
@@ -1271,6 +1246,9 @@
                 isAdmin = false;
                 document.getElementById('adminPanel').style.display = 'none';
                 renderBooks();
+                renderServices();
+                renderCourses();
+                renderProducts();
             }
         };
 
@@ -1291,6 +1269,9 @@
                 document.getElementById('adminLoginForm').reset();
                 document.getElementById('adminPanel').style.display = 'block';
                 renderBooks();
+                renderServices();
+                renderCourses();
+                renderProducts();
             } else {
                 alert("اسم المستخدم أو كلمة السر غير صحيحة!");
             }
@@ -1467,6 +1448,261 @@
             });
         });
 
+        /* --- 1. جلب وإدارة الخدمات الأدبية --- */
+        onValue(ref(db, 'services'), (snapshot) => {
+            const data = snapshot.val();
+            allServices = [];
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    allServices.push({ id: key, ...data[key] });
+                });
+            } else {
+                allServices = [
+                    { id: 'def1', title: '✍️ التدقيق اللغوي والنحوي', desc: 'مراجعة وشاملة للنصوص، الروايات، والقصص مع تصحيح الأخطاء النحوية والإملائية وبناء الجمل.', price: 'التقييم حسب عدد الكلمات' },
+                    { id: 'def2', title: '📖 التنسيق والإخراج الفني للكتب', desc: 'تنسيق وإخراج داخلي احترافي للكتب والروايات وإعداد الجداول والمقاسات الجاهزة للطباعة والنشر الإلكتروني.', price: 'حسب عدد صفحات الكتاب' },
+                    { id: 'def3', title: '📖 تقييم وتطوير المسودات', desc: 'قراءة نقدية احترافية للمسودة وتقييم الحبكة والأشخاص مع تقديم تقرير تحسيني متكامل.', price: 'حسب حجم المسودة' }
+                ];
+            }
+            renderServices();
+        });
+
+        function renderServices() {
+            const container = document.getElementById('servicesGrid');
+            container.innerHTML = '';
+            allServices.forEach(item => {
+                const adminBtns = isAdmin ? `
+                    <div style="display:flex; gap:8px; margin-top:10px;">
+                        <button class="btn-edit" onclick="editService('${item.id}')">تعديل ✏️</button>
+                        <button class="btn-danger" onclick="deleteService('${item.id}')">حذف 🗑️</button>
+                    </div>` : '';
+
+                const html = `
+                    <div class="custom-card">
+                        <div>
+                            <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent-color);">${item.title}</h3>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">${item.desc}</p>
+                            <div class="card-price">${item.price}</div>
+                        </div>
+                        <button class="btn-primary" onclick="requestService('${item.title}')">أطلب الخدمة الآن 📲</button>
+                        ${adminBtns}
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        document.getElementById('addServiceForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editServiceId').value;
+            const data = {
+                title: document.getElementById('serviceTitle').value,
+                desc: document.getElementById('serviceDesc').value,
+                price: document.getElementById('servicePrice').value
+            };
+            if (editId && !editId.startsWith('def')) {
+                update(ref(db, 'services/' + editId), data).then(() => {
+                    alert("تم تحديث الخدمة بنجاح! 🎉");
+                    document.getElementById('addServiceForm').reset();
+                    document.getElementById('editServiceId').value = '';
+                });
+            } else {
+                push(ref(db, 'services'), data).then(() => {
+                    alert("تمت إضافة الخدمة الجديدة بنجاح! 🚀");
+                    document.getElementById('addServiceForm').reset();
+                    document.getElementById('editServiceId').value = '';
+                });
+            }
+        });
+
+        window.editService = function(id) {
+            const item = allServices.find(s => s.id === id);
+            if (!item) return;
+            document.getElementById('editServiceId').value = item.id;
+            document.getElementById('serviceTitle').value = item.title;
+            document.getElementById('serviceDesc').value = item.desc;
+            document.getElementById('servicePrice').value = item.price;
+            window.scrollTo({ top: document.getElementById('addServiceForm').offsetTop - 20, behavior: 'smooth' });
+        };
+
+        window.deleteService = function(id) {
+            if (confirm("هل انت متأكد من حذف هذه الخدمة؟")) {
+                if (!id.startsWith('def')) remove(ref(db, 'services/' + id));
+                else alert("الخدمات الافتراضية محفوظة.");
+            }
+        };
+
+        /* --- 2. جلب وإدارة الدورات والورش --- */
+        onValue(ref(db, 'courses'), (snapshot) => {
+            const data = snapshot.val();
+            allCourses = [];
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    allCourses.push({ id: key, ...data[key] });
+                });
+            } else {
+                allCourses = [
+                    { id: 'defC1', title: '🖊️ ورشة صناعة الحبكة الروائية', desc: 'تعلم أساسيات بناء الصراع، كتابة الشخصيات، ورسم أبعاد الرواية التشويقية من الفكرة حتى النهاية.', price: 'الاشتراك: 250 جنيه', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' },
+                    { id: 'defC2', title: '📚 أسرار النشر الرقمي والواجهات', desc: 'دورة متكاملة تهدف لنشر كتبك عبر أمازون وجوجل بلاي وإنشاء المنصات الأدبية المخصصة.', price: 'الاشتراك: 300 جنيه', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ' }
+                ];
+            }
+            renderCourses();
+        });
+
+        function renderCourses() {
+            const container = document.getElementById('coursesGrid');
+            container.innerHTML = '';
+            allCourses.forEach(item => {
+                const adminBtns = isAdmin ? `
+                    <div style="display:flex; gap:8px; margin-top:10px;">
+                        <button class="btn-edit" onclick="editCourse('${item.id}')">تعديل ✏️</button>
+                        <button class="btn-danger" onclick="deleteCourse('${item.id}')">حذف 🗑️</button>
+                    </div>` : '';
+
+                const videoBtn = item.videoUrl ? `<button class="btn-secondary" onclick="openPreviewVideo('${item.videoUrl}')">🎬 مشاهدة المقدمة</button>` : '';
+
+                const html = `
+                    <div class="custom-card">
+                        <div>
+                            <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent-color);">${item.title}</h3>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">${item.desc}</p>
+                            <div class="card-price">${item.price}</div>
+                        </div>
+                        <div class="action-buttons-group">
+                            ${videoBtn}
+                            <button class="btn-primary" onclick="requestCourse('${item.title}')">الاشتراك والدفع 🚀</button>
+                        </div>
+                        ${adminBtns}
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        document.getElementById('addCourseForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editCourseId').value;
+            const data = {
+                title: document.getElementById('courseTitle').value,
+                desc: document.getElementById('courseDesc').value,
+                price: document.getElementById('coursePrice').value,
+                videoUrl: document.getElementById('courseVideoUrl').value
+            };
+            if (editId && !editId.startsWith('def')) {
+                update(ref(db, 'courses/' + editId), data).then(() => {
+                    alert("تم تحديث الدورة بنجاح! 🎉");
+                    document.getElementById('addCourseForm').reset();
+                    document.getElementById('editCourseId').value = '';
+                });
+            } else {
+                push(ref(db, 'courses'), data).then(() => {
+                    alert("تمت إضافة الدورة بنجاح! 🚀");
+                    document.getElementById('addCourseForm').reset();
+                    document.getElementById('editCourseId').value = '';
+                });
+            }
+        });
+
+        window.editCourse = function(id) {
+            const item = allCourses.find(c => c.id === id);
+            if (!item) return;
+            document.getElementById('editCourseId').value = item.id;
+            document.getElementById('courseTitle').value = item.title;
+            document.getElementById('courseDesc').value = item.desc;
+            document.getElementById('coursePrice').value = item.price;
+            document.getElementById('courseVideoUrl').value = item.videoUrl || '';
+            window.scrollTo({ top: document.getElementById('addCourseForm').offsetTop - 20, behavior: 'smooth' });
+        };
+
+        window.deleteCourse = function(id) {
+            if (confirm("هل انت متأكد من حذف هذه الدورة؟")) {
+                if (!id.startsWith('def')) remove(ref(db, 'courses/' + id));
+                else alert("الدورات الافتراضية محفوظة.");
+            }
+        };
+
+        /* --- 3. جلب وإدارة المنتجات الرقمية --- */
+        onValue(ref(db, 'storeProducts'), (snapshot) => {
+            const data = snapshot.val();
+            allProducts = [];
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    allProducts.push({ id: key, ...data[key] });
+                });
+            } else {
+                allProducts = [
+                    { id: 'defP1', title: '📑 قوالب تنسيق الكتب الجاهزة', desc: 'قوالب Word وInDesign مصممة طبقاً لمقاسات الطباعة المعتمدة (14x20 سم) جاهزة للاستخدام.', price: 'السعر: 100 جنيه' },
+                    { id: 'defP2', title: '🔖 فواصل كتب (Bookmarks) احترافية', desc: 'حزمة تصاميم جرافيك عالية الدقة لفواصل الكتب جاهزة للطباعة المباشرة بنفسك.', price: 'السعر: 50 جنيه' }
+                ];
+            }
+            renderProducts();
+        });
+
+        function renderProducts() {
+            const container = document.getElementById('productsGrid');
+            container.innerHTML = '';
+            allProducts.forEach(item => {
+                const adminBtns = isAdmin ? `
+                    <div style="display:flex; gap:8px; margin-top:10px;">
+                        <button class="btn-edit" onclick="editProduct('${item.id}')">تعديل ✏️</button>
+                        <button class="btn-danger" onclick="deleteProduct('${item.id}')">حذف 🗑️</button>
+                    </div>` : '';
+
+                const html = `
+                    <div class="custom-card">
+                        <div>
+                            <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; color: var(--accent-color);">${item.title}</h3>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">${item.desc}</p>
+                            <div class="card-price">${item.price}</div>
+                        </div>
+                        <button class="btn-buy-digital" onclick="requestDigitalProduct('${item.title}')">شراء وتحميل مباشر 📥</button>
+                        ${adminBtns}
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        document.getElementById('addProductForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editProductId').value;
+            const data = {
+                title: document.getElementById('productTitle').value,
+                desc: document.getElementById('productDesc').value,
+                price: document.getElementById('productPrice').value
+            };
+            if (editId && !editId.startsWith('def')) {
+                update(ref(db, 'storeProducts/' + editId), data).then(() => {
+                    alert("تم تحديث المنتج بنجاح! 🎉");
+                    document.getElementById('addProductForm').reset();
+                    document.getElementById('editProductId').value = '';
+                });
+            } else {
+                push(ref(db, 'storeProducts'), data).then(() => {
+                    alert("تمت إضافة المنتج الرقمي بنجاح! 🚀");
+                    document.getElementById('addProductForm').reset();
+                    document.getElementById('editProductId').value = '';
+                });
+            }
+        });
+
+        window.editProduct = function(id) {
+            const item = allProducts.find(p => p.id === id);
+            if (!item) return;
+            document.getElementById('editProductId').value = item.id;
+            document.getElementById('productTitle').value = item.title;
+            document.getElementById('productDesc').value = item.desc;
+            document.getElementById('productPrice').value = item.price;
+            window.scrollTo({ top: document.getElementById('addProductForm').offsetTop - 20, behavior: 'smooth' });
+        };
+
+        window.deleteProduct = function(id) {
+            if (confirm("هل انت متأكد من حذف هذا المنتج؟")) {
+                if (!id.startsWith('def')) remove(ref(db, 'storeProducts/' + id));
+                else alert("المنتجات الافتراضية محفوظة.");
+            }
+        };
+
+        /* --- جلب الكتب والمعرض --- */
         onValue(ref(db, 'books'), (snapshot) => {
             const data = snapshot.val();
             allBooks = [];
@@ -1745,224 +1981,25 @@
 
                 if (editId) {
                     await update(ref(db, 'books/' + editId), bookData);
-                    alert("تم تحديث العمل بنجاح! 🎉");
+                    alert("تم تحديث بيانات العمل بنجاح! 🎉");
                 } else {
                     bookData.reads = 0;
                     bookData.rating = 0;
                     bookData.ratingSum = 0;
                     bookData.ratingCount = 0;
                     await push(ref(db, 'books'), bookData);
-                    alert("تم رفع الملفات ونشر العمل للجميع بنجاح! 🚀");
+                    alert("تم إضافة العمل ونشره للجميع بنجاح! 🚀");
                 }
-                resetForm();
-            } catch (error) {
-                alert("حدث خطأ أثناء الرفع: " + error.message);
+
+                document.getElementById('addBookForm').reset();
+                document.getElementById('editBookId').value = '';
+
+            } catch (err) {
+                alert("حدث خطأ أثناء الحفظ: " + err.message);
             } finally {
                 submitBtn.innerText = "حفظ ونشر العمل للجميع 🚀";
                 submitBtn.disabled = false;
             }
-        });
-
-        function resetForm() {
-            document.getElementById('addBookForm').reset();
-            document.getElementById('editBookId').value = '';
-            document.getElementById('bookCustomLink').value = '';
-            document.getElementById('amazonLink').value = '';
-            document.getElementById('googlePlayLink').value = '';
-        }
-
-        function editBook(id) {
-            const book = allBooks.find(b => b.id === id);
-            if (!book) return;
-
-            document.getElementById('editBookId').value = book.id;
-            document.getElementById('bookTitle').value = book.title;
-            document.getElementById('bookCategory').value = book.category || 'novel';
-            document.getElementById('bookDesc').value = book.desc;
-            document.getElementById('bookPrice').value = book.price;
-            document.getElementById('bookPaperPrice').value = book.paperPrice;
-            document.getElementById('bookCustomLink').value = book.customLink || '';
-            document.getElementById('amazonLink').value = book.amazonLink || '';
-            document.getElementById('googlePlayLink').value = book.googlePlayLink || '';
-            document.getElementById('coverUrlInput').value = book.coverUrl || '';
-            document.getElementById('docUrlInput').value = book.fileUrl || '';
-            document.getElementById('bookFreePages').value = book.freePages ? book.freePages.join('\n---\n') : '';
-
-            window.scrollTo({ top: document.getElementById('addBookForm').offsetTop - 20, behavior: 'smooth' });
-        }
-
-        function deleteBook(id) {
-            if (confirm('هل أنت متأكد من حذف هذا العمل نهائياً؟')) {
-                remove(ref(db, 'books/' + id)).then(() => {
-                    alert("تم حذف العمل بنجاح.");
-                });
-            }
-        }
-
-        let currentPages = [];
-        let currentPageIndex = 0;
-
-        function openReader(id) {
-            const book = allBooks.find(b => b.id === id);
-            if (!book) return;
-
-            runTransaction(ref(db, `books/${id}/reads`), (currentReads) => {
-                return (currentReads || 0) + 1;
-            });
-
-            currentPages = (book.freePages && book.freePages.length > 0 && book.freePages[0] !== "") ? book.freePages : ["المحتوى غير متاح حالياً."];
-            currentPageIndex = 0;
-
-            document.getElementById('readerTitle').innerText = book.title;
-            updateReader();
-            document.getElementById('readerModal').style.display = 'flex';
-        }
-
-        function updateReader() {
-            document.getElementById('readerText').innerText = currentPages[currentPageIndex];
-            document.getElementById('readerPageIndicator').innerText = `صفحة ${currentPageIndex + 1} من ${currentPages.length}`;
-        }
-
-        document.getElementById('prevPageBtn').addEventListener('click', () => {
-            if (currentPageIndex > 0) {
-                currentPageIndex--;
-                updateReader();
-            }
-        });
-
-        document.getElementById('nextPageBtn').addEventListener('click', () => {
-            if (currentPageIndex < currentPages.length - 1) {
-                currentPageIndex++;
-                updateReader();
-            }
-        });
-
-        document.getElementById('closeReaderBtn').addEventListener('click', () => {
-            document.getElementById('readerModal').style.display = 'none';
-        });
-
-        function openBuyModal(id, type) {
-            selectedBookForBuy = allBooks.find(b => b.id === id);
-            if (!selectedBookForBuy) return;
-
-            selectedOrderType = type;
-            const isDigital = type === 'digital';
-            const price = isDigital ? selectedBookForBuy.price : selectedBookForBuy.paperPrice;
-            const typeLabel = isDigital ? 'النسخة الرقمية (PDF)' : 'النسخة الورقية';
-
-            document.getElementById('buyTitle').innerText = `طلب: ${selectedBookForBuy.title}`;
-            document.getElementById('buySubtitle').innerText = `النوع: ${typeLabel} | السعر: ${price}`;
-            
-            document.getElementById('codMethod').style.display = isDigital ? 'none' : 'block';
-
-            document.querySelectorAll('.payment-details').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.payment-item').forEach(el => el.classList.remove('selected'));
-
-            document.getElementById('buyModal').style.display = 'flex';
-        }
-
-        window.togglePaymentDetail = function(element, phoneToCopy = null) {
-            const details = element.querySelector('.payment-details');
-            const isVisible = details.style.display === 'block';
-
-            document.querySelectorAll('.payment-details').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.payment-item').forEach(el => el.classList.remove('selected'));
-
-            if (!isVisible) {
-                details.style.display = 'block';
-                element.classList.add('selected');
-
-                if (phoneToCopy) {
-                    navigator.clipboard.writeText(phoneToCopy);
-                }
-            }
-        }
-
-        window.sendViaWhatsApp = function(method, btnElement) {
-            const formBox = btnElement.closest('.transfer-form');
-            const walletType = formBox.querySelector('.wallet-type')?.value;
-            const name = formBox.querySelector('.buyer-name')?.value.trim();
-            const phone = formBox.querySelector('.buyer-phone')?.value.trim();
-            const amount = formBox.querySelector('.buyer-amount')?.value.trim();
-            const address = formBox.querySelector('.buyer-address')?.value.trim();
-
-            if (!name || !phone || (method !== 'الدفع عند الاستلام' && !amount)) {
-                alert("يرجى ملء كافة البيانات المطلوبة أولاً.");
-                return;
-            }
-
-            const myWhatsAppNumber = "201096227242";
-            const orderTypeLabel = selectedOrderType === 'digital' ? 'النسخة الرقمية (PDF)' : 'النسخة الورقية';
-            
-            const finalPaymentMethod = walletType ? `${method} (${walletType})` : method;
-
-            let message = `مرحباً أستاذ سعيد، أود تأكيد طلب شراء:\n\n`;
-            message += `📖 *العنصر المطلوبة:* ${selectedBookForBuy ? selectedBookForBuy.title : 'طلب خدمة/منتج'}\n`;
-            message += `📌 *نوع الطلب:* ${orderTypeLabel}\n`;
-            message += `💳 *طريقة الدفع:* ${finalPaymentMethod}\n`;
-            message += `👤 *الاسم:* ${name}\n`;
-            message += `📱 *رقم التواصل / المحول منه:* ${phone}\n`;
-
-            if (method === 'الدفع عند الاستلام') {
-                message += `📍 *عنوان الشحن:* ${address}\n`;
-            } else {
-                message += `💰 *المبلغ المحوّل:* ${amount} جنيه\n`;
-                message += `مرفق لكم إشعار التحويل للتأكيد.`;
-            }
-
-            const encodedMessage = encodeURIComponent(message);
-            const whatsappUrl = `https://wa.me/${myWhatsAppNumber}?text=${encodedMessage}`;
-
-            window.open(whatsappUrl, '_blank');
-            closeBuy();
-        };
-
-        const closeBuy = () => { document.getElementById('buyModal').style.display = 'none'; };
-        document.getElementById('closeBuyBtn').addEventListener('click', closeBuy);
-        document.getElementById('closeBuyBtn2').addEventListener('click', closeBuy);
-
-        /* دمج الخدمات الجديدة والجوانب التنظيمية */
-        window.requestService = function(serviceName) {
-            selectedBookForBuy = { title: serviceName };
-            selectedOrderType = 'service';
-            openBuyModalCustom(`طلب خدمة: ${serviceName}`, 'الدفع والاستشارة عبر واتساب/InstaPay');
-        };
-
-        window.requestCourse = function(courseName) {
-            selectedBookForBuy = { title: courseName };
-            selectedOrderType = 'course';
-            openBuyModalCustom(`الاشتراك في: ${courseName}`, 'تأكيد الدفع لاستلام رابط الدورة الحصري');
-        };
-
-        window.requestDigitalProduct = function(productName) {
-            selectedBookForBuy = { title: productName };
-            selectedOrderType = 'digital_product';
-            openBuyModalCustom(`شراء منتج رقمي: ${productName}`, 'تأكيد الدفع لاستلام رابط التحميل المباشر');
-        };
-
-        window.openSupportModal = function() {
-            selectedBookForBuy = { title: 'دعم الكاتب / رعاية فصل جديد' };
-            selectedOrderType = 'support';
-            openBuyModalCustom('💖 دعم الكاتب / رعاية فصل جديد', 'مساهمتك تساعدنا في الاستمرار وتوفير فصول ومحتوى حصري!');
-        };
-
-        function openBuyModalCustom(title, subtitle) {
-            document.getElementById('buyTitle').innerText = title;
-            document.getElementById('buySubtitle').innerText = subtitle;
-            document.getElementById('codMethod').style.display = 'none';
-            document.querySelectorAll('.payment-details').forEach(el => el.style.display = 'none');
-            document.querySelectorAll('.payment-item').forEach(el => el.classList.remove('selected'));
-            document.getElementById('buyModal').style.display = 'flex';
-        }
-
-        window.openPreviewVideo = function(url) {
-            document.getElementById('videoIframe').src = url;
-            document.getElementById('videoModal').style.display = 'flex';
-        };
-
-        document.getElementById('closeVideoBtn').addEventListener('click', () => {
-            document.getElementById('videoIframe').src = '';
-            document.getElementById('videoModal').style.display = 'none';
         });
     </script>
 </body>

@@ -440,6 +440,7 @@
             width: 100%; 
             flex: 1; 
             font-family: 'Tajawal', sans-serif;
+            border: none;
         }
         .btn-download:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4); }
 
@@ -760,7 +761,7 @@
 
             <!-- 3. زر الدعم والرعاية الحصري للمبدعين -->
             <div style="margin-bottom: 25px;">
-                <button class="btn-primary" onclick="openSupportModal()" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); font-size: 1.05rem;">💖 ادعم الكاتب / رعاية فصل جديد</button>
+                <button class="btn-primary" id="supportAuthorBtn" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); font-size: 1.05rem;">💖 ادعم الكاتب / رعاية فصل جديد</button>
             </div>
 
             <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; align-items: center;">
@@ -1070,7 +1071,7 @@
                 <!-- 3. زر ادعم الكاتب داخل صفحة القراءة -->
                 <div class="support-author-box">
                     <p style="font-size: 0.95rem; color: var(--text-color); margin-bottom: 8px;">هل أعجبك الفصل؟ يمكنك دعم الكاتب لرعاية كتابة الفصول التالية ❤️</p>
-                    <button class="btn-primary" onclick="openSupportModal()" style="padding: 8px 18px; font-size: 0.9rem; background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);">💖 ادعم الكاتب / رعاية فصل</button>
+                    <button class="btn-primary" id="readerSupportBtn" style="padding: 8px 18px; font-size: 0.9rem; background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);">💖 ادعم الكاتب / رعاية فصل</button>
                 </div>
             </div>
         </div>
@@ -1212,6 +1213,82 @@
         let selectedBookForBuy = null;
         let selectedOrderType = 'digital';
         let selectedBookForReviews = null;
+        let currentReaderBook = null;
+        let currentReaderPage = 0;
+
+        const WHATSAPP_NUMBER = "201096227242";
+
+        // وظيفة فتح نافذة الدعم وطرق الدفع العامة
+        window.openSupportModal = function() {
+            document.getElementById('buyTitle').innerText = "💖 دعم الكاتب / رعاية فصل جديد";
+            document.getElementById('buySubtitle').innerText = "شكراً لدعمك ومساهمتك في استمرار المسيرة الإبداعية ورعاية كتابة الفصول الجديدة!";
+            
+            const codEl = document.getElementById('codMethod');
+            if(codEl) codEl.style.display = 'none';
+
+            document.getElementById('buyModal').style.display = 'flex';
+        };
+
+        // ربط أزرار ادعم الكاتب بفتح طرق الدفع
+        document.getElementById('supportAuthorBtn').addEventListener('click', window.openSupportModal);
+        
+        const readerSupportBtn = document.getElementById('readerSupportBtn');
+        if (readerSupportBtn) {
+            readerSupportBtn.addEventListener('click', () => {
+                document.getElementById('readerModal').style.display = 'none';
+                window.openSupportModal();
+            });
+        }
+
+        // إغلاق نافذة الشراء والدفع
+        const closeBuyModal = () => {
+            document.getElementById('buyModal').style.display = 'none';
+        };
+        document.getElementById('closeBuyBtn').addEventListener('click', closeBuyModal);
+        document.getElementById('closeBuyBtn2').addEventListener('click', closeBuyModal);
+
+        window.togglePaymentDetail = function(element, copyNum) {
+            document.querySelectorAll('.payment-item').forEach(item => {
+                if (item !== element) {
+                    item.classList.remove('selected');
+                    const details = item.querySelector('.payment-details');
+                    if (details) details.style.display = 'none';
+                }
+            });
+
+            element.classList.toggle('selected');
+            const details = element.querySelector('.payment-details');
+            if (details) {
+                const isDisplayed = details.style.display === 'block';
+                details.style.display = isDisplayed ? 'none' : 'block';
+            }
+
+            if (copyNum && navigator.clipboard) {
+                navigator.clipboard.writeText(copyNum).catch(() => {});
+            }
+        };
+
+        window.sendViaWhatsApp = function(methodName, btnElement) {
+            const form = btnElement.closest('.transfer-form');
+            const name = form.querySelector('.buyer-name')?.value || '';
+            const phone = form.querySelector('.buyer-phone')?.value || '';
+            const amount = form.querySelector('.buyer-amount')?.value || '';
+            const address = form.querySelector('.buyer-address')?.value || '';
+            const walletType = form.querySelector('.wallet-type')?.value || '';
+
+            const title = document.getElementById('buyTitle').innerText;
+
+            let msg = `مرحباً أستاذ سعيد، أرغب في التأكيد على الطلب/الدعم التالي:\n\n`;
+            msg += `📌 الموضوع/العمل: ${title}\n`;
+            msg += `💳 طريقة التحويل: ${methodName}${walletType ? ` (${walletType})` : ''}\n`;
+            if (name) msg += `👤 الاسم: ${name}\n`;
+            if (phone) msg += `📱 رقم التواصل/المحفظة: ${phone}\n`;
+            if (amount) msg += `💰 المبلغ: ${amount} جنيه\n`;
+            if (address) msg += `📍 العنوان بالتفصيل: ${address}\n`;
+
+            const encodedMsg = encodeURIComponent(msg);
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`, '_blank');
+        };
 
         if (!sessionStorage.getItem('visited')) {
             sessionStorage.setItem('visited', 'true');
@@ -1491,6 +1568,14 @@
             });
         }
 
+        window.requestService = function(title) {
+            document.getElementById('buyTitle').innerText = title;
+            document.getElementById('buySubtitle').innerText = "اختر الوسيلة المناسبة لطلب ودفع رسوم الخدمة الأدبية:";
+            const codEl = document.getElementById('codMethod');
+            if(codEl) codEl.style.display = 'none';
+            document.getElementById('buyModal').style.display = 'flex';
+        };
+
         document.getElementById('addServiceForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const editId = document.getElementById('editServiceId').value;
@@ -1578,6 +1663,24 @@
             });
         }
 
+        window.requestCourse = function(title) {
+            document.getElementById('buyTitle').innerText = title;
+            document.getElementById('buySubtitle').innerText = "اختر الوسيلة المناسبة لدفع اشتراك الدورة:";
+            const codEl = document.getElementById('codMethod');
+            if(codEl) codEl.style.display = 'none';
+            document.getElementById('buyModal').style.display = 'flex';
+        };
+
+        window.openPreviewVideo = function(url) {
+            document.getElementById('videoIframe').src = url;
+            document.getElementById('videoModal').style.display = 'flex';
+        };
+
+        document.getElementById('closeVideoBtn').addEventListener('click', () => {
+            document.getElementById('videoIframe').src = '';
+            document.getElementById('videoModal').style.display = 'none';
+        });
+
         document.getElementById('addCourseForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const editId = document.getElementById('editCourseId').value;
@@ -1662,6 +1765,14 @@
             });
         }
 
+        window.requestDigitalProduct = function(title) {
+            document.getElementById('buyTitle').innerText = title;
+            document.getElementById('buySubtitle').innerText = "اختر طريقة الدفع المناسبة لتحصيل وسحب المنتج الرقمي فوراً:";
+            const codEl = document.getElementById('codMethod');
+            if(codEl) codEl.style.display = 'none';
+            document.getElementById('buyModal').style.display = 'flex';
+        };
+
         document.getElementById('addProductForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const editId = document.getElementById('editProductId').value;
@@ -1724,7 +1835,7 @@
             let starsHtml = `<div class="rating-stars" data-id="${bookId}">`;
             for (let i = 1; i <= 5; i++) {
                 const starChar = i <= rounded ? '★' : '☆';
-                starsHtml += `<span data-value="${i}">${starChar}</span>`;
+                starsHtml += `<span onclick="rateBook('${bookId}', ${i})">${starChar}</span>`;
             }
             starsHtml += ` <small>(${currentRating > 0 ? currentRating.toFixed(1) : '0'} / 5 - ${totalRatings} تقييم)</small></div>`;
             return starsHtml;
@@ -1774,6 +1885,132 @@
             }
         };
 
+        window.buyBookDigital = function(bookId) {
+            const book = allBooks.find(b => b.id === bookId);
+            if (!book) return;
+            selectedBookForBuy = book;
+            selectedOrderType = 'digital';
+            document.getElementById('buyTitle').innerText = book.title + " (نسخة رقمية)";
+            document.getElementById('buySubtitle').innerText = `سعر النسخة الرقمية: ${book.price}`;
+            const codEl = document.getElementById('codMethod');
+            if(codEl) codEl.style.display = 'none';
+            document.getElementById('buyModal').style.display = 'flex';
+        };
+
+        window.buyBookPaper = function(bookId) {
+            const book = allBooks.find(b => b.id === bookId);
+            if (!book) return;
+            selectedBookForBuy = book;
+            selectedOrderType = 'paper';
+            document.getElementById('buyTitle').innerText = book.title + " (نسخة ورقية)";
+            document.getElementById('buySubtitle').innerText = `سعر النسخة الورقية: ${book.paperPrice}`;
+            const codEl = document.getElementById('codMethod');
+            if(codEl) codEl.style.display = 'block';
+            document.getElementById('buyModal').style.display = 'flex';
+        };
+
+        window.openReader = function(bookId) {
+            const book = allBooks.find(b => b.id === bookId);
+            if (!book) return;
+
+            runTransaction(ref(db, `books/${bookId}/reads`), (currentReads) => {
+                return (currentReads || 0) + 1;
+            });
+
+            if (!book.freePages || book.freePages.length === 0) {
+                alert('عذراً، لا توجد صفحات قراءة مباشرة متاحة لهذه الرواية حالياً.');
+                return;
+            }
+
+            currentReaderBook = book;
+            currentReaderPage = 0;
+            updateReaderUI();
+            document.getElementById('readerModal').style.display = 'flex';
+        };
+
+        function updateReaderUI() {
+            if (!currentReaderBook) return;
+            document.getElementById('readerTitle').innerText = currentReaderBook.title;
+            document.getElementById('readerText').innerText = currentReaderBook.freePages[currentReaderPage];
+            document.getElementById('readerPageIndicator').innerText = `الصفحة ${currentReaderPage + 1} من ${currentReaderBook.freePages.length}`;
+        }
+
+        document.getElementById('prevPageBtn').addEventListener('click', () => {
+            if (currentReaderPage > 0) {
+                currentReaderPage--;
+                updateReaderUI();
+            }
+        });
+
+        document.getElementById('nextPageBtn').addEventListener('click', () => {
+            if (currentReaderBook && currentReaderPage < currentReaderBook.freePages.length - 1) {
+                currentReaderPage++;
+                updateReaderUI();
+            }
+        });
+
+        document.getElementById('closeReaderBtn').addEventListener('click', () => {
+            document.getElementById('readerModal').style.display = 'none';
+        });
+
+        window.openReviews = function(bookId) {
+            const book = allBooks.find(b => b.id === bookId);
+            if (!book) return;
+            selectedBookForReviews = book;
+            document.getElementById('reviewsModalTitle').innerText = `💬 آراء القراء - ${book.title}`;
+            
+            const container = document.getElementById('reviewsListContainer');
+            container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">جاري تحميل المراجعات... ⏳</p>';
+
+            onValue(ref(db, `bookReviews/${book.id}`), (snapshot) => {
+                const data = snapshot.val();
+                container.innerHTML = '';
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        const rev = data[key];
+                        const revHtml = `
+                            <div class="review-card">
+                                <div class="review-header">
+                                    <span class="review-author">${rev.name}</span>
+                                    <span class="review-date">${rev.date}</span>
+                                </div>
+                                <div class="review-text">${rev.text}</div>
+                            </div>
+                        `;
+                        container.insertAdjacentHTML('beforeend', revHtml);
+                    });
+                } else {
+                    container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">لا توجد مراجعات مكتوبة بعد. كن أول من يكتب رأيه! ✍️</p>';
+                }
+            }, { onlyOnce: true });
+
+            document.getElementById('reviewsModal').style.display = 'flex';
+        };
+
+        document.getElementById('closeReviewsBtn').addEventListener('click', () => {
+            document.getElementById('reviewsModal').style.display = 'none';
+        });
+
+        document.getElementById('addReviewForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (!selectedBookForReviews) return;
+
+            const name = document.getElementById('reviewerName').value;
+            const text = document.getElementById('reviewerText').value;
+
+            const newReview = {
+                name: name,
+                text: text,
+                date: new Date().toLocaleDateString('ar-EG')
+            };
+
+            push(ref(db, `bookReviews/${selectedBookForReviews.id}`), newReview).then(() => {
+                alert("تم إرسال رأيك بنجاح! شكراً لك. ✨");
+                document.getElementById('addReviewForm').reset();
+                openReviews(selectedBookForReviews.id);
+            });
+        });
+
         function renderBooks() {
             const grid = document.getElementById('booksGrid');
             grid.innerHTML = '';
@@ -1799,6 +2036,12 @@
                     storeLinksHtml += `<a href="${book.googlePlayLink}" target="_blank" class="platform-btn btn-googleplay">📲 متوفر على Google Play Books</a>`;
                 }
 
+                const adminBtns = isAdmin ? `
+                    <div style="display:flex; gap:8px; margin-top:10px;">
+                        <button class="btn-edit" onclick="editBook('${book.id}')">تعديل ✏️</button>
+                        <button class="btn-danger" onclick="deleteBook('${book.id}')">حذف 🗑️</button>
+                    </div>` : '';
+
                 const html = `
                     <div class="book-card">
                         <div>
@@ -1813,194 +2056,126 @@
                             ${storeLinksHtml}
                         </div>
                         <div class="action-buttons-group">
-                            <button class="btn-primary btn-read" data-id="${book.id}">📖 قراءة بالموقع</button>
-                            <button class="btn-reviews btn-reviews-trigger" data-id="${book.id}">💬 آراء القراء</button>
+                            <button class="btn-primary" onclick="openReader('${book.id}')">اقرأ مجاناً 📖</button>
                             <div class="buy-buttons-grid">
-                                <button class="btn-buy-digital" data-id="${book.id}">📲 شراء الرقمية</button>
-                                <button class="btn-buy-paper" data-id="${book.id}">📦 شراء الورقية</button>
+                                <button class="btn-buy-digital" onclick="buyBookDigital('${book.id}')">شراء رقمية 📱</button>
+                                <button class="btn-buy-paper" onclick="buyBookPaper('${book.id}')">طلب ورقية 📦</button>
                             </div>
-                            <div style="display: flex; gap: 8px; width: 100%;">
-                                <button class="btn-download" onclick="handleDownload('${book.id}')">📥 تحميل PDF</button>
-                                <button class="btn-share" onclick="shareBook('${book.id}')">🔗 مشاركة</button>
+                            <div style="display:flex; gap:8px;">
+                                <button class="btn-download" onclick="handleDownload('${book.id}')">تحميل PDF 📄</button>
+                                <button class="btn-share" onclick="shareBook('${book.id}')">مشاركة 🔗</button>
                             </div>
-                            <div class="admin-controls" style="display: ${isAdmin ? 'flex' : 'none'};">
-                                <button class="btn-edit" data-id="${book.id}">تعديل ✏️</button>
-                                <button class="btn-danger btn-delete" data-id="${book.id}">حذف 🗑️</button>
-                            </div>
+                            <button class="btn-reviews" onclick="openReviews('${book.id}')">💬 آراء القراء والمراجعات</button>
                         </div>
+                        ${adminBtns}
                     </div>
                 `;
                 grid.insertAdjacentHTML('beforeend', html);
             });
-
-            document.querySelectorAll('.rating-stars span').forEach(star => {
-                star.addEventListener('click', (e) => {
-                    const bookId = e.target.parentElement.dataset.id;
-                    const val = parseInt(e.target.dataset.value);
-                    window.rateBook(bookId, val);
-                });
-            });
-
-            document.querySelectorAll('.btn-read').forEach(b => b.addEventListener('click', (e) => openReader(e.target.dataset.id)));
-            document.querySelectorAll('.btn-reviews-trigger').forEach(b => b.addEventListener('click', (e) => openReviewsModal(e.target.dataset.id)));
-            document.querySelectorAll('.btn-buy-digital').forEach(b => b.addEventListener('click', (e) => openBuyModal(e.target.dataset.id, 'digital')));
-            document.querySelectorAll('.btn-buy-paper').forEach(b => b.addEventListener('click', (e) => openBuyModal(e.target.dataset.id, 'paper')));
-            document.querySelectorAll('.btn-edit').forEach(b => b.addEventListener('click', (e) => editBook(e.target.dataset.id)));
-            document.querySelectorAll('.btn-delete').forEach(b => b.addEventListener('click', (e) => deleteBook(e.target.dataset.id)));
         }
 
-        function openReviewsModal(bookId) {
-            selectedBookForReviews = allBooks.find(b => b.id === bookId);
-            if (!selectedBookForReviews) return;
-
-            document.getElementById('reviewsModalTitle').innerText = `💬 آراء القراء: ${selectedBookForReviews.title}`;
-            document.getElementById('reviewsModal').style.display = 'flex';
-            loadReviews(bookId);
-        }
-
-        function loadReviews(bookId) {
-            const container = document.getElementById('reviewsListContainer');
-            onValue(ref(db, `reviews/${bookId}`), (snapshot) => {
-                const data = snapshot.val();
-                container.innerHTML = '';
-                if (data) {
-                    Object.keys(data).forEach(reviewId => {
-                        const rev = data[reviewId];
-                        const deleteBtn = isAdmin ? `<button class="btn-danger" style="padding: 2px 6px; font-size: 0.75rem; width: auto;" onclick="deleteReview('${bookId}', '${reviewId}')">حذف 🗑️</button>` : '';
-                        const html = `
-                            <div class="review-card">
-                                <div class="review-header">
-                                    <span class="review-author">👤 ${rev.name}</span>
-                                    <div style="display:flex; gap:8px; align-items:center;">
-                                        <span class="review-date">${rev.date}</span>
-                                        ${deleteBtn}
-                                    </div>
-                                </div>
-                                <div class="review-text">${rev.text}</div>
-                            </div>
-                        `;
-                        container.insertAdjacentHTML('beforeend', html);
-                    });
-                } else {
-                    container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">لا توجد مراجعات مكتوبة بعد. كن أول من يكتب رأيه! ✍️</p>';
-                }
-            });
-        }
-
-        document.getElementById('addReviewForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (!selectedBookForReviews) return;
-
-            const nameInput = document.getElementById('reviewerName');
-            const textInput = document.getElementById('reviewerText');
-            const submitBtn = document.getElementById('submitReviewBtn');
-
-            submitBtn.innerText = "جاري الحفظ... ⏳";
-            submitBtn.disabled = true;
-
-            const newReview = {
-                name: nameInput.value.trim(),
-                text: textInput.value.trim(),
-                date: new Date().toLocaleDateString('ar-EG')
-            };
-
-            push(ref(db, `reviews/${selectedBookForReviews.id}`), newReview).then(() => {
-                alert("تم إضافة انطباعك ورأيك بنجاح! شكراً لك ❤️");
-                nameInput.value = '';
-                textInput.value = '';
-            }).catch(err => alert("حدث خطأ أثناء إضافة الرأي: " + err.message))
-            .finally(() => {
-                submitBtn.innerText = "إرسال الرأي 🚀";
-                submitBtn.disabled = false;
-            });
-        });
-
-        window.deleteReview = function(bookId, reviewId) {
-            if (confirm("هل انت متأكد من حذف هذه المراجعة؟")) {
-                remove(ref(db, `reviews/${bookId}/${reviewId}`)).then(() => {
-                    alert("تم حذف المراجعة بنجاح.");
-                });
-            }
-        };
-
-        document.getElementById('closeReviewsBtn').addEventListener('click', () => {
-            document.getElementById('reviewsModal').style.display = 'none';
-        });
-
-        document.getElementById('categoryTabs').addEventListener('click', (e) => {
-            if (e.target.classList.contains('tab-btn')) {
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
                 document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
                 e.target.classList.add('active');
-                currentFilter = e.target.dataset.cat;
+                currentFilter = e.target.getAttribute('data-cat');
                 renderBooks();
-            }
+            });
         });
-
-        async function uploadFileToStorage(file, path) {
-            const sRef = storageRef(storage, `${path}/${Date.now()}_${file.name}`);
-            const snapshot = await uploadBytes(sRef, file);
-            return await getDownloadURL(snapshot.ref);
-        }
 
         document.getElementById('addBookForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = document.getElementById('submitBtn');
-            submitBtn.innerText = "جاري رفع الملفات والحفظ... ⏳";
+            submitBtn.innerText = "جاري الحفظ والرفع... ⏳";
             submitBtn.disabled = true;
 
-            try {
-                const coverFile = document.getElementById('coverFileInput').files[0];
-                const docFile = document.getElementById('docFileInput').files[0];
+            const editId = document.getElementById('editBookId').value;
+            let coverUrl = document.getElementById('coverUrlInput').value;
+            let docUrl = document.getElementById('docUrlInput').value;
 
-                let finalCoverUrl = document.getElementById('coverUrlInput').value;
-                let finalDocUrl = document.getElementById('docUrlInput').value;
+            const coverFile = document.getElementById('coverFileInput').files[0];
+            if (coverFile) {
+                const cRef = storageRef(storage, `covers/${Date.now()}_${coverFile.name}`);
+                await uploadBytes(cRef, coverFile);
+                coverUrl = await getDownloadURL(cRef);
+            }
 
-                if (coverFile) {
-                    finalCoverUrl = await uploadFileToStorage(coverFile, 'covers');
-                }
+            const docFile = document.getElementById('docFileInput').files[0];
+            if (docFile) {
+                const dRef = storageRef(storage, `docs/${Date.now()}_${docFile.name}`);
+                await uploadBytes(dRef, docFile);
+                docUrl = await getDownloadURL(dRef);
+            }
 
-                if (docFile) {
-                    finalDocUrl = await uploadFileToStorage(docFile, 'documents');
-                }
+            const freePagesText = document.getElementById('bookFreePages').value;
+            const freePagesArray = freePagesText ? freePagesText.split('---').map(p => p.trim()) : [];
 
-                const editId = document.getElementById('editBookId').value;
-                const bookData = {
-                    title: document.getElementById('bookTitle').value,
-                    category: document.getElementById('bookCategory').value,
-                    desc: document.getElementById('bookDesc').value,
-                    price: document.getElementById('bookPrice').value,
-                    paperPrice: document.getElementById('bookPaperPrice').value,
-                    customLink: document.getElementById('bookCustomLink').value,
-                    amazonLink: document.getElementById('amazonLink').value,
-                    googlePlayLink: document.getElementById('googlePlayLink').value,
-                    coverUrl: finalCoverUrl,
-                    fileUrl: finalDocUrl,
-                    freePages: document.getElementById('bookFreePages').value.split('---').map(p => p.trim()),
-                    updatedAt: Date.now()
-                };
+            const bookData = {
+                title: document.getElementById('bookTitle').value,
+                category: document.getElementById('bookCategory').value,
+                desc: document.getElementById('bookDesc').value,
+                price: document.getElementById('bookPrice').value,
+                paperPrice: document.getElementById('bookPaperPrice').value,
+                customLink: document.getElementById('bookCustomLink').value,
+                amazonLink: document.getElementById('amazonLink').value,
+                googlePlayLink: document.getElementById('googlePlayLink').value,
+                coverUrl: coverUrl,
+                fileUrl: docUrl,
+                freePages: freePagesArray,
+                updatedAt: Date.now()
+            };
 
-                if (editId) {
-                    await update(ref(db, 'books/' + editId), bookData);
-                    alert("تم تحديث بيانات العمل بنجاح! 🎉");
-                } else {
-                    bookData.reads = 0;
-                    bookData.rating = 0;
-                    bookData.ratingSum = 0;
-                    bookData.ratingCount = 0;
-                    await push(ref(db, 'books'), bookData);
-                    alert("تم إضافة العمل ونشره للجميع بنجاح! 🚀");
-                }
-
-                document.getElementById('addBookForm').reset();
-                document.getElementById('editBookId').value = '';
-
-            } catch (err) {
-                alert("حدث خطأ أثناء الحفظ: " + err.message);
-            } finally {
-                submitBtn.innerText = "حفظ ونشر العمل للجميع 🚀";
-                submitBtn.disabled = false;
+            if (editId) {
+                update(ref(db, `books/${editId}`), bookData).then(() => {
+                    alert("تم تحديث العمل بنجاح! 🎉");
+                    resetBookForm();
+                });
+            } else {
+                bookData.reads = 0;
+                bookData.rating = 0;
+                bookData.ratingSum = 0;
+                bookData.ratingCount = 0;
+                push(ref(db, 'books'), bookData).then(() => {
+                    alert("تم إضافة ونشر العمل بنجاح! 🚀");
+                    resetBookForm();
+                });
             }
         });
+
+        function resetBookForm() {
+            document.getElementById('addBookForm').reset();
+            document.getElementById('editBookId').value = '';
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerText = "حفظ ونشر العمل للجميع 🚀";
+            submitBtn.disabled = false;
+        }
+
+        window.editBook = function(id) {
+            const book = allBooks.find(b => b.id === id);
+            if (!book) return;
+            document.getElementById('editBookId').value = book.id;
+            document.getElementById('bookTitle').value = book.title;
+            document.getElementById('bookCategory').value = book.category;
+            document.getElementById('bookDesc').value = book.desc;
+            document.getElementById('bookPrice').value = book.price;
+            document.getElementById('bookPaperPrice').value = book.paperPrice || '';
+            document.getElementById('bookCustomLink').value = book.customLink || '';
+            document.getElementById('amazonLink').value = book.amazonLink || '';
+            document.getElementById('googlePlayLink').value = book.googlePlayLink || '';
+            document.getElementById('coverUrlInput').value = book.coverUrl || '';
+            document.getElementById('docUrlInput').value = book.fileUrl || '';
+            document.getElementById('bookFreePages').value = book.freePages ? book.freePages.join('\n---\n') : '';
+
+            window.scrollTo({ top: document.getElementById('addBookForm').offsetTop - 20, behavior: 'smooth' });
+        };
+
+        window.deleteBook = function(id) {
+            if (confirm("هل أنت متأكد من حذف هذا العمل نهائياً؟")) {
+                remove(ref(db, `books/${id}`)).then(() => {
+                    alert("تم حذف العمل بنجاح.");
+                });
+            }
+        };
     </script>
 </body>
 </html>

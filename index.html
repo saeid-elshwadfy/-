@@ -591,6 +591,14 @@
         .book-cover img { width: 100%; height: 100%; object-fit: cover; object-position: center; transition: transform 0.5s ease; }
         .book-card:hover .book-cover img { transform: scale(1.04); }
         
+        .book-author-tag {
+            font-size: 0.95rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            margin: 4px 0 10px 0;
+            font-family: 'Amiri', serif;
+        }
+
         .book-price, .card-price { 
             font-size: 0.92rem; 
             color: var(--accent-color); 
@@ -696,7 +704,7 @@
         .admin-section-box { border-bottom: 1px dashed var(--border-color); padding-bottom: 25px; margin-bottom: 25px; }
         .form-group { margin-bottom: 18px; text-align: right; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--accent-color); font-size: 0.95rem; }
-        .form-group input[type="text"], .form-group input[type="password"], .form-group input[type="file"], .form-group textarea, .form-group select { width: 100%; padding: 12px 16px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-color); font-family: 'Tajawal', sans-serif; outline: none; }
+        .form-group input[type="text"], .form-group input[type="email"], .form-group input[type="password"], .form-group input[type="file"], .form-group textarea, .form-group select { width: 100%; padding: 12px 16px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-color); font-family: 'Tajawal', sans-serif; outline: none; }
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent-color); box-shadow: 0 0 10px var(--accent-glow); }
 
         .book-stats { font-size: 0.88rem; color: var(--text-muted); display: flex; justify-style: space-around; align-items: center; margin: 8px 0; background: rgba(255,255,255,0.03); padding: 8px; border-radius: 8px; }
@@ -751,7 +759,7 @@
             </nav>
             <div class="header-actions">
                 <button class="theme-btn" id="themeToggleBtn">🌙 المظهر الليلي</button>
-                <button class="admin-trigger" id="adminToggleBtn">🔒 لوحة التحكم</button>
+                <button class="admin-trigger" id="adminToggleBtn">🔒 تسجيل الدخول / التحكم</button>
             </div>
         </header>
 
@@ -796,21 +804,21 @@
             </div>
         </section>
 
-        <!-- Admin Login Modal -->
+        <!-- Admin / Firebase Auth Login Modal -->
         <div id="adminLoginModal" class="modal">
             <div class="modal-content" style="max-width: 400px;">
                 <span class="close-modal" id="closeAdminLoginBtn">&times;</span>
-                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem; margin-bottom: 20px;">🔒 دخول لوحة التحكم</h3>
+                <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem; margin-bottom: 20px;">🔒 تسجيل الدخول عبر الفايربيس</h3>
                 <form id="adminLoginForm">
                     <div class="form-group">
-                        <label>اسم المستخدم:</label>
-                        <input type="text" id="adminUsernameInput" placeholder="أدخل اسم المستخدم" required>
+                        <label>البريد الإلكتروني:</label>
+                        <input type="email" id="adminEmailInput" placeholder="example@domain.com" required>
                     </div>
                     <div class="form-group">
                         <label>كلمة السر:</label>
                         <input type="password" id="adminPasswordInput" placeholder="أدخل كلمة السر" required>
                     </div>
-                    <button type="submit" class="btn-primary" style="width: 100%; margin-top: 10px;">تسجيل الدخول 🚀</button>
+                    <button type="submit" id="loginSubmitBtn" class="btn-primary" style="width: 100%; margin-top: 10px;">تسجيل الدخول 🚀</button>
                 </form>
             </div>
         </div>
@@ -819,7 +827,7 @@
         <section id="adminPanel" class="admin-panel">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                 <h2 style="color: var(--accent-color); font-family: 'Amiri', serif;">🛠️ لوحة تحكم الكاتب الشاملة</h2>
-                <button class="btn-danger" style="flex: none; padding: 6px 16px;" id="closeAdminBtn">إغلاق اللوحة ✖</button>
+                <button class="btn-danger" style="flex: none; padding: 6px 16px;" id="logoutBtn">تسجيل الخروج ✖</button>
             </div>
 
             <div class="site-stats-badge">
@@ -876,6 +884,7 @@
                 <form id="addBookForm">
                     <input type="hidden" id="editBookId" value="">
                     <div class="form-group"><label>عنوان الكتاب:</label><input type="text" id="bookTitle" required></div>
+                    <div class="form-group"><label>اسم الكاتب / المؤلف:</label><input type="text" id="bookAuthor" placeholder="مثال: سعيد الشوادفي" required></div>
                     <div class="form-group">
                         <label>القسم / نوع العمل الأدبي:</label>
                         <select id="bookCategory" required>
@@ -1187,6 +1196,7 @@
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
         import { getDatabase, ref, onValue, set, push, update, remove, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
         import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDGG6NxTUZl5lLqD7qPq_nE0h6c_jVbaNA",
@@ -1202,6 +1212,7 @@
         const analytics = getAnalytics(app);
         const db = getDatabase(app);
         const storage = getStorage(app);
+        const auth = getAuth(app);
 
         let allBooks = [];
         let allServices = [];
@@ -1217,6 +1228,23 @@
         let currentReaderPage = 0;
 
         const WHATSAPP_NUMBER = "201096227242";
+
+        // متابعة حالة تسجيل الدخول عبر Firebase Auth
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                isAdmin = true;
+                document.getElementById('adminPanel').style.display = 'block';
+                document.getElementById('adminToggleBtn').innerText = '🛠️ لوحة التحكم';
+            } else {
+                isAdmin = false;
+                document.getElementById('adminPanel').style.display = 'none';
+                document.getElementById('adminToggleBtn').innerText = '🔒 تسجيل الدخول';
+            }
+            renderBooks();
+            renderServices();
+            renderCourses();
+            renderProducts();
+        });
 
         // وظيفة فتح نافذة الدعم وطرق الدفع العامة
         window.openSupportModal = function() {
@@ -1317,41 +1345,45 @@
         });
 
         const toggleAdminLogin = () => {
-            if (!isAdmin) {
+            if (!auth.currentUser) {
                 document.getElementById('adminLoginModal').style.display = 'flex';
             } else {
-                isAdmin = false;
-                document.getElementById('adminPanel').style.display = 'none';
-                renderBooks();
-                renderServices();
-                renderCourses();
-                renderProducts();
+                document.getElementById('adminPanel').style.display = document.getElementById('adminPanel').style.display === 'none' ? 'block' : 'none';
             }
         };
 
         document.getElementById('adminToggleBtn').addEventListener('click', toggleAdminLogin);
-        document.getElementById('closeAdminBtn').addEventListener('click', toggleAdminLogin);
         document.getElementById('closeAdminLoginBtn').addEventListener('click', () => {
             document.getElementById('adminLoginModal').style.display = 'none';
         });
 
-        document.getElementById('adminLoginForm').addEventListener('submit', (e) => {
+        // تسجيل الدخول باستخدام Firebase Auth
+        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const username = document.getElementById('adminUsernameInput').value;
+            const email = document.getElementById('adminEmailInput').value;
             const pass = document.getElementById('adminPasswordInput').value;
+            const btn = document.getElementById('loginSubmitBtn');
 
-            if (username === "Saeid74" && pass === "S1629r") {
-                isAdmin = true;
+            try {
+                btn.innerText = "جاري التحقق... ⏳";
+                btn.disabled = true;
+                await signInWithEmailAndPassword(auth, email, pass);
                 document.getElementById('adminLoginModal').style.display = 'none';
                 document.getElementById('adminLoginForm').reset();
-                document.getElementById('adminPanel').style.display = 'block';
-                renderBooks();
-                renderServices();
-                renderCourses();
-                renderProducts();
-            } else {
-                alert("اسم المستخدم أو كلمة السر غير صحيحة!");
+                alert("تم تسجيل الدخول بنجاح! 🎉");
+            } catch (err) {
+                alert("خطأ في تسجيل الدخول: " + err.message);
+            } finally {
+                btn.innerText = "تسجيل الدخول 🚀";
+                btn.disabled = false;
             }
+        });
+
+        // تسجيل الخروج عبر Firebase Auth
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            signOut(auth).then(() => {
+                alert("تم تسجيل الخروج بنجاح.");
+            });
         });
 
         document.getElementById('openPublishModalBtn').addEventListener('click', () => {
@@ -1384,7 +1416,7 @@
             };
 
             push(ref(db, 'publishRequests'), requestData).then(() => {
-                alert("تم إرسال طلب النشر بنجاح! سيتم مراجعة عملك والرد عليك. ✨");
+                alert("تم إرسال طلب النشر بنجاح! سيتم مراجعته والرد عليك. ✨");
                 document.getElementById('authorPublishForm').reset();
                 document.getElementById('publishModal').style.display = 'none';
             }).catch(err => alert("خطأ أثناء إرسال الطلب: " + err.message))
@@ -1444,7 +1476,8 @@
             if (!req) return;
 
             const newBook = {
-                title: `${req.title} (لـ ${req.authorName})`,
+                title: req.title,
+                author: req.authorName || 'سعيد الشوادفي',
                 category: req.category,
                 desc: req.desc,
                 price: req.price,
@@ -1859,7 +1892,7 @@
             if (!book) return;
             
             const shareUrl = book.customLink || `${window.location.origin}${window.location.pathname}?book=${book.id}`;
-            const textToShare = `إليك هذا العمل الأدبي للكاتب سعيد الشوادفي: ${book.title}`;
+            const textToShare = `إليك هذا العمل الأدبي للكاتب ${book.author || 'سعيد الشوادفي'}: ${book.title}`;
 
             if (navigator.share) {
                 navigator.share({
@@ -2027,6 +2060,7 @@
             filtered.forEach(book => {
                 const cover = book.coverUrl ? `<img src="${book.coverUrl}">` : book.title;
                 const readsCount = book.reads || 0;
+                const authorName = book.author || 'سعيد الشوادفي';
                 
                 let storeLinksHtml = '';
                 if (book.amazonLink) {
@@ -2047,6 +2081,7 @@
                         <div>
                             <div class="book-cover">${cover}</div>
                             <h3 style="font-family: 'Amiri', serif; font-size: 1.5rem; line-height: 1.3; color: var(--accent-color);">${book.title}</h3>
+                            <div class="book-author-tag">🖊️ للكاتب: ${authorName}</div>
                             <p style="color: var(--text-muted); font-size: 0.92rem; margin: 8px 0;">${book.desc}</p>
                             ${renderStarRating(book.id, book.rating || 0, book.ratingCount || 0)}
                             <div class="book-stats">
@@ -2112,6 +2147,7 @@
 
             const bookData = {
                 title: document.getElementById('bookTitle').value,
+                author: document.getElementById('bookAuthor').value || 'سعيد الشوادفي',
                 category: document.getElementById('bookCategory').value,
                 desc: document.getElementById('bookDesc').value,
                 price: document.getElementById('bookPrice').value,
@@ -2155,6 +2191,7 @@
             if (!book) return;
             document.getElementById('editBookId').value = book.id;
             document.getElementById('bookTitle').value = book.title;
+            document.getElementById('bookAuthor').value = book.author || 'سعيد الشوادفي';
             document.getElementById('bookCategory').value = book.category;
             document.getElementById('bookDesc').value = book.desc;
             document.getElementById('bookPrice').value = book.price;

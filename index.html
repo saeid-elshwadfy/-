@@ -23,36 +23,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
 
     <style>
+        /* تخصيص الوضع الليلي الكامل */
         :root[data-theme="dark"] {
             --bg-color: #080a11;
             --bg-pattern: radial-gradient(rgba(212, 175, 55, 0.15) 0.8px, transparent 0.8px);
-            --card-bg: rgba(16, 19, 28, 0.75);
-            --card-hover-bg: rgba(23, 28, 42, 0.9);
+            --card-bg: rgba(16, 19, 28, 0.85);
+            --card-hover-bg: rgba(23, 28, 42, 0.95);
             --accent-color: #d4af37;
             --accent-glow: rgba(212, 175, 55, 0.35);
             --text-color: #f1f5f9;
             --text-muted: #94a3b8;
             --border-color: rgba(212, 175, 55, 0.22);
             --input-bg: #0c0e17;
-            --reader-bg: #050609;
+            --reader-bg: #0d111a;
+            --reader-text: #e2e8f0;
             --header-bg: rgba(8, 10, 17, 0.85);
-            --shadow-color: rgba(0, 0, 0, 0.5);
+            --shadow-color: rgba(0, 0, 0, 0.6);
         }
 
+        /* تخصيص الوضع النهاري الناصع وتباين تام */
         :root[data-theme="light"] {
-            --bg-color: #f8fafc;
-            --bg-pattern: radial-gradient(rgba(184, 134, 11, 0.15) 0.7px, transparent 0.7px);
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --card-hover-bg: #ffffff;
+            --bg-color: #f1f5f9;
+            --bg-pattern: radial-gradient(rgba(184, 134, 11, 0.2) 0.8px, transparent 0.8px);
+            --card-bg: #ffffff;
+            --card-hover-bg: #f8fafc;
             --accent-color: #b8860b;
-            --accent-glow: rgba(184, 134, 11, 0.25);
+            --accent-glow: rgba(184, 134, 11, 0.2);
             --text-color: #0f172a;
             --text-muted: #475569;
-            --border-color: rgba(184, 134, 11, 0.25);
-            --input-bg: #f1f5f9;
-            --reader-bg: #fafafa;
-            --header-bg: rgba(248, 250, 252, 0.85);
-            --shadow-color: rgba(0, 0, 0, 0.08);
+            --border-color: rgba(184, 134, 11, 0.3);
+            --input-bg: #e2e8f0;
+            --reader-bg: #fdfbf7;
+            --reader-text: #1a202c;
+            --header-bg: rgba(255, 255, 255, 0.9);
+            --shadow-color: rgba(0, 0, 0, 0.1);
         }
 
         * { 
@@ -85,10 +89,31 @@
         ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
 
+        /* غلاف الموقع بمقاس الفيسبوك وتويتر (16:9 أو مقاس 3:1 قياسي) */
+        .site-cover-container {
+            max-width: 1100px;
+            margin: 15px auto 0;
+            position: relative;
+            border-radius: 20px 20px 0 0;
+            overflow: hidden;
+            box-shadow: 0 10px 30px var(--shadow-color);
+            border: 1px solid var(--border-color);
+            border-bottom: none;
+        }
+
+        .site-cover-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+        }
+
         header {
             max-width: 1100px;
-            margin: 10px auto 0;
-            padding: 12px 24px;
+            margin: 0 auto 20px;
+            padding: 14px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -99,7 +124,7 @@
             background: var(--header-bg);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-radius: 20px;
+            border-radius: 0 0 20px 20px;
             box-shadow: 0 8px 32px var(--shadow-color);
         }
 
@@ -111,19 +136,20 @@
         }
 
         .logo-img {
-            width: 52px;
-            height: 52px;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             object-fit: cover;
             background-color: var(--card-bg);
             padding: 2px;
-            border: 2px solid var(--accent-color);
+            border: 3px solid var(--accent-color);
             box-shadow: 0 0 15px var(--accent-glow);
             transition: transform 0.3s ease;
+            margin-top: -15px; /* تداخل خفيف أنيق مع غلاف الموقع */
         }
 
         .logo-container:hover .logo-img {
-            transform: rotate(5deg) scale(1.05);
+            transform: rotate(5deg) scale(1.08);
         }
 
         .logo { 
@@ -195,7 +221,7 @@
         
         .hero {
             max-width: 1100px;
-            margin: 35px auto 25px;
+            margin: 20px auto 25px;
             text-align: center;
             background: linear-gradient(135deg, var(--card-bg) 0%, rgba(212, 175, 55, 0.08) 100%);
             padding: 55px 25px;
@@ -629,9 +655,9 @@
             left: 0; 
             width: 100%; 
             height: 100%; 
-            background-color: rgba(0, 0, 0, 0.85); 
-            backdrop-filter: blur(12px); 
-            -webkit-backdrop-filter: blur(12px);
+            background-color: rgba(0, 0, 0, 0.88); 
+            backdrop-filter: blur(14px); 
+            -webkit-backdrop-filter: blur(14px);
             justify-content: center; 
             align-items: center; 
             z-index: 1000; 
@@ -652,6 +678,12 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px var(--accent-glow); 
         }
 
+        /* تكبير نافذة القراءة خصيصاً لتكون راقية ومريحة */
+        .modal-content-reader {
+            max-width: 880px !important;
+            padding: 35px 40px !important;
+        }
+
         .close-modal { 
             position: absolute; 
             top: 16px; 
@@ -664,21 +696,29 @@
         }
         .close-modal:hover { color: var(--accent-color); }
 
+        /* تعديل صفحات القراءة: تكبير، تنسيق راقي، ومنع النسخ تماماً */
         .reader-box { 
             background: var(--reader-bg); 
             border: 1px solid var(--border-color); 
-            border-radius: 16px; 
-            padding: 25px; 
+            border-radius: 20px; 
+            padding: 35px 45px; 
             margin: 20px 0; 
-            height: 360px; 
+            height: 480px; 
             overflow-y: auto; 
             text-align: justify; 
             font-family: 'Amiri', serif; 
-            font-size: 1.25rem; 
-            line-height: 2.1; 
-            color: var(--text-color); 
+            font-size: 1.4rem; 
+            line-height: 2.3; 
+            color: var(--reader-text); 
             white-space: pre-wrap; 
-            box-shadow: inset 0 2px 10px var(--shadow-color);
+            box-shadow: inset 0 2px 15px var(--shadow-color);
+
+            /* حماية النص ضد النسخ والتحديد والتنزيل */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            cursor: default;
         }
 
         .reviews-list { max-height: 280px; overflow-y: auto; text-align: right; margin: 15px 0; padding-left: 5px; display: flex; flex-direction: column; gap: 12px; }
@@ -704,7 +744,7 @@
         .admin-section-box { border-bottom: 1px dashed var(--border-color); padding-bottom: 25px; margin-bottom: 25px; }
         .form-group { margin-bottom: 18px; text-align: right; }
         .form-group label { display: block; margin-bottom: 8px; font-weight: 700; color: var(--accent-color); font-size: 0.95rem; }
-        .form-group input[type="text"], .form-group input[type="email"], .form-group input[type="password"], .form-group input[type="file"], .form-group textarea, .form-group select { width: 100%; padding: 12px 16px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-color); font-family: 'Tajawal', sans-serif; outline: none; }
+        .form-group input[type="text"], .form-group input[type="email"], .form-group input[type="password"], .form-group input[type="file"], .form-group textarea, .form-group select, .form-group input[type="color"] { width: 100%; padding: 12px 16px; background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-color); font-family: 'Tajawal', sans-serif; outline: none; }
         .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: var(--accent-color); box-shadow: 0 0 10px var(--accent-glow); }
 
         .book-stats { font-size: 0.88rem; color: var(--text-muted); display: flex; justify-style: space-around; align-items: center; margin: 8px 0; background: rgba(255,255,255,0.03); padding: 8px; border-radius: 8px; }
@@ -745,6 +785,11 @@
 
     <!-- Main Website Wrapper -->
     <div id="mainWebsite">
+        <!-- 2. غلاف أفقـي للموقع على شق الفيس وتويتر -->
+        <div class="site-cover-container">
+            <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=1200&q=80" id="siteCoverImg" class="site-cover-img" alt="غلاف المنصة الأدبية الرسمية">
+        </div>
+
         <header>
             <div class="logo-container">
                 <img src="https://i.ibb.co/MDstFfTz/6.jpg" id="siteLogoImg" class="logo-img" alt="موقع الكاتب الروائي | سعيد الشوادفي">
@@ -767,7 +812,6 @@
             <h1 id="heroTitle">حيث تتجسد الحكايات وتستيقظ الظلال</h1>
             <p id="heroSubtitle">مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح واقرأ مباشرة أو اطلب النسخ الورقية والرقمية.</p>
 
-            <!-- 3. زر الدعم والرعاية الحصري للمبدعين -->
             <div style="margin-bottom: 25px;">
                 <button class="btn-primary" id="supportAuthorBtn" style="background: linear-gradient(135deg, #e11d48 0%, #be123c 100%); font-size: 1.05rem;">💖 ادعم الكاتب / رعاية فصل جديد</button>
             </div>
@@ -846,6 +890,32 @@
                 <div id="publishRequestsContainer" style="overflow-x: auto;">
                     <p style="color: var(--text-muted);">لا توجد طلبات نشر جديدة حالياً.</p>
                 </div>
+            </div>
+
+            <!-- التحكم بالألوان والغلاف -->
+            <div class="admin-section-box">
+                <h3 style="color: var(--accent-color); margin-bottom: 12px; font-family: 'Amiri', serif;">🎨 التحكم في ألوان الموقع والغلاف:</h3>
+                <form id="siteCustomizationForm">
+                    <div class="form-group">
+                        <label>🖼️ رابط صورة الغلاف العلوي (Facebook & Twitter Style Cover):</label>
+                        <input type="text" id="adminCoverUrl" placeholder="أدخل رابط الغلاف المباشر">
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div class="form-group">
+                            <label>✨ اللون الرئيسي/الذهبي:</label>
+                            <input type="color" id="accentColorInput" value="#d4af37">
+                        </div>
+                        <div class="form-group">
+                            <label>🌙 خلفية الوضع الليلي:</label>
+                            <input type="color" id="darkBgInput" value="#080a11">
+                        </div>
+                        <div class="form-group">
+                            <label>☀️ خلفية الوضع النهاري:</label>
+                            <input type="color" id="lightBgInput" value="#f1f5f9">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-secondary">حفظ التنسيقات والألوان 🎨</button>
+                </form>
             </div>
 
             <div class="admin-section-box">
@@ -1065,19 +1135,22 @@
             </div>
         </div>
 
-        <!-- Reader Modal -->
+        <!-- 1. نافذة القارئ المجهزة والمحمية من النسخ -->
         <div id="readerModal" class="modal">
-            <div class="modal-content">
+            <div class="modal-content modal-content-reader">
                 <span class="close-modal" id="closeReaderBtn">&times;</span>
-                <h3 id="readerTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem;"></h3>
-                <div id="readerText" class="reader-box"></div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <button class="btn-secondary" style="width: auto;" id="prevPageBtn">⬅ السابقة</button>
-                    <span id="readerPageIndicator" style="color: var(--text-muted); font-size: 0.9rem; font-weight: bold;"></span>
-                    <button class="btn-secondary" style="width: auto;" id="nextPageBtn">التالية ➡</button>
+                <h3 id="readerTitle" style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 2.2rem; margin-bottom: 10px;"></h3>
+                
+                <!-- صندوق القراءة الأنيق والغير قابل للنسخ -->
+                <div id="readerText" class="reader-box" oncontextmenu="return false;"></div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                    <button class="btn-secondary" style="width: auto; padding: 10px 22px;" id="prevPageBtn">⬅ السابقة</button>
+                    <span id="readerPageIndicator" style="color: var(--text-muted); font-size: 1rem; font-weight: bold;"></span>
+                    <button class="btn-secondary" style="width: auto; padding: 10px 22px;" id="nextPageBtn">التالية ➡</button>
                 </div>
                 
-                <!-- 3. زر ادعم الكاتب داخل صفحة القراءة -->
+                <!-- زر ادعم الكاتب داخل صفحة القراءة -->
                 <div class="support-author-box">
                     <p style="font-size: 0.95rem; color: var(--text-color); margin-bottom: 8px;">هل أعجبك الفصل؟ يمكنك دعم الكاتب لرعاية كتابة الفصول التالية ❤️</p>
                     <button class="btn-primary" id="readerSupportBtn" style="padding: 8px 18px; font-size: 0.9rem; background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);">💖 ادعم الكاتب / رعاية فصل</button>
@@ -1228,6 +1301,21 @@
         let currentReaderPage = 0;
 
         const WHATSAPP_NUMBER = "201096227242";
+
+        // إغلاق أي محاولة لنسخ أو استخدام اختصارات الكيبورد داخل صندوق القراءة
+        document.addEventListener('keydown', (e) => {
+            const readerModal = document.getElementById('readerModal');
+            if (readerModal && readerModal.style.display === 'flex') {
+                if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'a' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+                    e.preventDefault();
+                    return false;
+                }
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                    return false;
+                }
+            }
+        });
 
         // متابعة حالة تسجيل الدخول عبر Firebase Auth
         onAuthStateChanged(auth, (user) => {
@@ -1505,6 +1593,41 @@
                 });
             }
         };
+
+        /* حفظ وجلب مخصصات الألوان والغلاف العلوي */
+        document.getElementById('siteCustomizationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const coverUrl = document.getElementById('adminCoverUrl').value;
+            const accent = document.getElementById('accentColorInput').value;
+            const darkBg = document.getElementById('darkBgInput').value;
+            const lightBg = document.getElementById('lightBgInput').value;
+
+            const customData = { coverUrl, accent, darkBg, lightBg };
+
+            set(ref(db, 'siteCustomization'), customData).then(() => {
+                alert("تم حفظ التعديلات والألوان والغلاف بنجاح! 🎉");
+            });
+        });
+
+        onValue(ref(db, 'siteCustomization'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                if (data.coverUrl) {
+                    document.getElementById('siteCoverImg').src = data.coverUrl;
+                    document.getElementById('adminCoverUrl').value = data.coverUrl;
+                }
+                if (data.accent) {
+                    document.documentElement.style.setProperty('--accent-color', data.accent);
+                    document.getElementById('accentColorInput').value = data.accent;
+                }
+                if (data.darkBg) {
+                    document.getElementById('darkBgInput').value = data.darkBg;
+                }
+                if (data.lightBg) {
+                    document.getElementById('lightBgInput').value = data.lightBg;
+                }
+            }
+        });
 
         onValue(ref(db, 'siteContent'), (snapshot) => {
             const data = snapshot.val();

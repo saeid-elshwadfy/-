@@ -1083,7 +1083,11 @@
                     <input type="hidden" id="editAudioId" value="">
                     <div class="form-group"><label>عنوان المقطع الصوتي:</label><input type="text" id="audioTitle" placeholder="مثال: 🎙️ تسجيل صوتي - الفصل الأول من رواية ظلال لا تنام" required></div>
                     <div class="form-group"><label>وصف المقطع:</label><textarea id="audioDesc" rows="2" placeholder="وصف المقطع الصوتي..." required></textarea></div>
-                    <div class="form-group"><label>رابط الملف الصوتي (MP3 / Audio URL):</label><input type="text" id="audioUrl" placeholder="https://..." required></div>
+                    <div class="form-group">
+                        <label>🎵 الملف الصوتي (اختيار ملف صوتی):</label>
+                        <input type="file" id="audioFileInput" accept="audio/*" style="margin-bottom: 8px;">
+                        <input type="text" id="audioUrl" placeholder="أو ضع رابط الملف الصوتي المباشر (https://...)">
+                    </div>
                     <button type="submit" id="submitAudioBtn" class="btn-primary" style="width: 100%;">حفظ المقطع الصوتي 💾</button>
                 </form>
             </div>

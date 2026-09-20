@@ -1179,7 +1179,12 @@
                     <div class="form-group"><label>سعر الرقمية (اكتب مجاناً للقسم المجاني):</label><input type="text" id="bookPrice" required></div>
                     <div class="form-group"><label>سعر الورقية (أو اكتب مجاناً/غير متاح):</label><input type="text" id="bookPaperPrice" required></div>
                     <div class="form-group"><label>🔗 رابط مخصص للعمل الأدبي (صفحة قراءة مخصصة):</label><input type="text" id="bookCustomLink" placeholder="https://..."></div>
-                    <div class="form-group"><label>🎙️ رابط الملف الصوتي (اختياري - MP3/MPEG):</label><input type="text" id="bookAudioUrl" placeholder="https://..."></div>
+                    
+                    <div class="form-group">
+                        <label>🎙️ الملف الصوتي للعمل الأدبي (إلقاء صوتي/MP3):</label>
+                        <input type="file" id="bookAudioFileInput" accept="audio/*" style="margin-bottom: 8px;">
+                        <input type="text" id="bookAudioUrl" placeholder="أو ضع رابط الملف الصوتي المباشر (https...)">
+                    </div>
                     
                     <div style="background: rgba(212, 175, 55, 0.05); padding: 15px; border-radius: 14px; border: 1px dashed var(--accent-color); margin-bottom: 18px;">
                         <h4 style="color: var(--accent-color); margin-bottom: 12px; font-size: 1rem; font-family: 'Amiri', serif;">🛒 روابط منصات الشراء الخارجية (اختياري):</h4>
@@ -2756,9 +2761,11 @@
                 const editId = document.getElementById('editBookId').value;
                 const coverFile = document.getElementById('coverFileInput').files[0];
                 const docFile = document.getElementById('docFileInput').files[0];
+                const bookAudioFile = document.getElementById('bookAudioFileInput')?.files[0];
 
                 let coverUrl = document.getElementById('coverUrlInput').value;
                 let fileUrl = document.getElementById('docUrlInput').value;
+                let bookAudioUrl = document.getElementById('bookAudioUrl').value;
 
                 try {
                     if (coverFile) {
@@ -2771,6 +2778,11 @@
                         await uploadBytes(dRef, docFile);
                         fileUrl = await getDownloadURL(dRef);
                     }
+                    if (bookAudioFile) {
+                        const baRef = storageRef(storage, `book_audio/${Date.now()}_${bookAudioFile.name}`);
+                        await uploadBytes(baRef, bookAudioFile);
+                        bookAudioUrl = await getDownloadURL(baRef);
+                    }
 
                     const bookData = {
                         title: document.getElementById('bookTitle').value,
@@ -2780,7 +2792,7 @@
                         price: document.getElementById('bookPrice').value,
                         paperPrice: document.getElementById('bookPaperPrice').value,
                         customLink: document.getElementById('bookCustomLink').value,
-                        audioUrl: document.getElementById('bookAudioUrl').value,
+                        audioUrl: bookAudioUrl,
                         amazonLink: document.getElementById('amazonLink').value,
                         googlePlayLink: document.getElementById('googlePlayLink').value,
                         coverUrl: coverUrl,

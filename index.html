@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- وسوم تحسين محركات البحث (SEO) لـ سعيد الشوادفي -->
+    <!-- وسوم تحسين محركات البحث (SEO) -->
     <title>موقع الكاتب الروائي | سعيد الشوادفي</title>
     <meta name="description" content="مرحباً بك في المنصة الأدبية الرسمية للكاتب الروائي سعيد الشوادفي. تصفح واقرأ أحدث الروايات والإصدارات الأدبية واستفد من خدماتنا الأدبية والدورات التدريبية.">
     <meta name="keywords" content="سعيد الشوادفي, الكاتب الروائي سعيد الشوادفي, روايات سعيد الشوادفي, ظلال لا تنام, ابن الغزال, خدمات أدبية, تدقيق لغوي, دورات كتابة, قوالب رقمية">
@@ -26,10 +26,8 @@
     </noscript>
 
     <style>
-        /* تسريع ظهور النصوص قبل تحميل الخط */
         @font-face { font-display: swap; }
 
-        /* تخصيص الوضع الليلي الكامل */
         :root[data-theme="dark"] {
             --bg-color: #080a11;
             --bg-pattern: radial-gradient(rgba(212, 175, 55, 0.15) 0.8px, transparent 0.8px);
@@ -47,7 +45,6 @@
             --shadow-color: rgba(0, 0, 0, 0.6);
         }
 
-        /* تخصيص الوضع النهاري الناصع وتباين تام */
         :root[data-theme="light"] {
             --bg-color: #f1f5f9;
             --bg-pattern: radial-gradient(rgba(184, 134, 11, 0.2) 0.8px, transparent 0.8px);
@@ -69,11 +66,7 @@
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            transition: background-color 0.2s ease, 
-                        color 0.2s ease, 
-                        border-color 0.2s ease, 
-                        transform 0.2s ease, 
-                        box-shadow 0.2s ease; 
+            transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; 
         }
 
         html { scroll-behavior: smooth; }
@@ -89,13 +82,11 @@
             min-height: 100vh;
         }
 
-        /* شريط التمرير الأنيق */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent-color); }
 
-        /* غلاف الموقع بمقاس الفيسبوك وتويتر */
         .site-cover-container {
             max-width: 1100px;
             margin: 15px auto 0;
@@ -195,7 +186,6 @@
             color: var(--accent-color);
         }
 
-        /* زر القائمة الجانبية تم وضعه أسفل اللوجو مباشرة */
         .mobile-menu-btn {
             display: none;
             background: var(--card-bg);
@@ -213,7 +203,6 @@
             font-weight: bold;
         }
 
-        /* القائمة الجانبية للهواتف المحمولة وتخصيص تسريع الـ GPU */
         .mobile-drawer {
             position: fixed;
             top: 0;
@@ -706,7 +695,6 @@
             box-shadow: 0 4px 18px var(--accent-glow);
         }
 
-        /* تحسين استجابة الشبكة لكافة الشاشات والهواتف */
         .books-grid, .grid-container { 
             max-width: 1100px; 
             margin: 0 auto; 
@@ -737,7 +725,6 @@
             box-shadow: 0 16px 35px var(--shadow-color), 0 0 20px var(--accent-glow);
         }
 
-        /* الالتزام الصارم بمقاس الأغلفة 14*20 والتجاوب */
         .book-cover { 
             width: 100%; 
             aspect-ratio: 14 / 20; 
@@ -794,7 +781,6 @@
 
         .action-buttons-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; width: 100%; }
 
-        /* دعم الكاتب الحصري */
         .support-author-box {
             background: rgba(212, 175, 55, 0.05);
             border: 1px dashed var(--accent-color);
@@ -932,7 +918,6 @@
             box-shadow: 0 6px 16px var(--accent-glow);
         }
 
-        /* الاستجابة والتناسب التام مع الهواتف والحواسب */
         @media (max-width: 768px) {
             body { padding: 0 10px; }
             .site-cover-img { height: 180px; }
@@ -972,9 +957,7 @@
         </nav>
     </div>
 
-    <!-- Main Website Wrapper -->
     <div id="mainWebsite">
-        <!-- غلاف أفقـي للموقع على شق الفيس وتويتر -->
         <div class="site-cover-container">
             <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=1200&q=80" id="siteCoverImg" class="site-cover-img" alt="غلاف المنصة الأدبية الرسمية" loading="lazy">
         </div>
@@ -985,7 +968,6 @@
                     <img src="https://i.ibb.co/MDstFfTz/6.jpg" id="siteLogoImg" class="logo-img" alt="موقع الكاتب الروائي | سعيد الشوادفي" loading="lazy">
                     <div class="logo" id="siteLogo">موقع الكاتب الروائي | سعيد الشوادفي</div>
                 </div>
-                <!-- زر القائمة الجانبية يظهر تحت اللوجو مباشرة -->
                 <button class="mobile-menu-btn" id="openDrawerBtn" aria-label="فتح القائمة">☰ القائمة</button>
             </div>
             <nav class="nav-links">
@@ -1042,7 +1024,7 @@
             </div>
         </section>
 
-        <!-- Admin / Firebase Auth Login Modal -->
+        <!-- Admin Login Modal -->
         <div id="adminLoginModal" class="modal">
             <div class="modal-content" style="max-width: 400px;">
                 <span class="close-modal" id="closeAdminLoginBtn">&times;</span>
@@ -1082,7 +1064,6 @@
                 </div>
             </div>
 
-            <!-- تغيير كلمة سر الحساب -->
             <div class="admin-section-box">
                 <h3 style="color: var(--accent-color); margin-bottom: 12px; font-family: 'Amiri', serif;">🔑 تغيير كلمة سر الحساب:</h3>
                 <form id="changePasswordForm">
@@ -1101,7 +1082,6 @@
                 </div>
             </div>
 
-            <!-- التحكم بالألوان والغلاف -->
             <div class="admin-section-box">
                 <h3 style="color: var(--accent-color); margin-bottom: 12px; font-family: 'Amiri', serif;">🎨 التحكم في ألوان الموقع والغلاف:</h3>
                 <form id="siteCustomizationForm">
@@ -1213,7 +1193,6 @@
                 </form>
             </div>
 
-            <!-- التحكم في الخدمات الأدبية -->
             <div class="admin-section-box">
                 <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">✍️ التحكم في قسم الخدمات الأدبية:</h3>
                 <form id="addServiceForm">
@@ -1225,7 +1204,6 @@
                 </form>
             </div>
 
-            <!-- التحكم في الصوتيات -->
             <div class="admin-section-box">
                 <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">🎙️ التحكم في قسم الصوتيات:</h3>
                 <form id="addAudioForm">
@@ -1241,7 +1219,6 @@
                 </form>
             </div>
 
-            <!-- التحكم في الدورات والورش -->
             <div class="admin-section-box">
                 <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">🎓 التحكم في قسم الدورات والورش:</h3>
                 <form id="addCourseForm">
@@ -1254,7 +1231,6 @@
                 </form>
             </div>
 
-            <!-- التحكم في المنتجات الرقمية -->
             <div>
                 <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">🛍️ التحكم في قسم المنتجات الرقمية:</h3>
                 <form id="addProductForm">
@@ -1281,23 +1257,18 @@
 
         <div class="books-grid" id="booksGrid"></div>
 
-        <!-- قسم الصوتيات -->
         <h2 id="audio" class="section-title">🎙️ المكتبة الصوتية والإلقاء 🎙️</h2>
         <div class="grid-container" id="audioGrid"></div>
 
-        <!-- قسم الخدمات الأدبية والاستشارات -->
         <h2 id="services" class="section-title">✨ الخدمات الأدبية والاستشارات ✨</h2>
         <div class="grid-container" id="servicesGrid"></div>
 
-        <!-- قسم الدورات وورش العمل -->
         <h2 id="courses" class="section-title">🎓 الدورات وورش العمل 🎓</h2>
         <div class="grid-container" id="coursesGrid"></div>
 
-        <!-- قسم المنتجات الرقمية -->
         <h2 id="store" class="section-title">🛍️ متجر المنتجات الرقمية 🛍️</h2>
         <div class="grid-container" id="productsGrid"></div>
 
-        <!-- المقالات والترشيحات الأدبية -->
         <h2 id="blog" class="section-title">📝 المقالات والترشيحات الأدبية 📝</h2>
         <div class="grid-container">
             <div class="custom-card" style="text-align: right;">
@@ -1370,7 +1341,7 @@
             </div>
         </div>
 
-        <!-- نافذة القارئ المجهزة والمحمية من النسخ -->
+        <!-- Reader Modal -->
         <div id="readerModal" class="modal">
             <div class="modal-content modal-content-reader">
                 <span class="close-modal" id="closeReaderBtn">&times;</span>
@@ -1497,12 +1468,13 @@
         </footer>
     </div>
 
+    <!-- السكريبت المحدث باستخدام أحدث ميزات JavaScript (ES9+ / ES2022) ومكتبات Firebase Modern -->
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
-        import { getDatabase, ref, onValue, set, push, update, remove, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updatePassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
+        import { getDatabase, ref, onValue, set, push, update, remove, runTransaction } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updatePassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDGG6NxTUZl5lLqD7qPq_nE0h6c_jVbaNA",
@@ -1537,58 +1509,50 @@
 
         const WHATSAPP_NUMBER = "201096227242";
 
-        // فتح وإغلاق القائمة الجانبية
+        // إدارة القائمة الجانبية
         const openDrawerBtn = document.getElementById('openDrawerBtn');
         const closeDrawerBtn = document.getElementById('closeDrawerBtn');
         const mobileDrawer = document.getElementById('mobileDrawer');
         const drawerOverlay = document.getElementById('drawerOverlay');
 
-        function openDrawer() {
-            if (mobileDrawer) mobileDrawer.classList.add('open');
-            if (drawerOverlay) drawerOverlay.classList.add('active');
-        }
+        const openDrawer = () => {
+            mobileDrawer?.classList.add('open');
+            drawerOverlay?.classList.add('active');
+        };
 
-        function closeDrawer() {
-            if (mobileDrawer) mobileDrawer.classList.remove('open');
-            if (drawerOverlay) drawerOverlay.classList.remove('active');
-        }
+        const closeDrawer = () => {
+            mobileDrawer?.classList.remove('open');
+            drawerOverlay?.classList.remove('active');
+        };
 
-        if (openDrawerBtn) openDrawerBtn.addEventListener('click', openDrawer);
-        if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeDrawer);
-        if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+        openDrawerBtn?.addEventListener('click', openDrawer);
+        closeDrawerBtn?.addEventListener('click', closeDrawer);
+        drawerOverlay?.addEventListener('click', closeDrawer);
+        document.querySelectorAll('.drawer-link-item').forEach(link => link.addEventListener('click', closeDrawer));
 
-        document.querySelectorAll('.drawer-link-item').forEach(link => {
-            link.addEventListener('click', closeDrawer);
-        });
-
-        // ربط دالة تتبع العدادات بالنطاق العالمي وتحديث الواجهة مباشرة
+        // تتبع استماع الصوتيات بالمعامل غير المتزامن
         const listenedAudioSet = new Set();
-        window.trackAudioListen = function(audioId) {
-            if (!audioId) return;
-            if (!listenedAudioSet.has(audioId)) {
-                listenedAudioSet.add(audioId);
-                
-                // تحديث العداد محلياً للشاشات الحالية فوراً
-                const el = document.getElementById(`audioCount_${audioId}`);
-                if (el) {
-                    let cur = parseInt(el.innerText) || 0;
-                    el.innerText = (cur + 1).toLocaleString('ar-EG');
-                }
+        window.trackAudioListen = (audioId) => {
+            if (!audioId || listenedAudioSet.has(audioId)) return;
+            listenedAudioSet.add(audioId);
 
-                // التحديث في قاعدة بيانات الفايربيس
-                if (!audioId.startsWith('def')) {
-                    runTransaction(ref(db, `audioItems/${audioId}/listens`), (currentListens) => {
-                        return (currentListens || 0) + 1;
-                    }).catch(err => console.error("Error updating listens count:", err));
-                }
+            const el = document.getElementById(`audioCount_${audioId}`);
+            if (el) {
+                const cur = parseInt(el.innerText) || 0;
+                el.innerText = (cur + 1).toLocaleString('ar-EG');
+            }
+
+            if (!audioId.startsWith('def')) {
+                runTransaction(ref(db, `audioItems/${audioId}/listens`), currentListens => (currentListens ?? 0) + 1)
+                    .catch(err => console.error("Error updating listens count:", err));
             }
         };
 
-        // منع نسخ النصوص
+        // حماية المحتوى والمنع من النسخ
         document.addEventListener('keydown', (e) => {
             const readerModal = document.getElementById('readerModal');
-            if (readerModal && readerModal.style.display === 'flex') {
-                if ((e.ctrlKey || e.metaKey) && (e.key === 'c' || e.key === 'a' || e.key === 'u' || e.key === 's' || e.key === 'p')) {
+            if (readerModal?.style.display === 'flex') {
+                if ((e.ctrlKey || e.metaKey) && ['c', 'a', 'u', 's', 'p'].includes(e.key.toLowerCase())) {
                     e.preventDefault();
                     return false;
                 }
@@ -1599,17 +1563,15 @@
             }
         });
 
-        // حالة تسجيل الدخول عبر Firebase Auth
+        // المراقبة الديناميكية لحالة المستخدم
         onAuthStateChanged(auth, (user) => {
-            if (user) {
-                isAdmin = true;
-                document.getElementById('adminPanel').style.display = 'block';
-                document.getElementById('adminToggleBtn').innerText = '🛠️ لوحة التحكم';
-            } else {
-                isAdmin = false;
-                document.getElementById('adminPanel').style.display = 'none';
-                document.getElementById('adminToggleBtn').innerText = '🔒 تسجيل الدخول';
-            }
+            isAdmin = Boolean(user);
+            const adminPanel = document.getElementById('adminPanel');
+            const adminToggleBtn = document.getElementById('adminToggleBtn');
+            
+            if (adminPanel) adminPanel.style.display = isAdmin ? 'block' : 'none';
+            if (adminToggleBtn) adminToggleBtn.innerText = isAdmin ? '🛠️ لوحة التحكم' : '🔒 تسجيل الدخول';
+
             renderBooks();
             renderAudio();
             renderServices();
@@ -1617,33 +1579,34 @@
             renderProducts();
         });
 
-        window.openSupportModal = function() {
-            document.getElementById('buyTitle').innerText = "💖 دعم الكاتب / رعاية فصل جديد";
-            document.getElementById('buySubtitle').innerText = "شكراً لدعمك ومساهمتك في استمرار المسيرة الإبداعية ورعاية كتابة الفصول الجديدة!";
-            
+        window.openSupportModal = () => {
+            const buyTitle = document.getElementById('buyTitle');
+            const buySubtitle = document.getElementById('buySubtitle');
             const codEl = document.getElementById('codMethod');
-            if(codEl) codEl.style.display = 'none';
 
-            document.getElementById('buyModal').style.display = 'flex';
+            if (buyTitle) buyTitle.innerText = "💖 دعم الكاتب / رعاية فصل جديد";
+            if (buySubtitle) buySubtitle.innerText = "شكراً لدعمك ومساهمتك في استمرار المسيرة الإبداعية ورعاية كتابة الفصول الجديدة!";
+            if (codEl) codEl.style.display = 'none';
+
+            const buyModal = document.getElementById('buyModal');
+            if (buyModal) buyModal.style.display = 'flex';
         };
 
-        document.getElementById('supportAuthorBtn').addEventListener('click', window.openSupportModal);
-        
-        const readerSupportBtn = document.getElementById('readerSupportBtn');
-        if (readerSupportBtn) {
-            readerSupportBtn.addEventListener('click', () => {
-                document.getElementById('readerModal').style.display = 'none';
-                window.openSupportModal();
-            });
-        }
+        document.getElementById('supportAuthorBtn')?.addEventListener('click', window.openSupportModal);
+        document.getElementById('readerSupportBtn')?.addEventListener('click', () => {
+            const readerModal = document.getElementById('readerModal');
+            if (readerModal) readerModal.style.display = 'none';
+            window.openSupportModal();
+        });
 
         const closeBuyModal = () => {
-            document.getElementById('buyModal').style.display = 'none';
+            const buyModal = document.getElementById('buyModal');
+            if (buyModal) buyModal.style.display = 'none';
         };
-        document.getElementById('closeBuyBtn').addEventListener('click', closeBuyModal);
-        document.getElementById('closeBuyBtn2').addEventListener('click', closeBuyModal);
+        document.getElementById('closeBuyBtn')?.addEventListener('click', closeBuyModal);
+        document.getElementById('closeBuyBtn2')?.addEventListener('click', closeBuyModal);
 
-        window.togglePaymentDetail = function(element, copyNum) {
+        window.togglePaymentDetail = (element, copyNum) => {
             document.querySelectorAll('.payment-item').forEach(item => {
                 if (item !== element) {
                     item.classList.remove('selected');
@@ -1655,8 +1618,7 @@
             element.classList.toggle('selected');
             const details = element.querySelector('.payment-details');
             if (details) {
-                const isDisplayed = details.style.display === 'block';
-                details.style.display = isDisplayed ? 'none' : 'block';
+                details.style.display = details.style.display === 'block' ? 'none' : 'block';
             }
 
             if (copyNum && navigator.clipboard) {
@@ -1664,15 +1626,14 @@
             }
         };
 
-        window.sendViaWhatsApp = function(methodName, btnElement) {
+        window.sendViaWhatsApp = (methodName, btnElement) => {
             const form = btnElement.closest('.transfer-form');
-            const name = form.querySelector('.buyer-name')?.value || '';
-            const phone = form.querySelector('.buyer-phone')?.value || '';
-            const amount = form.querySelector('.buyer-amount')?.value || '';
-            const address = form.querySelector('.buyer-address')?.value || '';
-            const walletType = form.querySelector('.wallet-type')?.value || '';
-
-            const title = document.getElementById('buyTitle').innerText;
+            const name = form?.querySelector('.buyer-name')?.value ?? '';
+            const phone = form?.querySelector('.buyer-phone')?.value ?? '';
+            const amount = form?.querySelector('.buyer-amount')?.value ?? '';
+            const address = form?.querySelector('.buyer-address')?.value ?? '';
+            const walletType = form?.querySelector('.wallet-type')?.value ?? '';
+            const title = document.getElementById('buyTitle')?.innerText ?? '';
 
             let msg = `مرحباً أستاذ سعيد، أرغب في التأكيد على الطلب/الدعم التالي:\n\n`;
             msg += `📌 الموضوع/العمل: ${title}\n`;
@@ -1682,72 +1643,65 @@
             if (amount) msg += `💰 المبلغ: ${amount} جنيه\n`;
             if (address) msg += `📍 العنوان بالتفصيل: ${address}\n`;
 
-            const encodedMsg = encodeURIComponent(msg);
-            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`, '_blank');
+            window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
         };
 
         if (!sessionStorage.getItem('visited')) {
             sessionStorage.setItem('visited', 'true');
-            runTransaction(ref(db, 'siteStats/visits'), (currentVisits) => {
-                return (currentVisits || 0) + 1;
-            });
+            runTransaction(ref(db, 'siteStats/visits'), currentVisits => (currentVisits ?? 0) + 1);
         }
 
         onValue(ref(db, 'siteStats/visits'), (snapshot) => {
-            const count = snapshot.val() || 0;
+            const count = snapshot.val() ?? 0;
             const element = document.getElementById('totalVisitsCount');
             if (element) element.innerText = count.toLocaleString('ar-EG');
         });
 
-        document.getElementById('themeToggleBtn').addEventListener('click', () => {
+        document.getElementById('themeToggleBtn')?.addEventListener('click', () => {
             const html = document.documentElement;
             const themeBtn = document.getElementById('themeToggleBtn');
-            const currentTheme = html.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
-                html.setAttribute('data-theme', 'light');
-                themeBtn.innerText = '☀️ المظهر النهاري';
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                themeBtn.innerText = '🌙 المظهر الليلي';
-            }
+            const isDark = html.getAttribute('data-theme') === 'dark';
+            html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            if (themeBtn) themeBtn.innerText = isDark ? '☀️ المظهر النهاري' : '🌙 المظهر الليلي';
         });
 
-       const toggleAdminLogin = () => {
+        const toggleAdminLogin = () => {
             if (!auth.currentUser) {
                 document.getElementById('adminLoginModal').style.display = 'flex';
             } else {
-                document.getElementById('adminPanel').style.display = document.getElementById('adminPanel').style.display === 'none' ? 'block' : 'none';
+                const panel = document.getElementById('adminPanel');
+                if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
             }
         };
 
-        document.getElementById('adminToggleBtn').addEventListener('click', toggleAdminLogin);
-        document.getElementById('closeAdminLoginBtn').addEventListener('click', () => {
+        document.getElementById('adminToggleBtn')?.addEventListener('click', toggleAdminLogin);
+        document.getElementById('closeAdminLoginBtn')?.addEventListener('click', () => {
             document.getElementById('adminLoginModal').style.display = 'none';
         });
 
-        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+        document.getElementById('adminLoginForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const email = document.getElementById('adminEmailInput').value;
             const pass = document.getElementById('adminPasswordInput').value;
             const btn = document.getElementById('loginSubmitBtn');
 
+            btn.innerText = "جاري التحقق... ⏳";
+            btn.disabled = true;
+
             try {
-                btn.innerText = "جاري التحقق... ⏳";
-                btn.disabled = true;
                 await signInWithEmailAndPassword(auth, email, pass);
                 document.getElementById('adminLoginModal').style.display = 'none';
                 document.getElementById('adminLoginForm').reset();
                 alert("تم تسجيل الدخول بنجاح! 🎉");
             } catch (err) {
-                alert("خطأ في تسجيل الدخول: " + err.message);
+                alert(`خطأ في تسجيل الدخول: ${err.message}`);
             } finally {
                 btn.innerText = "تسجيل الدخول 🚀";
                 btn.disabled = false;
             }
         });
 
-        // زر نسيت كلمة السر
-        document.getElementById('forgotPasswordBtn').addEventListener('click', async () => {
+        document.getElementById('forgotPasswordBtn')?.addEventListener('click', async () => {
             const email = document.getElementById('adminEmailInput').value;
             if (!email) {
                 alert("يرجى إدخال البريد الإلكتروني أولاً في الخانة المخصصة أعلاه.");
@@ -1757,53 +1711,48 @@
                 await sendPasswordResetEmail(auth, email);
                 alert("تم إرسال رابط إعادة تعيين كلمة السر إلى بريدك الإلكتروني بنجاح! 📧");
             } catch (err) {
-                alert("حدث خطأ أثناء إرسال البريد: " + err.message);
+                alert(`حدث خطأ أثناء إرسال البريد: ${err.message}`);
             }
         });
 
-        // نموذج تغيير كلمة السر من داخل لوحة التحكم
-        const changePasswordForm = document.getElementById('changePasswordForm');
-        if (changePasswordForm) {
-            changePasswordForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const newPass = document.getElementById('newAdminPassword').value;
-                const btn = document.getElementById('changePasswordBtn');
-                
-                if (!auth.currentUser) {
-                    alert("يجب عليك تسجيل الدخول أولاً.");
-                    return;
-                }
+        document.getElementById('changePasswordForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const newPass = document.getElementById('newAdminPassword').value;
+            const btn = document.getElementById('changePasswordBtn');
+            
+            if (!auth.currentUser) {
+                alert("يجب عليك تسجيل الدخول أولاً.");
+                return;
+            }
 
-                try {
-                    btn.innerText = "جاري التحديث... ⏳";
-                    btn.disabled = true;
-                    await updatePassword(auth.currentUser, newPass);
-                    alert("تم تغيير كلمة السر بنجاح! 🔐");
-                    changePasswordForm.reset();
-                } catch (err) {
-                    alert("خطأ في تغيير كلمة السر: " + err.message + "\nإذا انقضت فترة طويلة على تسجيل دخولك، يرجى إعادة تسجيل الدخول ثم المحاولة مرة أخرى.");
-                } finally {
-                    btn.innerText = "تحديث كلمة السر 🔐";
-                    btn.disabled = false;
-                }
-            });
-        }
+            btn.innerText = "جاري التحديث... ⏳";
+            btn.disabled = true;
 
-        document.getElementById('logoutBtn').addEventListener('click', () => {
-            signOut(auth).then(() => {
-                alert("تم تسجيل الخروج بنجاح.");
-            });
+            try {
+                await updatePassword(auth.currentUser, newPass);
+                alert("تم تغيير كلمة السر بنجاح! 🔐");
+                document.getElementById('changePasswordForm').reset();
+            } catch (err) {
+                alert(`خطأ في تغيير كلمة السر: ${err.message}`);
+            } finally {
+                btn.innerText = "تحديث كلمة السر 🔐";
+                btn.disabled = false;
+            }
         });
 
-        document.getElementById('openPublishModalBtn').addEventListener('click', () => {
+        document.getElementById('logoutBtn')?.addEventListener('click', () => {
+            signOut(auth).then(() => alert("تم تسجيل الخروج بنجاح."));
+        });
+
+        document.getElementById('openPublishModalBtn')?.addEventListener('click', () => {
             document.getElementById('publishModal').style.display = 'flex';
         });
 
-        document.getElementById('closePublishBtn').addEventListener('click', () => {
+        document.getElementById('closePublishBtn')?.addEventListener('click', () => {
             document.getElementById('publishModal').style.display = 'none';
         });
 
-        document.getElementById('authorPublishForm').addEventListener('submit', async (e) => {
+        document.getElementById('authorPublishForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitPublishBtn');
             btn.innerText = "جاري إرسال الطلب... ⏳";
@@ -1824,15 +1773,17 @@
                 updatedAt: Date.now()
             };
 
-            push(ref(db, 'publishRequests'), requestData).then(() => {
+            try {
+                await push(ref(db, 'publishRequests'), requestData);
                 alert("تم إرسال طلب النشر بنجاح! سيتم مراجعته والرد عليك. ✨");
                 document.getElementById('authorPublishForm').reset();
                 document.getElementById('publishModal').style.display = 'none';
-            }).catch(err => alert("خطأ أثناء إرسال الطلب: " + err.message))
-            .finally(() => {
+            } catch (err) {
+                alert(`خطأ أثناء إرسال الطلب: ${err.message}`);
+            } finally {
                 btn.innerText = "إرسال طلب النشر 📩";
                 btn.disabled = false;
-            });
+            }
         });
 
         onValue(ref(db, 'publishRequests'), (snapshot) => {
@@ -1840,23 +1791,17 @@
             const container = document.getElementById('publishRequestsContainer');
             allRequests = [];
             if (data) {
+                allRequests = Object.entries(data).map(([id, req]) => ({ id, ...req }));
                 let html = `
                     <table class="requests-table">
                         <thead>
                             <tr>
-                                <th>الكاتب</th>
-                                <th>التواصل</th>
-                                <th>عنوان العمل</th>
-                                <th>النوع</th>
-                                <th>الوصف</th>
-                                <th>الإجراءات</th>
+                                <th>الكاتب</th><th>التواصل</th><th>عنوان العمل</th><th>النوع</th><th>الوصف</th><th>الإجراءات</th>
                             </tr>
                         </thead>
                         <tbody>
                 `;
-                Object.keys(data).forEach(key => {
-                    const req = { id: key, ...data[key] };
-                    allRequests.push(req);
+                allRequests.forEach(req => {
                     html += `
                         <tr>
                             <td><strong>${req.authorName}</strong></td>
@@ -1874,13 +1819,13 @@
                     `;
                 });
                 html += `</tbody></table>`;
-                container.innerHTML = html;
-            } else {
+                if (container) container.innerHTML = html;
+            } else if (container) {
                 container.innerHTML = '<p style="color: var(--text-muted);">لا توجد طلبات نشر جديدة حالياً.</p>';
             }
         });
 
-        window.approveRequest = function(reqId) {
+        window.approveRequest = async (reqId) => {
             const req = allRequests.find(r => r.id === reqId);
             if (!req) return;
 
@@ -1901,32 +1846,29 @@
                 updatedAt: Date.now()
             };
 
-            push(ref(db, 'books'), newBook).then(() => {
-                remove(ref(db, 'publishRequests/' + reqId));
-                alert("تم قبول العمل ونشره بنجاح في المنصة! 🎉");
-            });
+            await push(ref(db, 'books'), newBook);
+            await remove(ref(db, `publishRequests/${reqId}`));
+            alert("تم قبول العمل ونشره بنجاح في المنصة! 🎉");
         };
 
-        window.rejectRequest = function(reqId) {
+        window.rejectRequest = async (reqId) => {
             if (confirm("هل انت متأكد من رفض وحذف طلب النشر هذا؟")) {
-                remove(ref(db, 'publishRequests/' + reqId)).then(() => {
-                    alert("تم رفض الطلب وحذفه.");
-                });
+                await remove(ref(db, `publishRequests/${reqId}`));
+                alert("تم رفض الطلب وحذفه.");
             }
         };
 
-        document.getElementById('siteCustomizationForm').addEventListener('submit', (e) => {
+        document.getElementById('siteCustomizationForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const coverUrl = document.getElementById('adminCoverUrl').value;
-            const accent = document.getElementById('accentColorInput').value;
-            const darkBg = document.getElementById('darkBgInput').value;
-            const lightBg = document.getElementById('lightBgInput').value;
+            const customData = {
+                coverUrl: document.getElementById('adminCoverUrl').value,
+                accent: document.getElementById('accentColorInput').value,
+                darkBg: document.getElementById('darkBgInput').value,
+                lightBg: document.getElementById('lightBgInput').value
+            };
 
-            const customData = { coverUrl, accent, darkBg, lightBg };
-
-            set(ref(db, 'siteCustomization'), customData).then(() => {
-                alert("تم حفظ التعديلات والألوان والغلاف بنجاح! 🎉");
-            });
+            await set(ref(db, 'siteCustomization'), customData);
+            alert("تم حفظ التعديلات والألوان والغلاف بنجاح! 🎉");
         });
 
         onValue(ref(db, 'siteCustomization'), (snapshot) => {
@@ -1940,12 +1882,8 @@
                     document.documentElement.style.setProperty('--accent-color', data.accent);
                     document.getElementById('accentColorInput').value = data.accent;
                 }
-                if (data.darkBg) {
-                    document.getElementById('darkBgInput').value = data.darkBg;
-                }
-                if (data.lightBg) {
-                    document.getElementById('lightBgInput').value = data.lightBg;
-                }
+                if (data.darkBg) document.getElementById('darkBgInput').value = data.darkBg;
+                if (data.lightBg) document.getElementById('lightBgInput').value = data.lightBg;
             }
         });
 
@@ -1981,7 +1919,7 @@
             }
         });
 
-        document.getElementById('siteContentForm').addEventListener('submit', (e) => {
+        document.getElementById('siteContentForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('saveContentBtn');
             btn.innerText = "جاري الحفظ... ⏳";
@@ -1995,34 +1933,27 @@
                 aboutText: document.getElementById('adminAboutText').value
             };
 
-            set(ref(db, 'siteContent'), siteContent).then(() => {
-                alert("تم تحديث نصوص الواجهة واللوجو بنجاح! 🎉");
-                btn.innerText = "تحديث نصوص الواجهة واللوجو 💾";
-            });
+            await set(ref(db, 'siteContent'), siteContent);
+            alert("تم تحديث نصوص الواجهة واللوجو بنجاح! 🎉");
+            btn.innerText = "تحديث نصوص الواجهة واللوجو 💾";
         });
 
-        /* --- 1. جلب وإدارة الخدمات الأدبية --- */
+        /* --- 1. الخدمات الأدبية --- */
         onValue(ref(db, 'services'), (snapshot) => {
             const data = snapshot.val();
-            allServices = [];
-            if (data) {
-                Object.keys(data).forEach(key => {
-                    allServices.push({ id: key, ...data[key] });
-                });
-                allServices.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
-            } else {
-                allServices = [
+            allServices = data 
+                ? Object.entries(data).map(([id, s]) => ({ id, ...s })).sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))
+                : [
                     { id: 'def1', title: '✍️ التدقيق اللغوي والنحوي', desc: 'مراجعة وشاملة للنصوص، الروايات، والقصص مع تصحيح الأخطاء النحوية والإملائية وبناء الجمل.', price: 'التقييم حسب عدد الكلمات', updatedAt: 3 },
                     { id: 'def2', title: '📖 التنسيق والإخراج الفني للكتب', desc: 'تنسيق وإخراج داخلي احترافي للكتب والروايات وإعداد الجداول والمقاسات الجاهزة للطباعة والنشر الإلكتروني.', price: 'حسب عدد صفحات الكتاب', updatedAt: 2 },
                     { id: 'def3', title: '📖 تقييم وتطوير المسودات', desc: 'قراءة نقدية احترافية للمسودة وتقييم الحبكة والأشخاص مع تقديم تقرير تحسيني متكامل.', price: 'حسب حجم المسودة', updatedAt: 1 }
                 ];
-            }
             renderServices();
         });
 
         function renderServices() {
             const container = document.getElementById('servicesGrid');
-            if(!container) return;
+            if (!container) return;
             container.innerHTML = '';
             allServices.forEach(item => {
                 const adminBtns = isAdmin ? `
@@ -2046,42 +1977,35 @@
             });
         }
 
-        window.requestService = function(title) {
+        window.requestService = (title) => {
             document.getElementById('buyTitle').innerText = title;
             document.getElementById('buySubtitle').innerText = "اختر الوسيلة المناسبة لطلب ودفع رسوم الخدمة الأدبية:";
             const codEl = document.getElementById('codMethod');
-            if(codEl) codEl.style.display = 'none';
+            if (codEl) codEl.style.display = 'none';
             document.getElementById('buyModal').style.display = 'flex';
         };
 
-        const addServiceForm = document.getElementById('addServiceForm');
-        if (addServiceForm) {
-            addServiceForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const editId = document.getElementById('editServiceId').value;
-                const data = {
-                    title: document.getElementById('serviceTitle').value,
-                    desc: document.getElementById('serviceDesc').value,
-                    price: document.getElementById('servicePrice').value,
-                    updatedAt: Date.now()
-                };
-                if (editId && !editId.startsWith('def')) {
-                    update(ref(db, 'services/' + editId), data).then(() => {
-                        alert("تم تحديث الخدمة بنجاح! 🎉");
-                        addServiceForm.reset();
-                        document.getElementById('editServiceId').value = '';
-                    });
-                } else {
-                    push(ref(db, 'services'), data).then(() => {
-                        alert("تمت إضافة الخدمة الجديدة بنجاح! 🚀");
-                        addServiceForm.reset();
-                        document.getElementById('editServiceId').value = '';
-                    });
-                }
-            });
-        }
+        document.getElementById('addServiceForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editServiceId').value;
+            const data = {
+                title: document.getElementById('serviceTitle').value,
+                desc: document.getElementById('serviceDesc').value,
+                price: document.getElementById('servicePrice').value,
+                updatedAt: Date.now()
+            };
+            if (editId && !editId.startsWith('def')) {
+                await update(ref(db, `services/${editId}`), data);
+                alert("تم تحديث الخدمة بنجاح! 🎉");
+            } else {
+                await push(ref(db, 'services'), data);
+                alert("تمت إضافة الخدمة الجديدة بنجاح! 🚀");
+            }
+            document.getElementById('addServiceForm').reset();
+            document.getElementById('editServiceId').value = '';
+        });
 
-        window.editService = function(id) {
+        window.editService = (id) => {
             const item = allServices.find(s => s.id === id);
             if (!item) return;
             document.getElementById('editServiceId').value = item.id;
@@ -2091,33 +2015,25 @@
             window.scrollTo({ top: document.getElementById('addServiceForm').offsetTop - 20, behavior: 'smooth' });
         };
 
-        window.deleteService = function(id) {
+        window.deleteService = async (id) => {
             if (confirm("هل انت متأكد من حذف هذه الخدمة؟")) {
-                if (!id.startsWith('def')) remove(ref(db, 'services/' + id));
+                if (!id.startsWith('def')) await remove(ref(db, `services/${id}`));
                 else alert("الخدمات الافتراضية محفوظة.");
             }
         };
 
-        /* --- 2. قسم الصوتيات المحسن والربط التلقائي للعدادات بضغطة واحدة --- */
+        /* --- 2. الصوتيات --- */
         onValue(ref(db, 'audioItems'), (snapshot) => {
             const data = snapshot.val();
-            allAudio = [];
-            if (data) {
-                Object.keys(data).forEach(key => {
-                    allAudio.push({ id: key, ...data[key] });
-                });
-                allAudio.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
-            } else {
-                allAudio = [
-                    { id: 'defA1', title: '🎙️ الإلقاء الصوتي - مقدمة رواية ظلال لا تنام', desc: 'استمع إلى مقدمة رواية ظلال لا تنام بإلقاء صوتي مميز.', audioUrl: 'https://files.catbox.moe/tn7sb7.mpeg', listens: 0, updatedAt: 1 }
-                ];
-            }
+            allAudio = data
+                ? Object.entries(data).map(([id, a]) => ({ id, ...a })).sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))
+                : [{ id: 'defA1', title: '🎙️ الإلقاء الصوتي - مقدمة رواية ظلال لا تنام', desc: 'استمع إلى مقدمة رواية ظلال لا تنام بإلقاء صوتي مميز.', audioUrl: 'https://files.catbox.moe/tn7sb7.mpeg', listens: 0, updatedAt: 1 }];
             renderAudio();
         });
 
         function renderAudio() {
             const container = document.getElementById('audioGrid');
-            if(!container) return;
+            if (!container) return;
             container.innerHTML = '';
             allAudio.forEach(item => {
                 const adminBtns = isAdmin ? `
@@ -2126,18 +2042,12 @@
                         <button class="btn-danger" onclick="deleteAudio('${item.id}')">حذف 🗑️</button>
                     </div>` : '';
 
-                let audioPlayerHtml = '';
-                if (item.audioUrl && item.audioUrl.trim() !== '' && item.audioUrl !== '#') {
-                    audioPlayerHtml = `
-                        <div class="audio-player-container">
-                            <audio controls preload="none" class="custom-audio-player" data-id="${item.id}" src="${item.audioUrl}">
-                                عذراً، متصفحك لا يدعم تشغيل هذا الملف الصوتي.
-                            </audio>
-                        </div>
-                    `;
-                } else {
-                    audioPlayerHtml = `<p style="color:var(--text-muted); font-size:0.85rem; margin:8px 0;">الملف الصوتي غير متوفر حالياً.</p>`;
-                }
+                const audioPlayerHtml = (item.audioUrl && item.audioUrl.trim() !== '#' && item.audioUrl.trim() !== '') ? `
+                    <div class="audio-player-container">
+                        <audio controls preload="none" class="custom-audio-player" data-id="${item.id}" src="${item.audioUrl}">
+                            عذراً، متصفحك لا يدعم تشغيل هذا الملف الصوتي.
+                        </audio>
+                    </div>` : `<p style="color:var(--text-muted); font-size:0.85rem; margin:8px 0;">الملف الصوتي غير متوفر حالياً.</p>`;
 
                 const html = `
                     <div class="custom-card">
@@ -2145,7 +2055,7 @@
                             <h3 style="font-family: 'Amiri', serif; font-size: 1.4rem; color: var(--accent-color);">${item.title}</h3>
                             <p style="color: var(--text-muted); font-size: 0.95rem; margin: 10px 0;">${item.desc}</p>
                             <div class="book-stats" style="margin: 8px 0;">
-                                <span>🎧 <strong id="audioCount_${item.id}">${item.listens || 0}</strong> استماع</span>
+                                <span>🎧 <strong id="audioCount_${item.id}">${item.listens ?? 0}</strong> استماع</span>
                             </div>
                             ${audioPlayerHtml}
                         </div>
@@ -2155,100 +2065,86 @@
                 container.insertAdjacentHTML('beforeend', html);
             });
 
-            // ربط الحدث فورياً لتأكيد التشغيل بضغطة واحدة وزيادة العداد
             document.querySelectorAll('.custom-audio-player').forEach(player => {
                 player.addEventListener('play', function() {
                     const audioId = this.getAttribute('data-id');
-                    if (audioId) {
-                        window.trackAudioListen(audioId);
-                    }
+                    if (audioId) window.trackAudioListen(audioId);
                 });
             });
         }
 
-        const addAudioForm = document.getElementById('addAudioForm');
-        if (addAudioForm) {
-            addAudioForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const editId = document.getElementById('editAudioId').value;
-                const audioFile = document.getElementById('audioFileInput')?.files[0];
-                let audioUrl = document.getElementById('audioUrl').value;
+        document.getElementById('addAudioForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editAudioId').value;
+            const audioFile = document.getElementById('audioFileInput')?.files[0];
+            let audioUrl = document.getElementById('audioUrl').value;
 
-                const btn = document.getElementById('submitAudioBtn');
-                btn.innerText = "جاري الحفظ... ⏳";
-                btn.disabled = true;
+            const btn = document.getElementById('submitAudioBtn');
+            btn.innerText = "جاري الحفظ... ⏳";
+            btn.disabled = true;
 
-                try {
-                    if (audioFile) {
-                        const aRef = storageRef(storage, `audio/${Date.now()}_${audioFile.name}`);
-                        await uploadBytes(aRef, audioFile);
-                        audioUrl = await getDownloadURL(aRef);
-                    }
-
-                    const data = {
-                        title: document.getElementById('audioTitle').value,
-                        desc: document.getElementById('audioDesc').value,
-                        audioUrl: audioUrl,
-                        updatedAt: Date.now()
-                    };
-
-                    if (editId && !editId.startsWith('def')) {
-                        await update(ref(db, 'audioItems/' + editId), data);
-                        alert("تم تحديث المقطع الصوتي بنجاح! 🎉");
-                    } else {
-                        data.listens = 0;
-                        await push(ref(db, 'audioItems'), data);
-                        alert("تمت إضافة المقطع الصوتي بنجاح! 🚀");
-                    }
-
-                    addAudioForm.reset();
-                    document.getElementById('editAudioId').value = '';
-                } catch (err) {
-                    alert("خطأ في رفع أو حفظ المقطع الصوتي: " + err.message);
-                } finally {
-                    btn.innerText = "حفظ المقطع الصوتي 💾";
-                    btn.disabled = false;
+            try {
+                if (audioFile) {
+                    const aRef = storageRef(storage, `audio/${Date.now()}_${audioFile.name}`);
+                    await uploadBytes(aRef, audioFile);
+                    audioUrl = await getDownloadURL(aRef);
                 }
-            });
-        }
 
-        window.editAudio = function(id) {
+                const data = {
+                    title: document.getElementById('audioTitle').value,
+                    desc: document.getElementById('audioDesc').value,
+                    audioUrl: audioUrl,
+                    updatedAt: Date.now()
+                };
+
+                if (editId && !editId.startsWith('def')) {
+                    await update(ref(db, `audioItems/${editId}`), data);
+                    alert("تم تحديث المقطع الصوتي بنجاح! 🎉");
+                } else {
+                    data.listens = 0;
+                    await push(ref(db, 'audioItems'), data);
+                    alert("تمت إضافة المقطع الصوتي بنجاح! 🚀");
+                }
+
+                document.getElementById('addAudioForm').reset();
+                document.getElementById('editAudioId').value = '';
+            } catch (err) {
+                alert(`خطأ في رفع أو حفظ المقطع الصوتي: ${err.message}`);
+            } finally {
+                btn.innerText = "حفظ المقطع الصوتي 💾";
+                btn.disabled = false;
+            }
+        });
+
+        window.editAudio = (id) => {
             const item = allAudio.find(a => a.id === id);
             if (!item) return;
             document.getElementById('editAudioId').value = item.id;
             document.getElementById('audioTitle').value = item.title;
             document.getElementById('audioDesc').value = item.desc;
-            document.getElementById('audioUrl').value = item.audioUrl || '';
+            document.getElementById('audioUrl').value = item.audioUrl ?? '';
             window.scrollTo({ top: document.getElementById('addAudioForm').offsetTop - 20, behavior: 'smooth' });
         };
 
-        window.deleteAudio = function(id) {
+        window.deleteAudio = async (id) => {
             if (confirm("هل انت متأكد من حذف هذا المقطع الصوتي؟")) {
-                if (!id.startsWith('def')) remove(ref(db, 'audioItems/' + id));
+                if (!id.startsWith('def')) await remove(ref(db, `audioItems/${id}`));
                 else alert("المقاطع الافتراضية محفوظة.");
             }
         };
 
-        /* --- 3. جلب وإدارة الدورات والورش --- */
+        /* --- 3. الدورات والورش --- */
         onValue(ref(db, 'courses'), (snapshot) => {
             const data = snapshot.val();
-            allCourses = [];
-            if (data) {
-                Object.keys(data).forEach(key => {
-                    allCourses.push({ id: key, ...data[key] });
-                });
-                allCourses.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
-            } else {
-                allCourses = [
-                    { id: 'defC1', title: '🖊️ ورشة صناعة الحبكة الروائية', desc: 'دورة تدريبية مكثفة لتعلم أسرار بناء الحبكة الروائية، تطوير الشخصيات، وصنع التشويق.', price: 'الاشتراك: 250 جنيه', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', updatedAt: 1 }
-                ];
-            }
+            allCourses = data
+                ? Object.entries(data).map(([id, c]) => ({ id, ...c })).sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))
+                : [{ id: 'defC1', title: '🖊️ ورشة صناعة الحبكة الروائية', desc: 'دورة تدريبية مكثفة لتعلم أسرار بناء الحبكة الروائية، تطوير الشخصيات، وصنع التشويق.', price: 'الاشتراك: 250 جنيه', videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', updatedAt: 1 }];
             renderCourses();
         });
 
         function renderCourses() {
             const container = document.getElementById('coursesGrid');
-            if(!container) return;
+            if (!container) return;
             container.innerHTML = '';
             allCourses.forEach(item => {
                 const adminBtns = isAdmin ? `
@@ -2275,82 +2171,67 @@
             });
         }
 
-        window.openVideoModal = function(url) {
+        window.openVideoModal = (url) => {
             document.getElementById('videoIframe').src = url;
             document.getElementById('videoModal').style.display = 'flex';
         };
 
-        document.getElementById('closeVideoBtn').addEventListener('click', () => {
+        document.getElementById('closeVideoBtn')?.addEventListener('click', () => {
             document.getElementById('videoModal').style.display = 'none';
             document.getElementById('videoIframe').src = '';
         });
 
-        const addCourseForm = document.getElementById('addCourseForm');
-        if (addCourseForm) {
-            addCourseForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const editId = document.getElementById('editCourseId').value;
-                const data = {
-                    title: document.getElementById('courseTitle').value,
-                    desc: document.getElementById('courseDesc').value,
-                    price: document.getElementById('coursePrice').value,
-                    videoUrl: document.getElementById('courseVideoUrl').value,
-                    updatedAt: Date.now()
-                };
-                if (editId && !editId.startsWith('def')) {
-                    update(ref(db, 'courses/' + editId), data).then(() => {
-                        alert("تم تحديث الدورة بنجاح! 🎉");
-                        addCourseForm.reset();
-                        document.getElementById('editCourseId').value = '';
-                    });
-                } else {
-                    push(ref(db, 'courses'), data).then(() => {
-                        alert("تمت إضافة الدورة بنجاح! 🚀");
-                        addCourseForm.reset();
-                        document.getElementById('editCourseId').value = '';
-                    });
-                }
-            });
-        }
+        document.getElementById('addCourseForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editCourseId').value;
+            const data = {
+                title: document.getElementById('courseTitle').value,
+                desc: document.getElementById('courseDesc').value,
+                price: document.getElementById('coursePrice').value,
+                videoUrl: document.getElementById('courseVideoUrl').value,
+                updatedAt: Date.now()
+            };
+            if (editId && !editId.startsWith('def')) {
+                await update(ref(db, `courses/${editId}`), data);
+                alert("تم تحديث الدورة بنجاح! 🎉");
+            } else {
+                await push(ref(db, 'courses'), data);
+                alert("تمت إضافة الدورة بنجاح! 🚀");
+            }
+            document.getElementById('addCourseForm').reset();
+            document.getElementById('editCourseId').value = '';
+        });
 
-        window.editCourse = function(id) {
+        window.editCourse = (id) => {
             const item = allCourses.find(c => c.id === id);
             if (!item) return;
             document.getElementById('editCourseId').value = item.id;
             document.getElementById('courseTitle').value = item.title;
             document.getElementById('courseDesc').value = item.desc;
             document.getElementById('coursePrice').value = item.price;
-            document.getElementById('courseVideoUrl').value = item.videoUrl || '';
+            document.getElementById('courseVideoUrl').value = item.videoUrl ?? '';
             window.scrollTo({ top: document.getElementById('addCourseForm').offsetTop - 20, behavior: 'smooth' });
         };
 
-        window.deleteCourse = function(id) {
+        window.deleteCourse = async (id) => {
             if (confirm("هل انت متأكد من حذف هذه الدورة؟")) {
-                if (!id.startsWith('def')) remove(ref(db, 'courses/' + id));
+                if (!id.startsWith('def')) await remove(ref(db, `courses/${id}`));
                 else alert("الدورات الافتراضية محفوظة.");
             }
         };
 
-        /* --- 4. جلب وإدارة المنتجات الرقمية --- */
+        /* --- 4. المنتجات الرقمية --- */
         onValue(ref(db, 'products'), (snapshot) => {
             const data = snapshot.val();
-            allProducts = [];
-            if (data) {
-                Object.keys(data).forEach(key => {
-                    allProducts.push({ id: key, ...data[key] });
-                });
-                allProducts.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
-            } else {
-                allProducts = [
-                    { id: 'defP1', title: '📑 قوالب تنسيق الكتب المجهزة للطباعة', desc: 'حزمة قوالب Word جاهزة بمقاسات 14*20 و A5 مع هوامش معتمدة للطباعة.', price: 'السعر: 100 جنيه', updatedAt: 1 }
-                ];
-            }
+            allProducts = data
+                ? Object.entries(data).map(([id, p]) => ({ id, ...p })).sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))
+                : [{ id: 'defP1', title: '📑 قوالب تنسيق الكتب المجهزة للطباعة', desc: 'حزمة قوالب Word جاهزة بمقاسات 14*20 و A5 مع هوامش معتمدة للطباعة.', price: 'السعر: 100 جنيه', updatedAt: 1 }];
             renderProducts();
         });
 
         function renderProducts() {
             const container = document.getElementById('productsGrid');
-            if(!container) return;
+            if (!container) return;
             container.innerHTML = '';
             allProducts.forEach(item => {
                 const adminBtns = isAdmin ? `
@@ -2374,34 +2255,27 @@
             });
         }
 
-        const addProductForm = document.getElementById('addProductForm');
-        if (addProductForm) {
-            addProductForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const editId = document.getElementById('editProductId').value;
-                const data = {
-                    title: document.getElementById('productTitle').value,
-                    desc: document.getElementById('productDesc').value,
-                    price: document.getElementById('productPrice').value,
-                    updatedAt: Date.now()
-                };
-                if (editId && !editId.startsWith('def')) {
-                    update(ref(db, 'products/' + editId), data).then(() => {
-                        alert("تم تحديث المنتج بنجاح! 🎉");
-                        addProductForm.reset();
-                        document.getElementById('editProductId').value = '';
-                    });
-                } else {
-                    push(ref(db, 'products'), data).then(() => {
-                        alert("تمت إضافة المنتج بنجاح! 🚀");
-                        addProductForm.reset();
-                        document.getElementById('editProductId').value = '';
-                    });
-                }
-            });
-        }
+        document.getElementById('addProductForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editProductId').value;
+            const data = {
+                title: document.getElementById('productTitle').value,
+                desc: document.getElementById('productDesc').value,
+                price: document.getElementById('productPrice').value,
+                updatedAt: Date.now()
+            };
+            if (editId && !editId.startsWith('def')) {
+                await update(ref(db, `products/${editId}`), data);
+                alert("تم تحديث المنتج بنجاح! 🎉");
+            } else {
+                await push(ref(db, 'products'), data);
+                alert("تمت إضافة المنتج بنجاح! 🚀");
+            }
+            document.getElementById('addProductForm').reset();
+            document.getElementById('editProductId').value = '';
+        });
 
-        window.editProduct = function(id) {
+        window.editProduct = (id) => {
             const item = allProducts.find(p => p.id === id);
             if (!item) return;
             document.getElementById('editProductId').value = item.id;
@@ -2411,47 +2285,43 @@
             window.scrollTo({ top: document.getElementById('addProductForm').offsetTop - 20, behavior: 'smooth' });
         };
 
-        window.deleteProduct = function(id) {
+        window.deleteProduct = async (id) => {
             if (confirm("هل انت متأكد من حذف هذا المنتج؟")) {
-                if (!id.startsWith('def')) remove(ref(db, 'products/' + id));
+                if (!id.startsWith('def')) await remove(ref(db, `products/${id}`));
                 else alert("المنتجات الافتراضية محفوظة.");
             }
         };
 
-        /* --- 5. جلب وإدارة الكتب والأعمال الأدبية --- */
+        /* --- 5. الأعمال الأدبية والمعرض --- */
         onValue(ref(db, 'books'), (snapshot) => {
             const data = snapshot.val();
             allBooks = [];
             let sumReads = 0;
             if (data) {
-                Object.keys(data).forEach(key => {
-                    const b = { id: key, ...data[key] };
-                    allBooks.push(b);
-                    sumReads += (b.reads || 0);
-                });
-                allBooks.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+                allBooks = Object.entries(data).map(([id, b]) => {
+                    sumReads += (b.reads ?? 0);
+                    return { id, ...b };
+                }).sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
             } else {
-                allBooks = [
-                    {
-                        id: 'defB1',
-                        title: 'ظلال لا تنام',
-                        author: 'سعيد الشوادفي',
-                        category: 'novel',
-                        desc: 'رواية غموض وتشويق تدور أحداثها في أزقة مظلمة حيث تطفو أسرار الماضى وتبقى الظلال ساهرة لا تنام.',
-                        price: '50 جنيه',
-                        paperPrice: '120 جنيه',
-                        coverUrl: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=500&q=80',
-                        fileUrl: '#',
-                        amazonLink: 'https://www.amazon.com',
-                        googlePlayLink: 'https://play.google.com',
-                        freePages: ['الفصل الأول: البداية المظلمة...\nانطلقت الخطوات السريعة في أزقة المدينة المنسية...'],
-                        reads: 120,
-                        rating: 4.8,
-                        ratingSum: 24,
-                        ratingCount: 5,
-                        updatedAt: 1
-                    }
-                ];
+                allBooks = [{
+                    id: 'defB1',
+                    title: 'ظلال لا تنام',
+                    author: 'سعيد الشوادفي',
+                    category: 'novel',
+                    desc: 'رواية غموض وتشويق تدور أحداثها في أزقة مظلمة حيث تطفو أسرار الماضى وتبقى الظلال ساهرة لا تنام.',
+                    price: '50 جنيه',
+                    paperPrice: '120 جنيه',
+                    coverUrl: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=500&q=80',
+                    fileUrl: '#',
+                    amazonLink: 'https://www.amazon.com',
+                    googlePlayLink: 'https://play.google.com',
+                    freePages: ['الفصل الأول: البداية المظلمة...\nانطلقت الخطوات السريعة في أزقة المدينة المنسية...'],
+                    reads: 120,
+                    rating: 4.8,
+                    ratingSum: 24,
+                    ratingCount: 5,
+                    updatedAt: 1
+                }];
                 sumReads = 120;
             }
 
@@ -2485,29 +2355,20 @@
             }
 
             filtered.forEach(book => {
-                const avgRating = book.ratingCount ? (book.ratingSum / book.ratingCount).toFixed(1) : (book.rating || '5.0');
-                
-                let adminBtns = '';
-                if (isAdmin) {
-                    adminBtns = `
-                        <div style="display:flex; gap:8px; margin-top:10px;">
-                            <button class="btn-edit" onclick="editBook('${book.id}')">تعديل ✏️</button>
-                            <button class="btn-danger" onclick="deleteBook('${book.id}')">حذف 🗑️</button>
-                        </div>
-                    `;
-                }
+                const avgRating = book.ratingCount ? (book.ratingSum / book.ratingCount).toFixed(1) : (book.rating ?? '5.0');
+                const adminBtns = isAdmin ? `
+                    <div style="display:flex; gap:8px; margin-top:10px;">
+                        <button class="btn-edit" onclick="editBook('${book.id}')">تعديل ✏️</button>
+                        <button class="btn-danger" onclick="deleteBook('${book.id}')">حذف 🗑️</button>
+                    </div>` : '';
 
-                let audioPlayerHtml = '';
-                if (book.audioUrl && book.audioUrl.trim() !== '' && book.audioUrl !== '#') {
-                    audioPlayerHtml = `
-                        <div class="audio-player-container">
-                            <span style="font-size:0.82rem; color:var(--accent-color); font-weight:bold; display:block; margin-bottom:4px;">🎧 الإلقاء الصوتي للرواية</span>
-                            <audio controls preload="none" src="${book.audioUrl}">
-                                عذراً، متصفحك لا يدعم تشغيل هذا الملف الصوتي.
-                            </audio>
-                        </div>
-                    `;
-                }
+                const audioPlayerHtml = (book.audioUrl && book.audioUrl.trim() !== '' && book.audioUrl !== '#') ? `
+                    <div class="audio-player-container">
+                        <span style="font-size:0.82rem; color:var(--accent-color); font-weight:bold; display:block; margin-bottom:4px;">🎧 الإلقاء الصوتي للرواية</span>
+                        <audio controls preload="none" src="${book.audioUrl}">
+                            عذراً، متصفحك لا يدعم تشغيل هذا الملف الصوتي.
+                        </audio>
+                    </div>` : '';
 
                 let platformsHtml = '';
                 if (book.amazonLink || book.googlePlayLink) {
@@ -2517,14 +2378,11 @@
                     platformsHtml += `</div>`;
                 }
 
-                let readBtnHtml = '';
-                if (book.customLink) {
-                    readBtnHtml = `<a href="${book.customLink}" target="_blank" class="btn-primary" style="width:100%;">اقرأ مباشرة بالموقع 📖</a>`;
-                } else if (book.freePages && book.freePages.length > 0) {
-                    readBtnHtml = `<button class="btn-primary" style="width:100%;" onclick="openReader('${book.id}')">اقرأ مباشرة بالموقع 📖</button>`;
-                } else {
-                    readBtnHtml = `<button class="btn-primary" style="width:100%; opacity:0.6; cursor:not-allowed;" disabled>القراءة غير متاحة</button>`;
-                }
+                const readBtnHtml = book.customLink 
+                    ? `<a href="${book.customLink}" target="_blank" class="btn-primary" style="width:100%;">اقرأ مباشرة بالموقع 📖</a>`
+                    : (book.freePages?.length > 0 
+                        ? `<button class="btn-primary" style="width:100%;" onclick="openReader('${book.id}')">اقرأ مباشرة بالموقع 📖</button>`
+                        : `<button class="btn-primary" style="width:100%; opacity:0.6; cursor:not-allowed;" disabled>القراءة غير متاحة</button>`);
 
                 const cardHtml = `
                     <div class="book-card">
@@ -2533,13 +2391,13 @@
                                 ${book.coverUrl ? `<img src="${book.coverUrl}" alt="${book.title}" loading="lazy">` : `<span>14 × 20</span>`}
                             </div>
                             <h3 style="font-family: 'Amiri', serif; font-size: 1.45rem; color: var(--accent-color);">${book.title}</h3>
-                            <div class="book-author-tag">بقلم: ${book.author || 'سعيد الشوادفي'}</div>
+                            <div class="book-author-tag">بقلم: ${book.author ?? 'سعيد الشوادفي'}</div>
                             <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 10px; text-align: justify; text-justify: inter-word;">${book.desc}</p>
                             
                             ${audioPlayerHtml}
 
                             <div class="book-stats">
-                                <span>👁️ ${book.reads || 0} قراءة</span>
+                                <span>👁️ ${book.reads ?? 0} قراءة</span>
                                 <span>⭐ ${avgRating} / 5</span>
                             </div>
 
@@ -2549,7 +2407,7 @@
                             </div>
 
                             <div class="book-price">
-                                <span>الرقمية: ${book.price || 'مجاناً'}</span> | <span>الورقية: ${book.paperPrice || 'غير متاحة'}</span>
+                                <span>الرقمية: ${book.price ?? 'مجاناً'}</span> | <span>الورقية: ${book.paperPrice ?? 'غير متاحة'}</span>
                             </div>
                         </div>
 
@@ -2564,7 +2422,7 @@
                                 </div>
                             </div>
 
-                            ${book.fileUrl && book.fileUrl !== '#' 
+                            ${(book.fileUrl && book.fileUrl !== '#') 
                                 ? `<a href="${book.fileUrl}" target="_blank" download class="btn-download">تحميل pdf 📥</a>`
                                 : `<button class="btn-download" style="opacity:0.6; cursor:not-allowed;" disabled>تحميل pdf 📥</button>`
                             }
@@ -2581,7 +2439,7 @@
             });
         }
 
-        window.toggleBuyDropdown = function(bookId) {
+        window.toggleBuyDropdown = (bookId) => {
             const dropdown = document.getElementById(`buyDropdown_${bookId}`);
             if (!dropdown) return;
             const isVisible = dropdown.style.display === 'flex';
@@ -2589,7 +2447,7 @@
             dropdown.style.display = isVisible ? 'none' : 'flex';
         };
 
-        window.openBuyModal = function(bookId, type) {
+        window.openBuyModal = (bookId, type) => {
             const book = allBooks.find(b => b.id === bookId);
             if (!book) return;
             selectedBookForBuy = book;
@@ -2606,15 +2464,15 @@
             document.getElementById('buyModal').style.display = 'flex';
         };
 
-        window.openReader = function(bookId) {
+        window.openReader = (bookId) => {
             const book = allBooks.find(b => b.id === bookId);
-            if (!book || !book.freePages || book.freePages.length === 0) return;
+            if (!book?.freePages?.length) return;
 
             currentReaderBook = book;
             currentReaderPage = 0;
 
             if (!book.id.startsWith('def')) {
-                runTransaction(ref(db, `books/${book.id}/reads`), (reads) => (reads || 0) + 1);
+                runTransaction(ref(db, `books/${book.id}/reads`), reads => (reads ?? 0) + 1);
             }
 
             document.getElementById('readerTitle').innerText = book.title;
@@ -2625,32 +2483,32 @@
         function updateReaderContent() {
             if (!currentReaderBook) return;
             const pages = currentReaderBook.freePages;
-            document.getElementById('readerText').innerText = pages[currentReaderPage] || '';
+            document.getElementById('readerText').innerText = pages[currentReaderPage] ?? '';
             document.getElementById('readerPageIndicator').innerText = `صفحة ${currentReaderPage + 1} من ${pages.length}`;
 
             document.getElementById('prevPageBtn').disabled = currentReaderPage === 0;
             document.getElementById('nextPageBtn').disabled = currentReaderPage === pages.length - 1;
         }
 
-        document.getElementById('prevPageBtn').addEventListener('click', () => {
+        document.getElementById('prevPageBtn')?.addEventListener('click', () => {
             if (currentReaderPage > 0) {
                 currentReaderPage--;
                 updateReaderContent();
             }
         });
 
-        document.getElementById('nextPageBtn').addEventListener('click', () => {
+        document.getElementById('nextPageBtn')?.addEventListener('click', () => {
             if (currentReaderBook && currentReaderPage < currentReaderBook.freePages.length - 1) {
                 currentReaderPage++;
                 updateReaderContent();
             }
         });
 
-        document.getElementById('closeReaderBtn').addEventListener('click', () => {
+        document.getElementById('closeReaderBtn')?.addEventListener('click', () => {
             document.getElementById('readerModal').style.display = 'none';
         });
 
-        window.shareBook = function(title) {
+        window.shareBook = (title) => {
             const shareData = {
                 title: title,
                 text: `اقرأ عمل "${title}" للكاتب سعيد الشوادفي عبر منصته الأدبية الرسمية!`,
@@ -2665,15 +2523,15 @@
             }
         };
 
-        window.rateBook = function(bookId) {
+        window.rateBook = (bookId) => {
             const rating = prompt("ضع تقييمك للعمل من 1 إلى 5 نجوم:");
             const num = parseFloat(rating);
-            if (num && num >= 1 && num <= 5) {
+            if (num >= 1 && num <= 5) {
                 if (!bookId.startsWith('def')) {
                     runTransaction(ref(db, `books/${bookId}`), (book) => {
                         if (book) {
-                            book.ratingSum = (book.ratingSum || 0) + num;
-                            book.ratingCount = (book.ratingCount || 0) + 1;
+                            book.ratingSum = (book.ratingSum ?? 0) + num;
+                            book.ratingCount = (book.ratingCount ?? 0) + 1;
                         }
                         return book;
                     }).then(() => alert("شكراً لتقييمك! ⭐"));
@@ -2683,48 +2541,47 @@
             }
         };
 
-        window.openReviewsModal = function(bookId) {
+        window.openReviewsModal = (bookId) => {
             selectedBookForReviews = bookId;
             const book = allBooks.find(b => b.id === bookId);
             document.getElementById('reviewsModalTitle').innerText = `💬 آراء وانطباعات القراء: ${book ? book.title : ''}`;
 
             const container = document.getElementById('reviewsListContainer');
-            container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">جاري تحفيز الانطباعات... ⏳</p>';
+            if (container) container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">جاري تحفيز الانطباعات... ⏳</p>';
 
             if (!bookId.startsWith('def')) {
                 onValue(ref(db, `reviews/${bookId}`), (snapshot) => {
                     const data = snapshot.val();
-                    container.innerHTML = '';
+                    if (container) container.innerHTML = '';
                     if (data) {
-                        Object.keys(data).forEach(key => {
-                            const rev = data[key];
+                        Object.values(data).forEach(rev => {
                             const revHtml = `
                                 <div class="review-card">
                                     <div class="review-header">
                                         <span class="review-author">👤 ${rev.name}</span>
-                                        <span class="review-date">${rev.date || ''}</span>
+                                        <span class="review-date">${rev.date ?? ''}</span>
                                     </div>
                                     <div class="review-text">${rev.text}</div>
                                 </div>
                             `;
-                            container.insertAdjacentHTML('beforeend', revHtml);
+                            container?.insertAdjacentHTML('beforeend', revHtml);
                         });
-                    } else {
+                    } else if (container) {
                         container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">لا توجد مراجعات مكتوبة بعد. كن أول من يكتب رأيه! ✍️</p>';
                     }
                 }, { onlyOnce: true });
-            } else {
+            } else if (container) {
                 container.innerHTML = '<p style="color: var(--text-muted); text-align: center;">لا توجد مراجعات مكتوبة بعد. كن أول من يكتب رأيه! ✍️</p>';
             }
 
             document.getElementById('reviewsModal').style.display = 'flex';
         };
 
-        document.getElementById('closeReviewsBtn').addEventListener('click', () => {
+        document.getElementById('closeReviewsBtn')?.addEventListener('click', () => {
             document.getElementById('reviewsModal').style.display = 'none';
         });
 
-        document.getElementById('addReviewForm').addEventListener('submit', (e) => {
+        document.getElementById('addReviewForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const name = document.getElementById('reviewerName').value;
             const text = document.getElementById('reviewerText').value;
@@ -2732,17 +2589,16 @@
             if (!selectedBookForReviews) return;
 
             const reviewData = {
-                name: name,
-                text: text,
+                name,
+                text,
                 date: new Date().toLocaleDateString('ar-EG')
             };
 
             if (!selectedBookForReviews.startsWith('def')) {
-                push(ref(db, `reviews/${selectedBookForReviews}`), reviewData).then(() => {
-                    alert("تم إرسال رأيك بنجاح! ✨");
-                    document.getElementById('addReviewForm').reset();
-                    openReviewsModal(selectedBookForReviews);
-                });
+                await push(ref(db, `reviews/${selectedBookForReviews}`), reviewData);
+                alert("تم إرسال رأيك بنجاح! ✨");
+                document.getElementById('addReviewForm').reset();
+                openReviewsModal(selectedBookForReviews);
             } else {
                 alert("تم إرسال رأيك بنجاح! ✨");
                 document.getElementById('addReviewForm').reset();
@@ -2750,106 +2606,103 @@
             }
         });
 
-        const addBookForm = document.getElementById('addBookForm');
-        if (addBookForm) {
-            addBookForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const btn = document.getElementById('submitBtn');
-                btn.innerText = "جاري الحفظ... ⏳";
-                btn.disabled = true;
+        document.getElementById('addBookForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = "جاري الحفظ... ⏳";
+            btn.disabled = true;
 
-                const editId = document.getElementById('editBookId').value;
-                const coverFile = document.getElementById('coverFileInput').files[0];
-                const docFile = document.getElementById('docFileInput').files[0];
-                const bookAudioFile = document.getElementById('bookAudioFileInput')?.files[0];
+            const editId = document.getElementById('editBookId').value;
+            const coverFile = document.getElementById('coverFileInput')?.files[0];
+            const docFile = document.getElementById('docFileInput')?.files[0];
+            const bookAudioFile = document.getElementById('bookAudioFileInput')?.files[0];
 
-                let coverUrl = document.getElementById('coverUrlInput').value;
-                let fileUrl = document.getElementById('docUrlInput').value;
-                let bookAudioUrl = document.getElementById('bookAudioUrl').value;
+            let coverUrl = document.getElementById('coverUrlInput').value;
+            let fileUrl = document.getElementById('docUrlInput').value;
+            let bookAudioUrl = document.getElementById('bookAudioUrl').value;
 
-                try {
-                    if (coverFile) {
-                        const cRef = storageRef(storage, `covers/${Date.now()}_${coverFile.name}`);
-                        await uploadBytes(cRef, coverFile);
-                        coverUrl = await getDownloadURL(cRef);
-                    }
-                    if (docFile) {
-                        const dRef = storageRef(storage, `docs/${Date.now()}_${docFile.name}`);
-                        await uploadBytes(dRef, docFile);
-                        fileUrl = await getDownloadURL(dRef);
-                    }
-                    if (bookAudioFile) {
-                        const baRef = storageRef(storage, `book_audio/${Date.now()}_${bookAudioFile.name}`);
-                        await uploadBytes(baRef, bookAudioFile);
-                        bookAudioUrl = await getDownloadURL(baRef);
-                    }
-
-                    const bookData = {
-                        title: document.getElementById('bookTitle').value,
-                        author: document.getElementById('bookAuthor').value,
-                        category: document.getElementById('bookCategory').value,
-                        desc: document.getElementById('bookDesc').value,
-                        price: document.getElementById('bookPrice').value,
-                        paperPrice: document.getElementById('bookPaperPrice').value,
-                        customLink: document.getElementById('bookCustomLink').value,
-                        audioUrl: bookAudioUrl,
-                        amazonLink: document.getElementById('amazonLink').value,
-                        googlePlayLink: document.getElementById('googlePlayLink').value,
-                        coverUrl: coverUrl,
-                        fileUrl: fileUrl,
-                        freePages: document.getElementById('bookFreePages').value.split('---').map(p => p.trim()),
-                        updatedAt: Date.now()
-                    };
-
-                    if (editId && !editId.startsWith('def')) {
-                        await update(ref(db, `books/${editId}`), bookData);
-                        alert("تم تعديل العمل بنجاح! 🎉");
-                    } else {
-                        bookData.reads = 0;
-                        bookData.rating = 5.0;
-                        bookData.ratingSum = 5;
-                        bookData.ratingCount = 1;
-                        await push(ref(db, 'books'), bookData);
-                        alert("تم نشر العمل بنجاح! 🚀");
-                    }
-
-                    addBookForm.reset();
-                    document.getElementById('editBookId').value = '';
-                } catch (err) {
-                    alert("حدث خطأ أثناء الحفظ: " + err.message);
-                } finally {
-                    btn.innerText = "حفظ ونشر العمل للجميع 🚀";
-                    btn.disabled = false;
+            try {
+                if (coverFile) {
+                    const cRef = storageRef(storage, `covers/${Date.now()}_${coverFile.name}`);
+                    await uploadBytes(cRef, coverFile);
+                    coverUrl = await getDownloadURL(cRef);
                 }
-            });
-        }
+                if (docFile) {
+                    const dRef = storageRef(storage, `docs/${Date.now()}_${docFile.name}`);
+                    await uploadBytes(dRef, docFile);
+                    fileUrl = await getDownloadURL(dRef);
+                }
+                if (bookAudioFile) {
+                    const baRef = storageRef(storage, `book_audio/${Date.now()}_${bookAudioFile.name}`);
+                    await uploadBytes(baRef, bookAudioFile);
+                    bookAudioUrl = await getDownloadURL(baRef);
+                }
 
-        window.editBook = function(id) {
+                const bookData = {
+                    title: document.getElementById('bookTitle').value,
+                    author: document.getElementById('bookAuthor').value,
+                    category: document.getElementById('bookCategory').value,
+                    desc: document.getElementById('bookDesc').value,
+                    price: document.getElementById('bookPrice').value,
+                    paperPrice: document.getElementById('bookPaperPrice').value,
+                    customLink: document.getElementById('bookCustomLink').value,
+                    audioUrl: bookAudioUrl,
+                    amazonLink: document.getElementById('amazonLink').value,
+                    googlePlayLink: document.getElementById('googlePlayLink').value,
+                    coverUrl,
+                    fileUrl,
+                    freePages: document.getElementById('bookFreePages').value.split('---').map(p => p.trim()),
+                    updatedAt: Date.now()
+                };
+
+                if (editId && !editId.startsWith('def')) {
+                    await update(ref(db, `books/${editId}`), bookData);
+                    alert("تم تعديل العمل بنجاح! 🎉");
+                } else {
+                    bookData.reads = 0;
+                    bookData.rating = 5.0;
+                    bookData.ratingSum = 5;
+                    bookData.ratingCount = 1;
+                    await push(ref(db, 'books'), bookData);
+                    alert("تم نشر العمل بنجاح! 🚀");
+                }
+
+                document.getElementById('addBookForm').reset();
+                document.getElementById('editBookId').value = '';
+            } catch (err) {
+                alert(`حدث خطأ أثناء الحفظ: ${err.message}`);
+            } finally {
+                btn.innerText = "حفظ ونشر العمل للجميع 🚀";
+                btn.disabled = false;
+            }
+        });
+
+        window.editBook = (id) => {
             const book = allBooks.find(b => b.id === id);
             if (!book) return;
 
             document.getElementById('editBookId').value = book.id;
             document.getElementById('bookTitle').value = book.title;
-            document.getElementById('bookAuthor').value = book.author || '';
+            document.getElementById('bookAuthor').value = book.author ?? '';
             document.getElementById('bookCategory').value = book.category;
             document.getElementById('bookDesc').value = book.desc;
             document.getElementById('bookPrice').value = book.price;
             document.getElementById('bookPaperPrice').value = book.paperPrice;
-            document.getElementById('bookCustomLink').value = book.customLink || '';
-            document.getElementById('bookAudioUrl').value = book.audioUrl || '';
-            document.getElementById('amazonLink').value = book.amazonLink || '';
-            document.getElementById('googlePlayLink').value = book.googlePlayLink || '';
-            document.getElementById('coverUrlInput').value = book.coverUrl || '';
-            document.getElementById('docUrlInput').value = book.fileUrl || '';
-            document.getElementById('bookFreePages').value = (book.freePages || []).join('\n---\n');
+            document.getElementById('bookCustomLink').value = book.customLink ?? '';
+            document.getElementById('bookAudioUrl').value = book.audioUrl ?? '';
+            document.getElementById('amazonLink').value = book.amazonLink ?? '';
+            document.getElementById('googlePlayLink').value = book.googlePlayLink ?? '';
+            document.getElementById('coverUrlInput').value = book.coverUrl ?? '';
+            document.getElementById('docUrlInput').value = book.fileUrl ?? '';
+            document.getElementById('bookFreePages').value = (book.freePages ?? []).join('\n---\n');
 
             window.scrollTo({ top: document.getElementById('addBookForm').offsetTop - 20, behavior: 'smooth' });
         };
 
-        window.deleteBook = function(id) {
+        window.deleteBook = async (id) => {
             if (confirm("هل انت متأكد من حذف هذا العمل؟")) {
                 if (!id.startsWith('def')) {
-                    remove(ref(db, `books/${id}`));
+                    await remove(ref(db, `books/${id}`));
                 } else {
                     alert("الأعمال الافتراضية محفوظة.");
                 }

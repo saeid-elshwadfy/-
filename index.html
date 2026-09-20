@@ -104,7 +104,7 @@
             object-fit: cover;
             object-position: center;
             display: block;
-            background: linear-gradient(135deg, #1e293b, #0f172a);
+            background-color: var(--card-bg);
         }
 
         header {
@@ -959,7 +959,7 @@
 
     <div id="mainWebsite">
         <div class="site-cover-container">
-            <img src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?auto=format&fit=crop&w=1200&q=80" id="siteCoverImg" class="site-cover-img" alt="غلاف المنصة الأدبية الرسمية" loading="lazy">
+            <img src="https://i.ibb.co/Gf3Mt7r6/2.jpg" id="siteCoverImg" class="site-cover-img" alt="غلاف المنصة الأدبية الرسمية" loading="lazy">
         </div>
 
         <header>
@@ -1468,7 +1468,6 @@
         </footer>
     </div>
 
-    <!-- السكريبت المحدث باستخدام أحدث ميزات JavaScript (ES9+ / ES2022) ومكتبات Firebase Modern -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
@@ -1877,6 +1876,8 @@
                 if (data.coverUrl) {
                     document.getElementById('siteCoverImg').src = data.coverUrl;
                     document.getElementById('adminCoverUrl').value = data.coverUrl;
+                } else {
+                    document.getElementById('siteCoverImg').src = "https://i.ibb.co/Gf3Mt7r6/2.jpg";
                 }
                 if (data.accent) {
                     document.documentElement.style.setProperty('--accent-color', data.accent);
@@ -1884,6 +1885,8 @@
                 }
                 if (data.darkBg) document.getElementById('darkBgInput').value = data.darkBg;
                 if (data.lightBg) document.getElementById('lightBgInput').value = data.lightBg;
+            } else {
+                document.getElementById('siteCoverImg').src = "https://i.ibb.co/Gf3Mt7r6/2.jpg";
             }
         });
 

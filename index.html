@@ -9,12 +9,12 @@
     <meta name="description" content="مرحباً بك في المنصة الأدبية الرسمية للكاتب الروائي سعيد الشوادفي. تصفح واقرأ أحدث الروايات والإصدارات الأدبية واستفد من خدماتنا الأدبية والدورات التدريبية.">
     <meta name="keywords" content="سعيد الشوادفي, الكاتب الروائي سعيد الشوادفي, روايات سعيد الشوادفي, ظلال لا تنام, ابن الغزال, خدمات أدبية, تدقيق لغوي, دورات كتابة, قوالب رقمية">
     <meta name="author" content="سعيد الشوادفي">
-    <link rel="canonical" href="https://github.io">
+    <link rel="canonical" href="https://saeid-elshwadfy.github.io">
 
     <!-- وسوم النشر على السوشيال ميديا (Open Graph) -->
     <meta property="og:title" content="المنصة الأدبية الرسمية| موقع الكاتب الروائي سعيد الشوادفي">
     <meta property="og:description" content="تصفح واقرأ مباشرة أو اطلب النسخ الورقية والرقمية واستكشف الخدمات والدورات الأدبية.">
-    <meta property="og:url" content="https://github.io">
+    <meta property="og:url" content="https://saeid-elshwadfy.github.io">
     <meta property="og:type" content="website">
 
     <!-- تسريع استيراد الخطوط دون تعطيل تحميل الصفحة -->
@@ -1447,7 +1447,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
         import { getDatabase, ref, onValue, set, push, update, remove, runTransaction } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
-        import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-storage.js";
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updatePassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
         const firebaseConfig = {
@@ -1464,8 +1463,30 @@
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getDatabase(app);
-        const storage = getStorage(app);
         const auth = getAuth(app);
+
+        // دالة الرفع المباشر إلى حسابك في Cloudinary
+        async function uploadToCloudinary(file) {
+            const CLOUD_NAME = "uha8a6rd"; // اسم حسابك المأخوذ من المثال
+            const UPLOAD_PRESET = "saeid-elshwadfy"; // الـ Preset الخاص بك من إعدادات Cloudinary
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', UPLOAD_PRESET);
+
+            const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/auto/upload`, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error?.message || "فشل رفع الملف إلى Cloudinary");
+            }
+
+            const data = await response.json();
+            return data.secure_url; // الرابط المباشر الآمن للملف
+        }
 
         let allBooks = [];
         let allAudio = [];
@@ -2058,14 +2079,12 @@
             let audioUrl = document.getElementById('audioUrl').value;
 
             const btn = document.getElementById('submitAudioBtn');
-            btn.innerText = "جاري رفع الملف وحفظ المقطع... ⏳";
+            btn.innerText = "جاري رفع الملف إلى Cloudinary... ⏳";
             btn.disabled = true;
 
             try {
                 if (audioFile) {
-                    const aRef = storageRef(storage, `audio/${Date.now()}_${audioFile.name}`);
-                    await uploadBytes(aRef, audioFile);
-                    audioUrl = await getDownloadURL(aRef);
+                    audioUrl = await uploadToCloudinary(audioFile);
                 }
 
                 const data = {
@@ -2595,7 +2614,7 @@
         document.getElementById('addBookForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "جاري رفع الملفات والحفظ... ⏳";
+            btn.innerText = "جاري رفع الملفات إلى Cloudinary... ⏳";
             btn.disabled = true;
 
             const editId = document.getElementById('editBookId').value;
@@ -2609,19 +2628,13 @@
 
             try {
                 if (coverFile) {
-                    const cRef = storageRef(storage, `covers/${Date.now()}_${coverFile.name}`);
-                    await uploadBytes(cRef, coverFile);
-                    coverUrl = await getDownloadURL(cRef);
+                    coverUrl = await uploadToCloudinary(coverFile);
                 }
                 if (docFile) {
-                    const dRef = storageRef(storage, `docs/${Date.now()}_${docFile.name}`);
-                    await uploadBytes(dRef, docFile);
-                    fileUrl = await getDownloadURL(dRef);
+                    fileUrl = await uploadToCloudinary(docFile);
                 }
                 if (bookAudioFile) {
-                    const baRef = storageRef(storage, `book_audio/${Date.now()}_${bookAudioFile.name}`);
-                    await uploadBytes(baRef, bookAudioFile);
-                    bookAudioUrl = await getDownloadURL(baRef);
+                    bookAudioUrl = await uploadToCloudinary(bookAudioFile);
                 }
 
                 const bookData = {
@@ -2650,7 +2663,7 @@
                     bookData.ratingSum = 5;
                     bookData.ratingCount = 1;
                     await push(ref(db, 'books'), bookData);
-                    alert("تم رفع الملفات ونشر العمل بنجاح! 🚀");
+                    alert("تم رفع الملفات ونشر العمل بنجاح عبر Cloudinary! 🚀");
                 }
 
                 document.getElementById('addBookForm').reset();

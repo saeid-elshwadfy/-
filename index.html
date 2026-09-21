@@ -2348,14 +2348,14 @@
                         </audio>
                     </div>` : '';
 
-                // أزرار أمازون وجوجل بلي
+                // أزرار أمازون وجوجل بلاي
                 const amazonBtnHtml = book.amazonLink 
                     ? `<a href="${book.amazonLink}" target="_blank" class="btn-action btn-amazon">📦 أمازون</a>`
                     : `<button class="btn-action btn-amazon btn-disabled" disabled>📦 أمازون</button>`;
 
                 const googleBtnHtml = book.googlePlayLink 
-                    ? `<a href="${book.googlePlayLink}" target="_blank" class="btn-action btn-googleplay">📱 جوجل بلي</a>`
-                    : `<button class="btn-action btn-googleplay btn-disabled" disabled>📱 جوجل بلي</button>`;
+                    ? `<a href="${book.googlePlayLink}" target="_blank" class="btn-action btn-googleplay">📱 جوجل بلاي</a>`
+                    : `<button class="btn-action btn-googleplay btn-disabled" disabled>📱 جوجل بلاي</button>`;
 
                 // زر القراءة المباشرة
                 const readBtnHtml = book.customLink 
@@ -2398,7 +2398,7 @@
 
                         <!-- شبكة الأزرار الموحدة مرتبة كل صف زرين وزر الشراء بعرض كامل -->
                         <div class="action-buttons-group">
-                            <!-- الصف الأول: أمازون وجوجل بلي -->
+                            <!-- الصف الأول: أمازون وجوجل بلاي -->
                             ${amazonBtnHtml}
                             ${googleBtnHtml}
 

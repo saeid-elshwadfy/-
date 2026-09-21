@@ -1543,6 +1543,18 @@
             }
         };
 
+        // دالة تتبع وزيادة عداد التحميلات وتوجيه الزائر للتحميل
+        window.downloadBook = (bookId, fileUrl) => {
+            if (!fileUrl || fileUrl === '#') return;
+
+            if (!bookId.startsWith('def')) {
+                runTransaction(ref(db, `books/${bookId}/downloads`), currentDownloads => (currentDownloads ?? 0) + 1)
+                    .catch(err => console.error("Error updating downloads count:", err));
+            }
+
+            window.open(fileUrl, '_blank');
+        };
+
         // حماية المحتوى والمنع من النسخ
         document.addEventListener('keydown', (e) => {
             const readerModal = document.getElementById('readerModal');
@@ -1835,6 +1847,7 @@
                 fileUrl: req.fileUrl || '',
                 freePages: req.freePages || [],
                 reads: 0,
+                downloads: 0,
                 rating: 0,
                 ratingSum: 0,
                 ratingCount: 0,
@@ -2314,6 +2327,7 @@
                     googlePlayLink: 'https://play.google.com',
                     freePages: ['الفصل الأول: البداية المظلمة...\nانطلقت الخطوات السريعة في أزقة المدينة المنسية...'],
                     reads: 120,
+                    downloads: 45,
                     rating: 4.8,
                     ratingSum: 24,
                     ratingCount: 5,
@@ -2385,7 +2399,7 @@
 
                 // زر التحميل
                 const downloadBtnHtml = (book.fileUrl && book.fileUrl !== '#') 
-                    ? `<a href="${book.fileUrl}" target="_blank" download class="btn-action btn-download">📄 تحميل الملف</a>`
+                    ? `<button class="btn-action btn-download" onclick="downloadBook('${book.id}', '${book.fileUrl}')">📄 تحميل الملف</button>`
                     : `<button class="btn-action btn-download btn-disabled" disabled>📄 تحميل الملف</button>`;
 
                 const cardHtml = `
@@ -2402,6 +2416,7 @@
 
                             <div class="book-stats">
                                 <span>👁️ ${book.reads ?? 0} قراءة</span>
+                                <span>📥 ${book.downloads ?? 0} تحميل</span>
                                 <span>⭐ ${avgRating} / 5</span>
                             </div>
 
@@ -2659,6 +2674,7 @@
                     alert("تم تعديل العمل وإعادة رفع الملفات بنجاح! 🎉");
                 } else {
                     bookData.reads = 0;
+                    bookData.downloads = 0;
                     bookData.rating = 5.0;
                     bookData.ratingSum = 5;
                     bookData.ratingCount = 1;

@@ -2058,7 +2058,7 @@
             let audioUrl = document.getElementById('audioUrl').value;
 
             const btn = document.getElementById('submitAudioBtn');
-            btn.innerText = "جاري الحفظ... ⏳";
+            btn.innerText = "جاري رفع الملف وحفظ المقطع... ⏳";
             btn.disabled = true;
 
             try {
@@ -2595,7 +2595,7 @@
         document.getElementById('addBookForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "جاري الحفظ... ⏳";
+            btn.innerText = "جاري رفع الملفات والحفظ... ⏳";
             btn.disabled = true;
 
             const editId = document.getElementById('editBookId').value;
@@ -2643,20 +2643,20 @@
 
                 if (editId && !editId.startsWith('def')) {
                     await update(ref(db, `books/${editId}`), bookData);
-                    alert("تم تعديل العمل بنجاح! 🎉");
+                    alert("تم تعديل العمل وإعادة رفع الملفات بنجاح! 🎉");
                 } else {
                     bookData.reads = 0;
                     bookData.rating = 5.0;
                     bookData.ratingSum = 5;
                     bookData.ratingCount = 1;
                     await push(ref(db, 'books'), bookData);
-                    alert("تم نشر العمل بنجاح! 🚀");
+                    alert("تم رفع الملفات ونشر العمل بنجاح! 🚀");
                 }
 
                 document.getElementById('addBookForm').reset();
                 document.getElementById('editBookId').value = '';
             } catch (err) {
-                alert(`حدث خطأ أثناء الحفظ: ${err.message}`);
+                alert(`حدث خطأ أثناء رفع الملفات والحفظ: ${err.message}`);
             } finally {
                 btn.innerText = "حفظ ونشر العمل للجميع 🚀";
                 btn.disabled = false;

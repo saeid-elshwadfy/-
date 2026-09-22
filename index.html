@@ -1309,8 +1309,19 @@
                     <div class="form-group"><label>نبذة عن العمل:</label><textarea id="pubBookDesc" rows="2" required></textarea></div>
                     <div class="form-group"><label>سعر النسخة الرقمية (أو مجاناً):</label><input type="text" id="pubBookPrice" required placeholder="مثال: 50 جنيه أو مجاناً"></div>
                     <div class="form-group"><label>سعر النسخة الورقية (أو غير متاح):</label><input type="text" id="pubBookPaperPrice" required placeholder="مثال: 100 جنيه أو غير متاح"></div>
-                    <div class="form-group"><label>🖼️ رابط صورة الغلاف (مباشر):</label><input type="text" id="pubCoverUrl" placeholder="https://..."></div>
-                    <div class="form-group"><label>📄 رابط ملف الرواية PDF:</label><input type="text" id="pubFileUrl" placeholder="https://..."></div>
+                    
+                    <div class="form-group">
+                        <label>🖼️ صورة غلاف العمل (اختر ملفاً من الجهاز):</label>
+                        <input type="file" id="pubCoverFileInput" accept="image/*" style="margin-bottom: 8px;">
+                        <input type="text" id="pubCoverUrl" placeholder="أو ضع رابط صورة الغلاف المباشر (https...)">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>📄 ملف العمل PDF (اختر ملفاً من الجهاز):</label>
+                        <input type="file" id="pubDocFileInput" accept=".pdf" style="margin-bottom: 8px;">
+                        <input type="text" id="pubFileUrl" placeholder="أو ضع رابط ملف PDF المباشر (https...)">
+                    </div>
+
                     <div class="form-group"><label>صفحات للقراءة المباشرة بالموقع (افصل بين الصفحات بـ ---):</label><textarea id="pubFreePages" rows="3" placeholder="مقدمة...&#10;---&#10;الفصل الأول..."></textarea></div>
                     
                     <button type="submit" id="submitPublishBtn" class="btn-primary" style="width: 100%;">إرسال طلب النشر 📩</button>
@@ -1772,31 +1783,44 @@
         document.getElementById('authorPublishForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submitPublishBtn');
-            btn.innerText = "جاري إرسال الطلب... ⏳";
+            btn.innerText = "جاري رفع الملفات وإرسال الطلب... ⏳";
             btn.disabled = true;
 
-            const requestData = {
-                authorName: document.getElementById('pubAuthorName').value,
-                authorPhone: document.getElementById('pubAuthorPhone').value,
-                title: document.getElementById('pubBookTitle').value,
-                category: document.getElementById('pubBookCategory').value,
-                desc: document.getElementById('pubBookDesc').value,
-                price: document.getElementById('pubBookPrice').value,
-                paperPrice: document.getElementById('pubBookPaperPrice').value,
-                coverUrl: document.getElementById('pubCoverUrl').value,
-                fileUrl: document.getElementById('pubFileUrl').value,
-                freePages: document.getElementById('pubFreePages').value.split('---').map(p => p.trim()),
-                date: new Date().toLocaleDateString('ar-EG'),
-                updatedAt: Date.now()
-            };
+            const coverFile = document.getElementById('pubCoverFileInput')?.files[0];
+            const docFile = document.getElementById('pubDocFileInput')?.files[0];
+
+            let coverUrl = document.getElementById('pubCoverUrl').value;
+            let fileUrl = document.getElementById('pubFileUrl').value;
 
             try {
+                if (coverFile) {
+                    coverUrl = await uploadToCloudinary(coverFile);
+                }
+                if (docFile) {
+                    fileUrl = await uploadToCloudinary(docFile);
+                }
+
+                const requestData = {
+                    authorName: document.getElementById('pubAuthorName').value,
+                    authorPhone: document.getElementById('pubAuthorPhone').value,
+                    title: document.getElementById('pubBookTitle').value,
+                    category: document.getElementById('pubBookCategory').value,
+                    desc: document.getElementById('pubBookDesc').value,
+                    price: document.getElementById('pubBookPrice').value,
+                    paperPrice: document.getElementById('pubBookPaperPrice').value,
+                    coverUrl: coverUrl,
+                    fileUrl: fileUrl,
+                    freePages: document.getElementById('pubFreePages').value.split('---').map(p => p.trim()),
+                    date: new Date().toLocaleDateString('ar-EG'),
+                    updatedAt: Date.now()
+                };
+
                 await push(ref(db, 'publishRequests'), requestData);
-                alert("تم إرسال طلب النشر بنجاح! سيتم مراجعته والرد عليك. ✨");
+                alert("تم رفع الملفات وإرسال طلب النشر بنجاح! سيتم مراجعته والرد عليك. ✨");
                 document.getElementById('authorPublishForm').reset();
                 document.getElementById('publishModal').style.display = 'none';
             } catch (err) {
-                alert(`خطأ أثناء إرسال الطلب: ${err.message}`);
+                alert(`خطأ أثناء رفع الملفات أو إرسال الطلب: ${err.message}`);
             } finally {
                 btn.innerText = "إرسال طلب النشر 📩";
                 btn.disabled = false;

@@ -1564,9 +1564,34 @@
             }
         };
 
-        // دالة تتبع وزيادة عداد التحميلات وتوجيه الزائر للتحميل
-        window.downloadBook = (bookId, fileUrl) => {
-            if (!fileUrl || fileUrl === '#') return;
+        // دالة التحميل الذكية (المعدلة والمصنعة للتحقق الدقيق من مجانية الكتاب)
+        window.downloadBook = (bookId, fileUrl, price, category) => {
+            // تنظيف النص وتأمين التحقق من القيم المختلفة
+            const cleanPrice = String(price || '').trim().toLowerCase();
+            const numericPrice = parseFloat(cleanPrice.replace(/[^0-9.]/g, ''));
+
+            // يكون الكتاب مجانياً إذا كان القسم "free" أو إذا كانت قيمة السعر تعبر عن المجانية
+            const isFreeCategory = category === 'free';
+            const isFreePrice = cleanPrice === '' || 
+                                cleanPrice.includes('مجانا') || 
+                                cleanPrice.includes('مجاناً') || 
+                                cleanPrice === '0' || 
+                                numericPrice === 0;
+
+            const isFree = isFreeCategory || isFreePrice;
+
+            // إذا كان الكتاب مدفوعاً، نفتح نافذة الدفع
+            if (!isFree) {
+                alert("💡 هذا العمل مدفوع، يرجى إتمام الدفع أولاً للحصول على النسخة الرقمية.");
+                window.openBuyModal(bookId, 'digital');
+                return;
+            }
+
+            // إذا كان مجانياً، يتم التوجيه المباشر وزيادة عداد التحميل
+            if (!fileUrl || fileUrl === '#') {
+                alert("عذراً، رابط الملف غير متوفر حالياً.");
+                return;
+            }
 
             if (!bookId.startsWith('def')) {
                 runTransaction(ref(db, `books/${bookId}/downloads`), currentDownloads => (currentDownloads ?? 0) + 1)
@@ -2456,9 +2481,9 @@
                         ? `<button class="btn-action btn-read" onclick="openReader('${book.id}')">📖 اقرأ مباشر</button>`
                         : `<button class="btn-action btn-read btn-disabled" disabled>📖 اقرأ مباشر</button>`);
 
-                // زر التحميل
+                // زر التحميل المحدث يمرر السعر والقسم للتأكد قبل فتح الملف
                 const downloadBtnHtml = (book.fileUrl && book.fileUrl !== '#') 
-                    ? `<button class="btn-action btn-download" onclick="downloadBook('${book.id}', '${book.fileUrl}')">📄 تحميل الملف</button>`
+                    ? `<button class="btn-action btn-download" onclick="downloadBook('${book.id}', '${book.fileUrl}', '${book.price}', '${book.category}')">📄 تحميل الملف</button>`
                     : `<button class="btn-action btn-download btn-disabled" disabled>📄 تحميل الملف</button>`;
 
                 const optimizedCoverUrl = optimizeCloudinaryUrl(book.coverUrl, 400);

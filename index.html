@@ -1482,12 +1482,12 @@
             return url;
         }
 
-        // دالة الرفع المباشر إلى حسابك في Cloudinary مع معالجة نوع الرفع (Raw/Image)
+        // دالة الرفع المباشر إلى حسابك في Cloudinary مع معالجة نوع الرفع (Raw/Image/Auto)
         async function uploadToCloudinary(file) {
             const CLOUD_NAME = "uha8a6rd";
             const UPLOAD_PRESET = "saeid-elshwadfy";
 
-            const resourceType = file.type === "application/pdf" ? "raw" : "image";
+            const resourceType = file.type.startsWith("image/") ? "image" : "raw";
 
             const formData = new FormData();
             formData.append('file', file);
@@ -1505,6 +1505,21 @@
 
             const data = await response.json();
             return data.secure_url;
+        }
+
+        // دالة مساعدة للتحقق مما إذا كان العمل مجانياً أم مدفوعاً
+        function checkIsFree(price, category) {
+            const cleanPrice = String(price || '').trim().toLowerCase();
+            const numericPrice = parseFloat(cleanPrice.replace(/[^0-9.]/g, ''));
+
+            const isFreeCategory = category === 'free';
+            const isFreePrice = cleanPrice === '' || 
+                                cleanPrice.includes('مجانا') || 
+                                cleanPrice.includes('مجاناً') || 
+                                cleanPrice === '0' || 
+                                numericPrice === 0;
+
+            return isFreeCategory || isFreePrice;
         }
 
         let allBooks = [];
@@ -1562,19 +1577,9 @@
             }
         };
 
-        // دالة التحميل الذكية
+        // دالة التحميل الذكية الشاملة للكتب المجانية والمدفوعة
         window.downloadBook = (bookId, fileUrl, price, category) => {
-            const cleanPrice = String(price || '').trim().toLowerCase();
-            const numericPrice = parseFloat(cleanPrice.replace(/[^0-9.]/g, ''));
-
-            const isFreeCategory = category === 'free';
-            const isFreePrice = cleanPrice === '' || 
-                                cleanPrice.includes('مجانا') || 
-                                cleanPrice.includes('مجاناً') || 
-                                cleanPrice === '0' || 
-                                numericPrice === 0;
-
-            const isFree = isFreeCategory || isFreePrice;
+            const isFree = checkIsFree(price, category);
 
             if (!isFree) {
                 alert("💡 هذا العمل مدفوع، يرجى إتمام الدفع أولاً للحصول على النسخة الرقمية.");
@@ -2473,9 +2478,19 @@
                         ? `<button class="btn-action btn-read" onclick="openReader('${book.id}')">📖 اقرأ مباشر</button>`
                         : `<button class="btn-action btn-read btn-disabled" disabled>📖 اقرأ مباشر</button>`);
 
+                const isFree = checkIsFree(book.price, book.category);
+
                 const downloadBtnHtml = (book.fileUrl && book.fileUrl !== '#') 
-                    ? `<button class="btn-action btn-download" onclick="downloadBook('${book.id}', '${book.fileUrl}', '${book.price}', '${book.category}')">📄 تحميل الملف</button>`
+                    ? `<button class="btn-action btn-download" onclick="downloadBook('${book.id}', '${book.fileUrl}', '${book.price}', '${book.category}')">${isFree ? '📥 تحميل مجاني' : '📄 تحميل الملف'}</button>`
                     : `<button class="btn-action btn-download btn-disabled" disabled>📄 تحميل الملف</button>`;
+
+                const buySectionHtml = isFree 
+                    ? `<button class="btn-action btn-buy-full" onclick="downloadBook('${book.id}', '${book.fileUrl}', '${book.price}', '${book.category}')">📥 تحميل النسخة المجانية المباشرة</button>`
+                    : `<button class="btn-action btn-buy-full" onclick="toggleBuyDropdown('${book.id}')">🛒 شراء الكتاب الآن ▾</button>
+                       <div id="buyDropdown_${book.id}" class="buy-dropdown-menu">
+                           <button class="btn-buy-paper" onclick="openBuyModal('${book.id}', 'paper')">شراء نسخة ورقية 📦</button>
+                           <button class="btn-buy-digital" onclick="openBuyModal('${book.id}', 'digital')">شراء نسخة رقمية 📲</button>
+                       </div>`;
 
                 const optimizedCoverUrl = optimizeCloudinaryUrl(book.coverUrl, 400);
 
@@ -2516,11 +2531,7 @@
                             <button class="btn-action btn-share" onclick="shareBook('${book.title}')">🔗 مشاركة</button>
                             <button class="btn-action btn-reviews" onclick="openReviewsModal('${book.id}')">⭐ تقييمات القراء</button>
 
-                            <button class="btn-action btn-buy-full" onclick="toggleBuyDropdown('${book.id}')">🛒 شراء الكتاب الآن ▾</button>
-                            <div id="buyDropdown_${book.id}" class="buy-dropdown-menu">
-                                <button class="btn-buy-paper" onclick="openBuyModal('${book.id}', 'paper')">شراء نسخة ورقية 📦</button>
-                                <button class="btn-buy-digital" onclick="openBuyModal('${book.id}', 'digital')">شراء نسخة رقمية 📲</button>
-                            </div>
+                            ${buySectionHtml}
 
                             ${adminBtns}
                         </div>
@@ -2541,6 +2552,12 @@
         window.openBuyModal = (bookId, type) => {
             const book = allBooks.find(b => b.id === bookId);
             if (!book) return;
+
+            if (type === 'digital' && checkIsFree(book.price, book.category)) {
+                window.downloadBook(book.id, book.fileUrl, book.price, book.category);
+                return;
+            }
+
             selectedBookForBuy = book;
             selectedOrderType = type;
 

@@ -764,6 +764,27 @@
             outline: none;
         }
 
+        .video-container {
+            width: 100%;
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            margin: 12px 0;
+            background: #000;
+        }
+
+        .video-container iframe, .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
         .book-author-tag {
             font-size: 0.95rem;
             color: var(--accent-color);
@@ -952,6 +973,7 @@
             <a href="#aboutTitle" class="drawer-link-item">✨ مرحبا بكم في عالمي</a>
             <a href="#books" class="drawer-link-item">📚 الأعمال الأدبية</a>
             <a href="#audio" class="drawer-link-item">🎙️ الملفات الصوتية</a>
+            <a href="#videos" class="drawer-link-item">📺 الفيديوهات والكرتون</a>
             <a href="#services" class="drawer-link-item">🛠️ الخدمات</a>
             <a href="#courses" class="drawer-link-item">🎓 الدورات والورش</a>
             <a href="#store" class="drawer-link-item">🛍️ المنتجات الرقمية</a>
@@ -975,6 +997,7 @@
             <nav class="nav-links">
                 <a href="#books">الأعمال الأدبية</a>
                 <a href="#audio">الصوتيات</a>
+                <a href="#videos">الفيديوهات والكرتون</a>
                 <a href="#services">الخدمات الأدبية</a>
                 <a href="#courses">الدورات والورش</a>
                 <a href="#store">المنتجات الرقمية</a>
@@ -1085,7 +1108,7 @@
             </div>
 
             <div class="admin-section-box">
-                <h3 style="color: var(--accent-color); margin-bottom: 12px; font-family: 'Amiri', serif;">🎨 التحكم في ألوان الموقع والغلاف:</h3>
+                <h3 style="color: var(--accent-color); margin-bottom: 12px; font-family: 'Amiri', serif;">🎨 التحكم في ألوان الموقع وغلاف الصفحة:</h3>
                 <form id="siteCustomizationForm">
                     <div class="form-group">
                         <label>🖼️ صورة غلاف الموقع (اختر ملفاً من الجهاز):</label>
@@ -1225,6 +1248,21 @@
             </div>
 
             <div class="admin-section-box">
+                <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">🎬 التحكم في قسم الفيديوهات والحلقات الكرتونية:</h3>
+                <form id="addVideoForm">
+                    <input type="hidden" id="editVideoId" value="">
+                    <div class="form-group"><label>عنوان الفيديو / الحلقة:</label><input type="text" id="videoTitle" placeholder="مثال: 🎬 الحلقة الأولى - إعلان رواية ظلال لا تنام" required></div>
+                    <div class="form-group"><label>وصف الفيديو:</label><textarea id="videoDesc" rows="2" placeholder="وصف مختصر للحلقة أو الفيديو..." required></textarea></div>
+                    <div class="form-group">
+                        <label>🎬 ملف الفيديو أو رابط يوتيوب المباشر:</label>
+                        <input type="file" id="videoFileInput" accept="video/*" style="margin-bottom: 8px;">
+                        <input type="text" id="videoUrlInput" placeholder="أو ضع رابط يوتيوب (https://www.youtube.com/watch?v=...)">
+                    </div>
+                    <button type="submit" id="submitVideoBtn" class="btn-primary" style="width: 100%;">حفظ ونشر الفيديو 🎬</button>
+                </form>
+            </div>
+
+            <div class="admin-section-box">
                 <h3 style="color: var(--text-color); margin-bottom: 10px; font-family: 'Amiri', serif;">🎓 التحكم في قسم الدورات والورش:</h3>
                 <form id="addCourseForm">
                     <input type="hidden" id="editCourseId" value="">
@@ -1271,6 +1309,9 @@
         </div>
 
         <div class="grid-container" id="audioGrid"></div>
+
+        <h2 id="videos" class="section-title">🎬 المكتبة المرئية والحلقات الكرتونية 🎬</h2>
+        <div class="grid-container" id="videosGrid"></div>
 
         <h2 id="services" class="section-title">✨ الخدمات الأدبية والاستشارات ✨</h2>
         <div class="grid-container" id="servicesGrid"></div>
@@ -1521,12 +1562,17 @@
             return url;
         }
 
-        // دالة الرفع المباشر إلى حسابك في Cloudinary مع معالجة نوع الرفع (Raw/Image/Auto)
+        // دالة الرفع المباشر إلى حسابك في Cloudinary مع تحديد نوع المورد بدقة
         async function uploadToCloudinary(file) {
             const CLOUD_NAME = "uha8a6rd";
             const UPLOAD_PRESET = "saeid-elshwadfy";
 
-            const resourceType = file.type.startsWith("image/") ? "image" : "raw";
+            let resourceType = "raw";
+            if (file.type.startsWith("image/")) {
+                resourceType = "image";
+            } else if (file.type.startsWith("video/")) {
+                resourceType = "video";
+            }
 
             const formData = new FormData();
             formData.append('file', file);
@@ -1546,7 +1592,18 @@
             return data.secure_url;
         }
 
-        // دالة مساعدة للتحقق مما إذا كان العمل مجانياً أم مدفوعاً
+        // دالة مساعدة لتحويل رابط يوتيوب المباشر إلى Embed URL
+        function getYouTubeEmbedUrl(url) {
+            if (!url) return '';
+            let videoId = '';
+            const matchStandard = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/);
+            if (matchStandard && matchStandard[1]) {
+                videoId = matchStandard[1];
+            }
+            return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+        }
+
+        // دالة مساعدة للتحقق مما إذا كان العمل أو الملف مجانياً أم مدفوعاً
         function checkIsFree(price, category) {
             const cleanPrice = String(price || '').trim().toLowerCase();
             const numericPrice = parseFloat(cleanPrice.replace(/[^0-9.]/g, ''));
@@ -1554,7 +1611,9 @@
             const isFreeCategory = category === 'free';
             const isFreePrice = cleanPrice === '' || 
                                 cleanPrice.includes('مجاني') || 
+                                cleanPrice.includes('مجانا') || 
                                 cleanPrice.includes('مجاناً') || 
+                                cleanPrice.includes('free') || 
                                 cleanPrice === '0' || 
                                 numericPrice === 0;
 
@@ -1576,6 +1635,7 @@
 
         let allBooks = [];
         let allAudio = [];
+        let allVideos = [];
         let allServices = [];
         let allCourses = [];
         let allProducts = [];
@@ -1643,8 +1703,8 @@
                 return;
             }
 
-            if (!url || url === '#') {
-                alert("عذراً، رابط الملف غير متوفر.");
+            if (!url || url === '#' || url.trim() === '') {
+                alert("عذراً، رابط الملف غير متوفر حالياً.");
                 return;
             }
 
@@ -1711,6 +1771,7 @@
 
             renderBooks();
             renderAudio();
+            renderVideos();
             renderServices();
             renderCourses();
             renderProducts();
@@ -2207,7 +2268,7 @@
             const data = snapshot.val();
             allAudio = data
                 ? Object.entries(data).map(([id, a]) => ({ id, ...a })).sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))
-                : [{ id: 'defA1', title: '🎙️ الإلقاء الصوتي - مقدمة رواية ظلال لا تنام', desc: 'استمع إلى مقدمة رواية ظلال لا تنام بإلقاء صوتي مميز.', price: '30 جنيه', audioUrl: 'https://files.catbox.moe/tn7sb7.mpeg', listens: 0, downloads: 0, updatedAt: 1 }];
+                : [{ id: 'defA1', title: '🎙️ الإلقاء الصوتي - مقدمة رواية ظلال لا تنام', desc: 'استمع إلى مقدمة رواية ظلال لا تنام بإلقاء صوتي مميز.', price: 'مجاني', audioUrl: 'https://files.catbox.moe/tn7sb7.mpeg', listens: 0, downloads: 0, updatedAt: 1 }];
             renderAudio();
         });
 
@@ -2254,7 +2315,7 @@
                     </div>` : `<p style="color:var(--text-muted); font-size:0.85rem; margin:8px 0;">الملف الصوتي غير متوفر حالياً.</p>`;
 
                 const downloadBtnHtml = (item.audioUrl && item.audioUrl.trim() !== '#' && item.audioUrl.trim() !== '') ? `
-                    <button class="btn-action btn-download" style="margin-top:8px;" onclick="downloadAudioFile('${item.id}', '${item.audioUrl}', '${item.title}', '${item.price ?? '30 جنيه'}')">${isFree ? '📥 تحميل مجاني' : '📲 شراء وتحميل الملف الصوتي'}</button>
+                    <button class="btn-action btn-download" style="margin-top:8px;" onclick="downloadAudioFile('${item.id}', '${item.audioUrl}', '${item.title}', '${item.price ?? 'مجاني'}')">${isFree ? '📥 تحميل مجاني' : '📲 شراء وتحميل الملف الصوتي'}</button>
                 ` : '';
 
                 const html = `
@@ -2345,7 +2406,128 @@
             }
         };
 
-        /* --- 3. الدورات والورش --- */
+        /* --- 3. الفيديوهات والأنيميشن / الكرتون --- */
+        onValue(ref(db, 'videos'), (snapshot) => {
+            const data = snapshot.val();
+            allVideos = data
+                ? Object.entries(data).map(([id, v]) => ({ id, ...v })).sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))
+                : [{ 
+                    id: 'defV1', 
+                    title: '🎬 الحلقة التشويقية - ظلال لا تنام', 
+                    desc: 'عرض تشويقي كرتوني يستعرض مقتطفات ومشاعر درامية من أزقة رواية ظلال لا تنام.', 
+                    videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ', 
+                    updatedAt: 1 
+                }];
+            renderVideos();
+        });
+
+        function renderVideos() {
+            const container = document.getElementById('videosGrid');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (allVideos.length === 0) {
+                container.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); font-size: 1.1rem; padding: 30px;">لا توجد فيديوهات متوفرة حالياً.</p>';
+                return;
+            }
+
+            allVideos.forEach(item => {
+                const adminBtns = isAdmin ? `
+                    <div style="display:flex; gap:8px; margin-top:10px;">
+                        <button class="btn-edit" onclick="editVideo('${item.id}')">تعديل ✏️</button>
+                        <button class="btn-danger" onclick="deleteVideo('${item.id}')">حذف 🗑️</button>
+                    </div>` : '';
+
+                let playerHtml = '';
+                if (item.videoUrl && (item.videoUrl.includes('youtube.com') || item.videoUrl.includes('youtu.be'))) {
+                    const embedUrl = getYouTubeEmbedUrl(item.videoUrl);
+                    playerHtml = `
+                        <div class="video-container">
+                            <iframe src="${embedUrl}" allowfullscreen></iframe>
+                        </div>`;
+                } else if (item.videoUrl) {
+                    playerHtml = `
+                        <div class="video-container">
+                            <video controls preload="metadata">
+                                <source src="${item.videoUrl}">
+                                متصفحك لا يدعم تشغيل هذا الفيديو.
+                            </video>
+                        </div>`;
+                }
+
+                const html = `
+                    <div class="custom-card">
+                        <div>
+                            <h3 style="font-family: 'Amiri', serif; font-size: 1.4rem; color: var(--accent-color);">${item.title}</h3>
+                            <p style="color: var(--text-muted); font-size: 0.95rem; margin: 10px 0;">${item.desc}</p>
+                            ${playerHtml}
+                        </div>
+                        ${adminBtns}
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        document.getElementById('addVideoForm')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const editId = document.getElementById('editVideoId').value;
+            const videoFile = document.getElementById('videoFileInput')?.files[0];
+            let videoUrl = document.getElementById('videoUrlInput').value;
+
+            const btn = document.getElementById('submitVideoBtn');
+            btn.innerText = "جاري حفظ الفيديو... ⏳";
+            btn.disabled = true;
+
+            try {
+                if (videoFile) {
+                    btn.innerText = "جاري رفع الفيديو إلى Cloudinary... ⏳";
+                    videoUrl = await uploadToCloudinary(videoFile);
+                }
+
+                const data = {
+                    title: document.getElementById('videoTitle').value,
+                    desc: document.getElementById('videoDesc').value,
+                    videoUrl: videoUrl,
+                    updatedAt: Date.now()
+                };
+
+                if (editId && !editId.startsWith('def')) {
+                    await update(ref(db, `videos/${editId}`), data);
+                    alert("تم تحديث الفيديو بنجاح! 🎉");
+                } else {
+                    await push(ref(db, 'videos'), data);
+                    alert("تمت إضافة الفيديو بنجاح! 🚀");
+                }
+
+                document.getElementById('addVideoForm').reset();
+                document.getElementById('editVideoId').value = '';
+            } catch (err) {
+                alert(`خطأ أثناء رفع أو حفظ الفيديو: ${err.message}`);
+            } finally {
+                btn.innerText = "حفظ ونشر الفيديو 🎬";
+                btn.disabled = false;
+            }
+        });
+
+        window.editVideo = (id) => {
+            const item = allVideos.find(v => v.id === id);
+            if (!item) return;
+            document.getElementById('editVideoId').value = item.id;
+            document.getElementById('videoTitle').value = item.title;
+            document.getElementById('videoDesc').value = item.desc;
+            document.getElementById('videoUrlInput').value = item.videoUrl ?? '';
+            window.scrollTo({ top: document.getElementById('addVideoForm').offsetTop - 20, behavior: 'smooth' });
+        };
+
+        window.deleteVideo = async (id) => {
+            if (confirm("هل انت متأكد من حذف هذا الفيديو؟")) {
+                if (!id.startsWith('def')) await remove(ref(db, `videos/${id}`));
+                else alert("الفيديوهات الافتراضية محفوظة.");
+            }
+        };
+
+        /* --- 4. الدورات والورش --- */
         onValue(ref(db, 'courses'), (snapshot) => {
             const data = snapshot.val();
             allCourses = data
@@ -2384,7 +2566,7 @@
         }
 
         window.openVideoModal = (url) => {
-            document.getElementById('videoIframe').src = url;
+            document.getElementById('videoIframe').src = getYouTubeEmbedUrl(url);
             document.getElementById('videoModal').style.display = 'flex';
         };
 
@@ -2432,7 +2614,7 @@
             }
         };
 
-        /* --- 4. المنتجات الرقمية --- */
+        /* --- 5. المنتجات الرقمية --- */
         onValue(ref(db, 'products'), (snapshot) => {
             const data = snapshot.val();
             allProducts = data
@@ -2504,7 +2686,7 @@
             }
         };
 
-        /* --- 5. الأعمال الأدبية والمعرض --- */
+        /* --- 6. الأعمال الأدبية والمعرض --- */
         onValue(ref(db, 'books'), (snapshot) => {
             const data = snapshot.val();
             allBooks = [];

@@ -1281,6 +1281,11 @@
                     <div class="form-group"><label>اسم المنتج الرقمي (مع الإيموجي):</label><input type="text" id="productTitle" placeholder="مثال: 📑 قوالب تنسيق الكتب الجاهزة" required></div>
                     <div class="form-group"><label>وصف المنتج:</label><textarea id="productDesc" rows="2" placeholder="وصف المنتج ومميزاته..." required></textarea></div>
                     <div class="form-group"><label>السعر:</label><input type="text" id="productPrice" placeholder="مثال: السعر: 100 جنيه" required></div>
+                    <div class="form-group">
+                        <label>📄 رابط أو ملف المنتج الرقمي (اختياري - سيظهر للمجاني فقط):</label>
+                        <input type="file" id="productFileInput" accept=".zip,.rar,.pdf,.docx" style="margin-bottom: 8px;">
+                        <input type="text" id="productFileUrl" placeholder="أو ضع رابط القالب المباشر">
+                    </div>
                     <button type="submit" id="submitProductBtn" class="btn-primary" style="width: 100%;">حفظ المنتج الرقمي 💾</button>
                 </form>
             </div>
@@ -1538,26 +1543,26 @@
             </div>
             <p style="margin-top: 15px;">© جميع الحقوق محفوظة للكاتب سعيد الشوادفي</p>
         </footer>
-           </div>
+    </div>
 
-           <!-- Nawafez Legal Modals -->
-            <div id="privacyModal" class="modal">
+    <!-- Nawafez Legal Modals -->
+    <div id="privacyModal" class="modal">
         <div class="modal-content">
             <span class="close-modal" onclick="closeLegalModal('privacyModal')">&times;</span>
             <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem; margin-bottom: 15px;">سياسة الخصوصية</h3>
             <p style="color: var(--text-muted); text-align: right; line-height: 1.8;">نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. البيانات التي يتم إدخالها تُستخدم فقط لغرض التنسيق والتواصل معكم بخصوص الطلبات والخدمات المقدمة على المنصة.</p>
         </div>
-        </div>
+    </div>
 
-         <div id="termsModal" class="modal">
-          <div class="modal-content">
+    <div id="termsModal" class="modal">
+        <div class="modal-content">
             <span class="close-modal" onclick="closeLegalModal('termsModal')">&times;</span>
             <h3 style="color: var(--accent-color); font-family: 'Amiri', serif; font-size: 1.8rem; margin-bottom: 15px;">شروط الاستخدام</h3>
-            <p style="color: var(--text-muted); text-align: right; line-height: 1.8;">جميع المحتويات الأدبية والنصوص المعروضة بالمنصة مملوكة للكاتب سعيد الشوادفي وأصحابها الآخرين ومحمية بموجب حقوق الملكية الفكرية. يُحظر إعادة نشر أو توزيع المحتوى دون إذن كتابي مسبق.</p>
-          </div>
+            <p style="color: var(--text-muted); text-align: right; line-height: 1.8;">جميع المحتويات الأدبية والنصوص المعروضة بالمنصة مملوكة للكاتب سعيد الشوادفي وأصحابها ومحمية بموجب حقوق الملكية الفكرية. يُحظر إعادة نشر أو توزيع المحتوى دون إذن كتابي مسبق.</p>
         </div>
+    </div>
 
-       <script>
+    <script>
         function openLegalModal(modalId) {
             const modal = document.getElementById(modalId);
             if (modal) modal.style.display = 'flex';
@@ -1574,9 +1579,9 @@
             if (event.target === privacyModal) privacyModal.style.display = 'none';
             if (event.target === termsModal) termsModal.style.display = 'none';
         });
-       </script>
+    </script>
 
-       <script type="module">
+    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
         import { getDatabase, ref, onValue, set, push, update, remove, runTransaction } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
@@ -2254,7 +2259,7 @@
                             <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">${item.desc}</p>
                             <div class="card-price">${item.price}</div>
                         </div>
-                        <button class="btn-primary" onclick="requestService('${item.title}')">أطلب الخدمة الآن 📲</button>
+                        <button class="btn-primary" onclick="requestService('${item.title}', '${item.price}')">أطلب الخدمة الآن 📲</button>
                         ${adminBtns}
                     </div>
                 `;
@@ -2262,9 +2267,16 @@
             });
         }
 
-        window.requestService = (title) => {
+        window.requestService = (title, price, fileUrl) => {
+            const isFree = checkIsFree(price, 'product');
+            
+            if (isFree && fileUrl && fileUrl !== '#') {
+                window.open(fileUrl, '_blank');
+                return;
+            }
+
             document.getElementById('buyTitle').innerText = title;
-            document.getElementById('buySubtitle').innerText = "اختر الوسيلة المناسبة لطلب ودفع رسوم الخدمة الأدبية:";
+            document.getElementById('buySubtitle').innerText = isFree ? "خدمة/منتج مجاني" : "اختر الوسيلة المناسبة لطلب ودفع الرسوم:";
             const codEl = document.getElementById('codMethod');
             if (codEl) codEl.style.display = 'none';
             document.getElementById('buyModal').style.display = 'flex';
@@ -2601,7 +2613,7 @@
                             <div class="card-price">${item.price}</div>
                         </div>
                         ${videoBtn}
-                        <button class="btn-primary" onclick="requestService('${item.title}')">احجز مقعدك الآن 🎓</button>
+                        <button class="btn-primary" onclick="requestService('${item.title}', '${item.price}')">احجز مقعدك الآن 🎓</button>
                         ${adminBtns}
                     </div>
                 `;
@@ -2658,12 +2670,12 @@
             }
         };
 
-        /* --- 5. المنتجات الرقمية --- */
+        /* --- 5. المنتجات الرقمية (محدث بحماية المدفوع) --- */
         onValue(ref(db, 'products'), (snapshot) => {
             const data = snapshot.val();
             allProducts = data
                 ? Object.entries(data).map(([id, p]) => ({ id, ...p })).sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))
-                : [{ id: 'defP1', title: '📑 قوالب تنسيق الكتب المجهزة للطباعة', desc: 'حزمة قوالب Wordجاهزة بمقاسات 14*20 و A5 مع هوامش معتمدة للطباعة.', price: 'السعر: 100 جنيه', updatedAt: 1 }];
+                : [{ id: 'defP1', title: '📑 قوالب تنسيق الكتب المجهزة للطباعة', desc: 'حزمة قوالب Word جاهزة بمقاسات 14*20 و A5 مع هوامش معتمدة للطباعة.', price: 'السعر: 100 جنيه', fileUrl: '', updatedAt: 1 }];
             renderProducts();
         });
 
@@ -2678,6 +2690,9 @@
                         <button class="btn-danger" onclick="deleteProduct('${item.id}')">حذف 🗑️</button>
                     </div>` : '';
 
+                const isFree = checkIsFree(item.price, 'product');
+                const btnText = isFree ? '📥 تحميل القالب مجاناً' : '🛍️ شراء وشحن مباشر';
+
                 const html = `
                     <div class="custom-card">
                         <div>
@@ -2685,7 +2700,7 @@
                             <p style="color: var(--text-muted); font-size: 0.95rem; margin: 12px 0;">${item.desc}</p>
                             <div class="card-price">${item.price}</div>
                         </div>
-                        <button class="btn-primary" onclick="requestService('${item.title}')">شراء وشحن مباشر 🛍️</button>
+                        <button class="btn-primary" onclick="requestService('${item.title}', '${item.price}', '${item.fileUrl || '#'}')">${btnText}</button>
                         ${adminBtns}
                     </div>
                 `;
@@ -2696,21 +2711,43 @@
         document.getElementById('addProductForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
             const editId = document.getElementById('editProductId').value;
-            const data = {
-                title: document.getElementById('productTitle').value,
-                desc: document.getElementById('productDesc').value,
-                price: document.getElementById('productPrice').value,
-                updatedAt: Date.now()
-            };
-            if (editId && !editId.startsWith('def')) {
-                await update(ref(db, `products/${editId}`), data);
-                alert("تم تحديث المنتج بنجاح! 🎉");
-            } else {
-                await push(ref(db, 'products'), data);
-                alert("تمت إضافة المنتج بنجاح! 🚀");
+            const productFile = document.getElementById('productFileInput')?.files[0];
+            let productFileUrl = document.getElementById('productFileUrl').value;
+
+            const btn = document.getElementById('submitProductBtn');
+            btn.innerText = "جاري الحفظ... ⏳";
+            btn.disabled = true;
+
+            try {
+                if (productFile) {
+                    btn.innerText = "جاري رفع القالب إلى Cloudinary... ⏳";
+                    productFileUrl = await uploadToCloudinary(productFile);
+                }
+
+                const data = {
+                    title: document.getElementById('productTitle').value,
+                    desc: document.getElementById('productDesc').value,
+                    price: document.getElementById('productPrice').value,
+                    fileUrl: productFileUrl,
+                    updatedAt: Date.now()
+                };
+
+                if (editId && !editId.startsWith('def')) {
+                    await update(ref(db, `products/${editId}`), data);
+                    alert("تم تحديث المنتج بنجاح! 🎉");
+                } else {
+                    await push(ref(db, 'products'), data);
+                    alert("تمت إضافة المنتج بنجاح! 🚀");
+                }
+
+                document.getElementById('addProductForm').reset();
+                document.getElementById('editProductId').value = '';
+            } catch (err) {
+                alert(`خطأ في رفع الملف أو حفظ المنتج: ${err.message}`);
+            } finally {
+                btn.innerText = "حفظ المنتج الرقمي 💾";
+                btn.disabled = false;
             }
-            document.getElementById('addProductForm').reset();
-            document.getElementById('editProductId').value = '';
         });
 
         window.editProduct = (id) => {
@@ -2720,6 +2757,7 @@
             document.getElementById('productTitle').value = item.title;
             document.getElementById('productDesc').value = item.desc;
             document.getElementById('productPrice').value = item.price;
+            document.getElementById('productFileUrl').value = item.fileUrl || '';
             window.scrollTo({ top: document.getElementById('addProductForm').offsetTop - 20, behavior: 'smooth' });
         };
 

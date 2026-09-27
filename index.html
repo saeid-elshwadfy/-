@@ -2965,13 +2965,20 @@
             currentReaderBook = book;
             currentReaderPage = 0;
 
-            if (!book.id.startsWith('def')) {
-                runTransaction(ref(db, `books/${book.id}/reads`), reads => (reads ?? 0) + 1);
+            // تحديث العداد فور فتح شاشة القراءة لضمان عمله على الهواتف
+            if (book.id && !book.id.startsWith('def')) {
+                book.reads = (book.reads || 0) + 1;
+                runTransaction(ref(db, `books/${book.id}/reads`), reads => (reads ?? 0) + 1)
+                    .catch(err => console.error("خطأ في تحديث العداد على الهاتف:", err));
             }
 
             document.getElementById('readerTitle').innerText = book.title;
             updateReaderContent();
-            document.getElementById('readerModal').style.display = 'flex';
+            
+            const readerModal = document.getElementById('readerModal');
+            if (readerModal) {
+                readerModal.style.display = 'flex';
+            }
         };
 
         function updateReaderContent() {

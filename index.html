@@ -17,21 +17,20 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://saeid-elshwadfy.github.io/">
 
-<!-- صورة المعاينة الرئيسية عند المشاركة (تم تغييرها لتصبح صورة اللوجو) -->
+<!-- صورة المعاينة الرئيسية عند المشاركة -->
 <meta property="og:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
 <meta property="og:image:secure_url" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
 <meta property="og:image:type" content="image/jpeg">
-<!-- لضمان ظهور اللوجو بشكل مربع وواضح، يفضل إضافة الأبعاد إن أمكن -->
 <meta property="og:image:width" content="300"> 
 <meta property="og:image:height" content="300">
 
-<!-- كروت منصة تويتر / X (تم تغييرها لتصبح صورة اللوجو) -->
-<meta name="twitter:card" content="summary"> <!-- استخدام summary بدلاً من summary_large_image يظهر اللوجو المربع بشكل أفضل -->
+<!-- كروت منصة تويتر / X -->
+<meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="موقع الكاتب الروائي | سعيد الشوادفي">
 <meta name="twitter:description" content="مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح واقرأ الروايات مباشرة.">
 <meta name="twitter:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
 
-<!-- أيقونة اللوجو للمتصفح (Favicon) - تبقى كما هي -->
+<!-- أيقونة اللوجو للمتصفح (Favicon) -->
 <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
 <link rel="apple-touch-icon" href="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
     
@@ -1715,6 +1714,7 @@
         let selectedBookForReviews = null;
         let currentReaderBook = null;
         let currentReaderPage = 0;
+        let initialDirectBookOpened = false;
 
         const WHATSAPP_NUMBER = "201096227242";
 
@@ -2688,7 +2688,7 @@
             }
         };
 
-        /* --- 5. المنتجات الرقمية (محدث بحماية المدفوع) --- */
+        /* --- 5. المنتجات الرقمية --- */
         onValue(ref(db, 'products'), (snapshot) => {
             const data = snapshot.val();
             allProducts = data
@@ -2824,6 +2824,9 @@
             if (totalReadsEl) totalReadsEl.innerText = sumReads.toLocaleString('ar-EG');
 
             renderBooks();
+            
+            // تحقق من وجود معلّمة book في الرابط للدخول المباشر
+            checkDirectBookParam();
         });
 
         document.querySelectorAll('#categoryTabs .tab-btn').forEach(btn => {
@@ -2897,7 +2900,7 @@
                 const categoryName = getCategoryName(book.category);
 
                 const cardHtml = `
-                    <div class="book-card">
+                    <div class="book-card" id="bookCard_${book.id}">
                         <div>
                             <div class="book-cover">
                                 <span class="book-badge-cat">🏷️ ${categoryName}</span>
@@ -2932,7 +2935,7 @@
                             ${readBtnHtml}
                             ${downloadBtnHtml}
 
-                            <button class="btn-action btn-share" onclick="shareBook('${book.title}')">🔗 مشاركة</button>
+                            <button class="btn-action btn-share" onclick="shareBook('${book.id}', '${book.title}')">🔗 مشاركة</button>
                             <button class="btn-action btn-reviews" onclick="openReviewsModal('${book.id}')">⭐ تقييمات القراء</button>
 
                             ${buySectionHtml}
@@ -2943,6 +2946,30 @@
                 `;
                 grid.insertAdjacentHTML('beforeend', cardHtml);
             });
+        }
+
+        function checkDirectBookParam() {
+            if (initialDirectBookOpened) return;
+            const urlParams = new URLSearchParams(window.location.search);
+            const targetBookId = urlParams.get('book');
+
+            if (targetBookId) {
+                const book = allBooks.find(b => b.id === targetBookId);
+                if (book) {
+                    initialDirectBookOpened = true;
+                    setTimeout(() => {
+                        const card = document.getElementById(`bookCard_${book.id}`);
+                        if (card) {
+                            card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }
+                        if (book.customLink) {
+                            window.open(book.customLink, '_blank');
+                        } else if (book.freePages?.length > 0) {
+                            openReader(book.id);
+                        }
+                    }, 400);
+                }
+            }
         }
 
         window.toggleBuyDropdown = (bookId) => {
@@ -2983,11 +3010,11 @@
             currentReaderBook = book;
             currentReaderPage = 0;
 
-            // تحديث العداد فور فتح شاشة القراءة لضمان عمله على الهواتف
+            // تحديث العداد فور فتح شاشة القراءة
             if (book.id && !book.id.startsWith('def')) {
                 book.reads = (book.reads || 0) + 1;
                 runTransaction(ref(db, `books/${book.id}/reads`), reads => (reads ?? 0) + 1)
-                    .catch(err => console.error("خطأ في تحديث العداد على الهاتف:", err));
+                    .catch(err => console.error("خطأ في تحديث العداد:", err));
             }
 
             document.getElementById('readerTitle').innerText = book.title;
@@ -3027,12 +3054,9 @@
             document.getElementById('readerModal').style.display = 'none';
         });
 
-        window.shareBook = (title) => {
-            let shareUrl = window.location.href;
-
-            if (title && title.includes("ظلال لا تنام")) {
-                shareUrl = "https://saeid-elshwadfy.github.io/zilal-la-tanam.html?v=100";
-            }
+        window.shareBook = (bookId, title) => {
+            const baseUrl = window.location.origin + window.location.pathname;
+            const shareUrl = `${baseUrl}?book=${encodeURIComponent(bookId)}`;
 
             const shareData = {
                 title: title,
@@ -3045,6 +3069,8 @@
             } else if (navigator.clipboard) {
                 navigator.clipboard.writeText(shareUrl);
                 alert(`تم نسخ رابط مشاركة "${title}" بنجاح! 📋`);
+            } else {
+                prompt("نسخ الرابط المباشر للعمل:", shareUrl);
             }
         };
 

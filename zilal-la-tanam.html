@@ -296,7 +296,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-        import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+        import { getDatabase, ref, get, runTransaction } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDGG6NxTUZl5lLqD7qPq_nE0h6c_jVbaNA",
@@ -337,8 +337,8 @@
             document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
         };
 
-        // جلب بيانات وصفحات الرواية الحقيقية تلقائياً من الفايربيس
-        onValue(ref(db, 'books'), (snapshot) => {
+        // جلب بيانات وصفحات الرواية مرة واحدة بدون حلقة تكرارية مستمرة
+        get(ref(db, 'books')).then((snapshot) => {
             const books = snapshot.val();
             if (books) {
                 const bookEntry = Object.entries(books).find(([id, b]) => b.title && b.title.includes('ظلال لا تنام'));
@@ -357,7 +357,15 @@
                         document.getElementById('readerText').innerText = "عذراً، لا توجد صفحات متوفرة للقراءة المباشرة حالياً لهذا العمل.";
                     }
 
-                    runTransaction(ref(db, `books/${bookId}/reads`), reads => (reads ?? 0) + 1).catch(() => {});
+                    // زيادة العداد مرة واحدة فقط لكل متصفح/زائر
+                    const hasViewedKey = `viewed_book_${bookId}`;
+                    if (!localStorage.getItem(hasViewedKey)) {
+                        runTransaction(ref(db, `books/${bookId}/reads`), reads => (reads ?? 0) + 1)
+                        .then(() => {
+                            localStorage.setItem(hasViewedKey, 'true');
+                        })
+                        .catch(() => {});
+                    }
                     return;
                 }
             }
@@ -366,7 +374,7 @@
                 `الفصل الأول: البداية المظلمة...\n\nانطلقت الخطوات السريعة في أزقة المدينة المنسية...`
             ];
             updateContent();
-        });
+        }).catch(err => console.error(err));
     </script>
 </body>
 </html>

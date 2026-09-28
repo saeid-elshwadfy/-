@@ -11,30 +11,29 @@
     <meta name="author" content="سعيد الشوادفي">
     <link rel="canonical" href="https://saeid-elshwadfy.github.io">
 
-<!-- أكواد تعريفية لوسائل التواصل الاجتماعي (Open Graph) -->
-<meta property="og:title" content="موقع الكاتب الروائي | سعيد الشوادفي">
-<meta property="og:description" content="مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح واقرأ الروايات مباشرة.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://saeid-elshwadfy.github.io/">
+    <!-- أكواد تعريفية لوسائل التواصل الاجتماعي (Open Graph) -->
+    <meta property="og:title" content="موقع الكاتب الروائي | سعيد الشوادفي">
+    <meta property="og:description" content="مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح واقرأ الروايات مباشرة.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://saeid-elshwadfy.github.io/">
 
-<!-- صورة المعاينة الرئيسية عند المشاركة -->
-<meta property="og:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
-<meta property="og:image:secure_url" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
-<meta property="og:image:type" content="image/jpeg">
-<meta property="og:image:width" content="300"> 
-<meta property="og:image:height" content="300">
+    <!-- صورة المعاينة الرئيسية للموقع -->
+    <meta property="og:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
+    <meta property="og:image:secure_url" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="300"> 
+    <meta property="og:image:height" content="300">
 
-<!-- كروت منصة تويتر / X -->
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="موقع الكاتب الروائي | سعيد الشوادفي">
-<meta name="twitter:description" content="مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح واقرأ الروايات مباشرة.">
-<meta name="twitter:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
+    <!-- كروت منصة تويتر / X -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="موقع الكاتب الروائي | سعيد الشوادفي">
+    <meta name="twitter:description" content="مرحباً بك في المنصة الأدبية الرسمية للكاتب سعيد الشوادفي. تصفح واقرأ الروايات مباشرة.">
+    <meta name="twitter:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
 
-<!-- أيقونة اللوجو للمتصفح (Favicon) -->
-<link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
-<link rel="apple-touch-icon" href="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
+    <!-- أيقونة اللوجو للمتصفح (Favicon) -->
+    <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
     
-    <!-- تسريع استيراد الخطوط دون تعطيل تحميل الصفحة -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -1742,7 +1741,7 @@
         // تتبع استماع ودون إعادة رسم العناصر لتجنب توقف التشغيل
         const listenedAudioSet = new Set();
         window.trackAudioListen = (audioId) => {
-            if (!audioId || listenedAudioSet.has(audioId)) return;
+            if (!audioId || listenedAudioSet.has(audioId) || isAdmin) return;
             listenedAudioSet.add(audioId);
 
             const el = document.getElementById(`audioCount_${audioId}`);
@@ -1781,7 +1780,7 @@
                 el.innerText = (cur + 1).toLocaleString('ar-EG');
             }
 
-            if (!audioId.startsWith('def')) {
+            if (!audioId.startsWith('def') && !isAdmin) {
                 runTransaction(ref(db, `audioItems/${audioId}/downloads`), currentDownloads => (currentDownloads ?? 0) + 1)
                     .catch(err => console.error("Error updating downloads count:", err));
             }
@@ -1804,7 +1803,7 @@
                 return;
             }
 
-            if (!bookId.startsWith('def')) {
+            if (!bookId.startsWith('def') && !isAdmin) {
                 runTransaction(ref(db, `books/${bookId}/downloads`), currentDownloads => (currentDownloads ?? 0) + 1)
                     .catch(err => console.error("Error updating downloads count:", err));
             }
@@ -1836,6 +1835,9 @@
             if (adminPanel) adminPanel.style.display = isAdmin ? 'block' : 'none';
             if (adminToggleBtn) adminToggleBtn.innerText = isAdmin ? '🛠️ لوحة التحكم' : '🔒 تسجيل الدخول';
 
+            // تتبع زوار الموقع (مرة واحدة فقط باليوم للزائر وغير الأدمن)
+            trackSiteVisits();
+
             renderBooks();
             renderAudio();
             renderVideos();
@@ -1843,6 +1845,18 @@
             renderCourses();
             renderProducts();
         });
+
+        function trackSiteVisits() {
+            if (isAdmin) return; // عدم احتساب تجارب الأدمن كزيارات
+
+            const today = new Date().toISOString().slice(0, 10);
+            const lastVisit = localStorage.getItem('site_last_visit');
+
+            if (lastVisit !== today) {
+                localStorage.setItem('site_last_visit', today);
+                runTransaction(ref(db, 'siteStats/visits'), currentVisits => (currentVisits ?? 0) + 1);
+            }
+        }
 
         window.openSupportModal = () => {
             const buyTitle = document.getElementById('buyTitle');
@@ -1910,11 +1924,6 @@
 
             window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank');
         };
-
-        if (!sessionStorage.getItem('visited')) {
-            sessionStorage.setItem('visited', 'true');
-            runTransaction(ref(db, 'siteStats/visits'), currentVisits => (currentVisits ?? 0) + 1);
-        }
 
         onValue(ref(db, 'siteStats/visits'), (snapshot) => {
             const count = snapshot.val() ?? 0;
@@ -2824,8 +2833,6 @@
             if (totalReadsEl) totalReadsEl.innerText = sumReads.toLocaleString('ar-EG');
 
             renderBooks();
-            
-            // تحقق من وجود معلّمة book في الرابط للدخول المباشر
             checkDirectBookParam();
         });
 
@@ -3003,6 +3010,8 @@
             document.getElementById('buyModal').style.display = 'flex';
         };
 
+        const readBooksSessionSet = new Set();
+
         window.openReader = (bookId) => {
             const book = allBooks.find(b => b.id === bookId);
             if (!book?.freePages?.length) return;
@@ -3010,9 +3019,9 @@
             currentReaderBook = book;
             currentReaderPage = 0;
 
-            // تحديث العداد فور فتح شاشة القراءة
-            if (book.id && !book.id.startsWith('def')) {
-                book.reads = (book.reads || 0) + 1;
+            // احتساب القراءة مرة واحدة فقط في الجلسة ولغير الأدمن
+            if (book.id && !book.id.startsWith('def') && !isAdmin && !readBooksSessionSet.has(book.id)) {
+                readBooksSessionSet.add(book.id);
                 runTransaction(ref(db, `books/${book.id}/reads`), reads => (reads ?? 0) + 1)
                     .catch(err => console.error("خطأ في تحديث العداد:", err));
             }
@@ -3054,9 +3063,14 @@
             document.getElementById('readerModal').style.display = 'none';
         });
 
+        // دالة مشاركة الكتب الذكية والمعالجة لظلال لا تنام
         window.shareBook = (bookId, title) => {
-            const baseUrl = window.location.origin + window.location.pathname;
-            const shareUrl = `${baseUrl}?book=${encodeURIComponent(bookId)}`;
+            let shareUrl = `${window.location.origin}${window.location.pathname}?book=${encodeURIComponent(bookId)}`;
+
+            // توجيه مشاركة "ظلال لا تنام" لصفحتها المخصصة لعرض الغلاف مباشرة
+            if (title && title.includes("ظلال لا تنام")) {
+                shareUrl = "https://saeid-elshwadfy.github.io/zilal-la-tanam.html";
+            }
 
             const shareData = {
                 title: title,

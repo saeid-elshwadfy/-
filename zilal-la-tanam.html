@@ -11,13 +11,13 @@
     <meta name="author" content="سعيد الشوادفي">
     <link rel="canonical" href="https://saeid-elshwadfy.github.io/zilal-la-tanam.html">
 
-    <!-- وسوم المعاينة للمشاركة على وسائل التواصل الاجتماعي Open Graph (تم تغيير الصورة هنا إلى غلاف الرواية) -->
+    <!-- وسوم المعاينة للمشاركة على وسائل التواصل الاجتماعي Open Graph -->
     <meta property="og:title" content="رواية ظلال لا تنام | الكاتب سعيد الشوادفي">
     <meta property="og:description" content="رواية غموض وتشويق تدور أحداثها في أزقة مظلمة حيث تطفو أسرار الماضي وتبقى الظلال ساهرة لا تنام. اقرأها الآن مباشرة!">
     <meta property="og:type" content="book">
     <meta property="og:url" content="https://saeid-elshwadfy.github.io/zilal-la-tanam.html">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=800&q=80">
-    <meta property="og:image:secure_url" content="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=800&q=80">
+    <meta property="og:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1741551520/zilal-la-tanam-cover.jpg">
+    <meta property="og:image:secure_url" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1741551520/zilal-la-tanam-cover.jpg">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -26,7 +26,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="رواية ظلال لا تنام | الكاتب سعيد الشوادفي">
     <meta name="twitter:description" content="اقرأ أحدث روايات الغموض والتشويق للكاتب سعيد الشوادفي مباشرة على المنصة الرسمية.">
-    <meta name="twitter:image" content="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=800&q=80">
+    <meta name="twitter:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1741551520/zilal-la-tanam-cover.jpg">
 
     <!-- أيقونة الموقع Favicon -->
     <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
@@ -160,15 +160,36 @@
 
         .btn-primary { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); color: #fff; }
         .btn-secondary { background: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); }
-        .btn-whatsapp { background: linear-gradient(135deg, #25d366 0%, #128c7e 100%); color: #fff; }
+        .btn-pay { background: linear-gradient(135deg, #d4af37 0%, #25d366 100%); color: #fff; }
 
-        .reader-section {
+        .reader-section, .payment-section {
             margin-top: 35px;
             background: var(--card-bg);
             border: 1px solid var(--border-color);
             border-radius: 24px;
             padding: 30px;
             box-shadow: 0 15px 35px var(--shadow-color);
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .payment-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .payment-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-family: 'Amiri', serif;
         }
 
         .reader-box {
@@ -213,7 +234,7 @@
 
         <section class="book-hero">
             <div class="book-cover">
-                <img id="bookCoverImg" src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=800&q=80" alt="غلاف رواية ظلال لا تنام">
+                <img id="bookCoverImg" src="https://res.cloudinary.com/uha8a6rd/image/upload/v1741551520/zilal-la-tanam-cover.jpg" alt="غلاف رواية ظلال لا تنام">
             </div>
             <div class="book-info">
                 <h1 id="bookTitleDisplay">ظلال لا تنام</h1>
@@ -224,8 +245,34 @@
 
                 <div class="action-btns">
                     <button class="btn btn-primary" onclick="scrollToReader()">📖 اقرأ الفصل المتاح</button>
-                    <button class="btn btn-secondary" onclick="shareBook()">🔗 مشاركة الرواية</button>
-                    <a href="https://wa.me/201096227242?text=مرحباً%20أستاذ%20سعيد،%20أرغب%20في%20طلب%20رواية%20ظلال%20لا%20تنام" target="_blank" class="btn btn-whatsapp">💬 طلب النسخة الورقية / الرقمية</a>
+                    <!-- التوجيه المباشر إلى قسم وسائل الدفع بالأسفل -->
+                    <button class="btn btn-pay" onclick="scrollToPayment()">💳 شراء النسخة الورقية / طرق الدفع</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم وسائل الدفع -->
+        <section class="payment-section" id="paymentSection">
+            <h2 style="font-family: 'Amiri', serif; color: var(--accent-color); font-size: 2rem; text-align: center;">💳 طرق الدفع المتاحة</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-top: 5px;">اختر طريقة الدفع المناسبة لك لإتمام طلب النسخة الورقية أو الرقمية:</p>
+            
+            <div class="payment-grid">
+                <div class="payment-card">
+                    <h3>📱 المحافظ الإلكترونية</h3>
+                    <p style="color: var(--text-muted);">فودافون كاش / أورنج كاش / اتصالات</p>
+                    <p style="font-weight: bold; color: var(--accent-color); margin-top: 8px; dir: ltr;">01096227242</p>
+                </div>
+
+                <div class="payment-card">
+                    <h3>🏛️ تحويل بنكي / InstaPay</h3>
+                    <p style="color: var(--text-muted);">عبر تطبيق إنستا باي مباشرة</p>
+                    <p style="font-weight: bold; color: var(--accent-color); margin-top: 8px;">IPA: saeidelshwadfy@instapay أو 01096227242</p>
+                </div>
+
+                <div class="payment-card">
+                    <h3>💳 دفع أونلاين (قريباً)</h3>
+                    <p style="color: var(--text-muted);">فيزا / ماستركارد</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 8px;">الدفع المباشر عبر البوابة</p>
                 </div>
             </div>
         </section>
@@ -286,19 +333,8 @@
             document.getElementById('readerSection').scrollIntoView({ behavior: 'smooth' });
         };
 
-        window.shareBook = function() {
-            const shareData = {
-                title: 'رواية ظلال لا تنام',
-                text: 'اقرأ رواية ظلال لا تنام للكاتب سعيد الشوادفي عبر المنصة الرسمية:',
-                url: window.location.href
-            };
-
-            if (navigator.share) {
-                navigator.share(shareData).catch(() => {});
-            } else {
-                navigator.clipboard.writeText(window.location.href);
-                alert('تم نسخ رابط الرواية بنجاح! 📋');
-            }
+        window.scrollToPayment = function() {
+            document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
         };
 
         // جلب بيانات وصفحات الرواية الحقيقية تلقائياً من الفايربيس

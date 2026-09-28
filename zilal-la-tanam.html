@@ -208,13 +208,13 @@
 
         <section class="book-hero">
             <div class="book-cover">
-                <img src="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg" alt="غلاف رواية ظلال لا تنام">
+                <img id="bookCoverImg" src="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg" alt="غلاف رواية ظلال لا تنام">
             </div>
             <div class="book-info">
-                <h1>ظلال لا تنام</h1>
-                <div class="author-tag">بقلم: سعيد الشوادفي</div>
-                <p class="book-desc">
-                    رواية غموض وتشويق تدور أحداثها في أزقة مظلمة حيث تطفو أسرار الماضي وتتقاطع المصائر بين الحقيقة والوهم، وتبقى الظلال ساهرة لا تنام لتكشف أسراراً خُبئت طويلاً بين صفحات القدر.
+                <h1 id="bookTitleDisplay">ظلال لا تنام</h1>
+                <div class="author-tag" id="bookAuthorDisplay">بقلم: سعيد الشوادفي</div>
+                <p class="book-desc" id="bookDescDisplay">
+                    جاري تحميل معلومات الرواية والأصل من الفايربيس... ⏳
                 </p>
 
                 <div class="action-btns">
@@ -228,18 +228,12 @@
         <section class="reader-section" id="readerSection">
             <h2 style="font-family: 'Amiri', serif; color: var(--accent-color); font-size: 2rem; text-align: center;">📖 القراءة المباشرة</h2>
             
-            <div id="readerText" class="reader-box">
-الفصل الأول: البداية المظلمة...
-
-انطلقت الخطوات السريعة في أزقة المدينة المنسية، يتصاعد صوت انفاس متسارعة تحاول الهرب من شيء لا يُرى. كان الليل يخيم بسكونه الثقيل على الأزقة، بينما الأسرار المعلقة بين الجدران تنتظر من ينبش عنها...
-
-كانت الظلال تتحرك بهدوء، ساهرة لا تنام، تراقب كل خطوة وترسم ملامح حكاية لم تبدأ بعد.
-            </div>
+            <div id="readerText" class="reader-box">جاري تحميل صفحات القراءة... ⏳</div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
                 <button class="btn btn-secondary" id="prevBtn" onclick="changePage(-1)" disabled>⬅ السابقة</button>
-                <span id="pageIndicator" style="color: var(--text-muted); font-weight: bold;">صفحة 1 من 2</span>
-                <button class="btn btn-secondary" id="nextBtn" onclick="changePage(1)">التالية ➡</button>
+                <span id="pageIndicator" style="color: var(--text-muted); font-weight: bold;">صفحة 1 من 1</span>
+                <button class="btn btn-secondary" id="nextBtn" onclick="changePage(1)" disabled>التالية ➡</button>
             </div>
         </section>
 
@@ -248,42 +242,46 @@
         </footer>
     </div>
 
-    <script>
-        const pages = [
-`الفصل الأول: البداية المظلمة...
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+        import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
 
-انطلقت الخطوات السريعة في أزقة المدينة المنسية، يتصاعد صوت انفاس متسارعة تحاول الهرب من شيء لا يُرى. كان الليل يخيم بسكونه الثقيل على الأزقة، بينما الأسرار المعلقة بين الجدران تنتظر من ينبش عنها...
+        const firebaseConfig = {
+          apiKey: "AIzaSyDGG6NxTUZl5lLqD7qPq_nE0h6c_jVbaNA",
+          authDomain: "saeid-elshwadfy.firebaseapp.com",
+          databaseURL: "https://saeid-elshwadfy-default-rtdb.firebaseio.com",
+          projectId: "saeid-elshwadfy",
+          storageBucket: "saeid-elshwadfy.firebasestorage.app",
+          messagingSenderId: "369531285459",
+          appId: "1:369531285459:web:c2ff96822a96162a804926"
+        };
 
-كانت الظلال تتحرك بهدوء، ساهرة لا تنام، تراقب كل خطوة وترسم ملامح حكاية لم تبدأ بعد.`,
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-`الفصل الثاني: أسرار الماضي...
-
-وقف أمام الباب العتيق، تردد بيده قبل أن يطرق. الخشب المتآكل يروي تفاصيل سنين طويلة من الغموض. حين فتح الباب، لم يجد أحداً، سوى رسالة مطوية بعناية تحمل اسماً يعرفه جيداً...
-
-هنا بدأت الحقيقة تظهر شيئاً فشيئاً، لتثبت أن الماضي لا يموت بسهولة.`
-        ];
-
+        let realPages = [];
         let currentPage = 0;
 
         function updateContent() {
-            document.getElementById('readerText').innerText = pages[currentPage];
-            document.getElementById('pageIndicator').innerText = `صفحة ${currentPage + 1} من ${pages.length}`;
+            if (realPages.length === 0) return;
+            document.getElementById('readerText').innerText = realPages[currentPage];
+            document.getElementById('pageIndicator').innerText = `صفحة ${currentPage + 1} من ${realPages.length}`;
             document.getElementById('prevBtn').disabled = currentPage === 0;
-            document.getElementById('nextBtn').disabled = currentPage === pages.length - 1;
+            document.getElementById('nextBtn').disabled = currentPage === realPages.length - 1;
         }
 
-        function changePage(dir) {
-            if (currentPage + dir >= 0 && currentPage + dir < pages.length) {
+        window.changePage = function(dir) {
+            if (currentPage + dir >= 0 && currentPage + dir < realPages.length) {
                 currentPage += dir;
                 updateContent();
             }
-        }
+        };
 
-        function scrollToReader() {
+        window.scrollToReader = function() {
             document.getElementById('readerSection').scrollIntoView({ behavior: 'smooth' });
-        }
+        };
 
-        function shareBook() {
+        window.shareBook = function() {
             const shareData = {
                 title: 'رواية ظلال لا تنام',
                 text: 'اقرأ رواية ظلال لا تنام للكاتب سعيد الشوادفي عبر المنصة الرسمية:',
@@ -296,7 +294,41 @@
                 navigator.clipboard.writeText(window.location.href);
                 alert('تم نسخ رابط الرواية بنجاح! 📋');
             }
-        }
+        };
+
+        // جلب بيانات وصفحات الرواية الحقيقية تلقائياً من الفايربيس
+        onValue(ref(db, 'books'), (snapshot) => {
+            const books = snapshot.val();
+            if (books) {
+                // البحث عن رواية ظلال لا تنام بواسطة العنوان
+                const bookEntry = Object.entries(books).find(([id, b]) => b.title && b.title.includes('ظلال لا تنام'));
+                if (bookEntry) {
+                    const [bookId, targetBook] = bookEntry;
+
+                    if (targetBook.desc) document.getElementById('bookDescDisplay').innerText = targetBook.desc;
+                    if (targetBook.author) document.getElementById('bookAuthorDisplay').innerText = `بقلم: ${targetBook.author}`;
+                    if (targetBook.coverUrl) document.getElementById('bookCoverImg').src = targetBook.coverUrl;
+
+                    if (targetBook.freePages && targetBook.freePages.length > 0) {
+                        realPages = targetBook.freePages;
+                        currentPage = 0;
+                        updateContent();
+                    } else {
+                        document.getElementById('readerText').innerText = "عذراً، لا توجد صفحات متوفرة للقراءة المباشرة حالياً لهذا العمل.";
+                    }
+
+                    // تحديث عدد القراءات
+                    runTransaction(ref(db, `books/${bookId}/reads`), reads => (reads ?? 0) + 1).catch(() => {});
+                    return;
+                }
+            }
+
+            // النص الاحتياطي في حالة عدم وجودها بالفايربيس
+            realPages = [
+                `الفصل الأول: البداية المظلمة...\n\nانطلقت الخطوات السريعة في أزقة المدينة المنسية...`
+            ];
+            updateContent();
+        });
     </script>
 </body>
 </html>

@@ -11,19 +11,24 @@
     <meta name="author" content="سعيد الشوادفي">
     <link rel="canonical" href="https://saeid-elshwadfy.github.io/zilal-la-tanam.html">
 
-    <!-- وسوم المعاينة للمشاركة على وسائل التواصل الاجتماعي Open Graph -->
-    <meta property="og:title" content="رواية ظلال لا تنام | سعيد الشوادفي">
+    <!-- وسوم المعاينة للمشاركة على وسائل التواصل الاجتماعي Open Graph (تم تغيير الصورة هنا إلى غلاف الرواية) -->
+    <meta property="og:title" content="رواية ظلال لا تنام | الكاتب سعيد الشوادفي">
     <meta property="og:description" content="رواية غموض وتشويق تدور أحداثها في أزقة مظلمة حيث تطفو أسرار الماضي وتبقى الظلال ساهرة لا تنام. اقرأها الآن مباشرة!">
     <meta property="og:type" content="book">
     <meta property="og:url" content="https://saeid-elshwadfy.github.io/zilal-la-tanam.html">
-    <meta property="og:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=800&q=80">
+    <meta property="og:image:secure_url" content="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=800&q=80">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
     <!-- كروت تويتر / X -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="رواية ظلال لا تنام | سعيد الشوادفي">
+    <meta name="twitter:title" content="رواية ظلال لا تنام | الكاتب سعيد الشوادفي">
     <meta name="twitter:description" content="اقرأ أحدث روايات الغموض والتشويق للكاتب سعيد الشوادفي مباشرة على المنصة الرسمية.">
-    <meta name="twitter:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=800&q=80">
 
+    <!-- أيقونة الموقع Favicon -->
     <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
 
     <!-- الخطوط -->
@@ -208,7 +213,7 @@
 
         <section class="book-hero">
             <div class="book-cover">
-                <img id="bookCoverImg" src="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg" alt="غلاف رواية ظلال لا تنام">
+                <img id="bookCoverImg" src="https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&w=800&q=80" alt="غلاف رواية ظلال لا تنام">
             </div>
             <div class="book-info">
                 <h1 id="bookTitleDisplay">ظلال لا تنام</h1>
@@ -300,7 +305,6 @@
         onValue(ref(db, 'books'), (snapshot) => {
             const books = snapshot.val();
             if (books) {
-                // البحث عن رواية ظلال لا تنام بواسطة العنوان
                 const bookEntry = Object.entries(books).find(([id, b]) => b.title && b.title.includes('ظلال لا تنام'));
                 if (bookEntry) {
                     const [bookId, targetBook] = bookEntry;
@@ -317,13 +321,11 @@
                         document.getElementById('readerText').innerText = "عذراً، لا توجد صفحات متوفرة للقراءة المباشرة حالياً لهذا العمل.";
                     }
 
-                    // تحديث عدد القراءات
                     runTransaction(ref(db, `books/${bookId}/reads`), reads => (reads ?? 0) + 1).catch(() => {});
                     return;
                 }
             }
 
-            // النص الاحتياطي في حالة عدم وجودها بالفايربيس
             realPages = [
                 `الفصل الأول: البداية المظلمة...\n\nانطلقت الخطوات السريعة في أزقة المدينة المنسية...`
             ];

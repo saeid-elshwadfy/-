@@ -3028,17 +3028,23 @@
         });
 
         window.shareBook = (title) => {
+            let shareUrl = window.location.href;
+
+            if (title && title.includes("ظلال لا تنام")) {
+                shareUrl = "https://saeid-elshwadfy.github.io/zilal-la-tanam.html?v=100";
+            }
+
             const shareData = {
                 title: title,
                 text: `اقرأ عمل "${title}" للكاتب سعيد الشوادفي عبر منصته الأدبية الرسمية!`,
-                url: window.location.href
+                url: shareUrl
             };
 
             if (navigator.share) {
                 navigator.share(shareData).catch(() => {});
             } else if (navigator.clipboard) {
-                navigator.clipboard.writeText(window.location.href);
-                alert("تم نسخ رابط الموقع بنجاح! 📋");
+                navigator.clipboard.writeText(shareUrl);
+                alert(`تم نسخ رابط مشاركة "${title}" بنجاح! 📋`);
             }
         };
 

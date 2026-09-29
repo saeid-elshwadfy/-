@@ -7,7 +7,7 @@
     <!-- وسوم تحسين محركات البحث (SEO) -->
     <title>موقع الكاتب الروائي | سعيد الشوادفي</title>
     <meta name="description" content="مرحباً بك في المنصة الأدبية الرسمية للكاتب الروائي سعيد الشوادفي. تصفح واقرأ أحدث الروايات والإصدارات الأدبية واستفد من خدماتنا الأدبية والدورات التدريبية.">
-    <meta name="keywords" content="سعيد الشوادفي, الكاتب الروائي سعيد الشوادفي, روايات سعيد الشوادفي, ظلال لا تنام, ابن الغزال, خدمات أدبية, تدقيق لغوي, دورات كتابة, قوالب رقمية">
+    <meta name="keywords" content="سعيد الشوادفي, الكاتب الروائي سعيد الشوادفي, روايات سعيد الشوادفي, ظلال لا تنام, ابن الغزال, خدمات أدبية, تدقيق لغوي, دورات تدريبية, قوالب رقمية">
     <meta name="author" content="سعيد الشوادفي">
     <link rel="canonical" href="https://saeid-elshwadfy.github.io">
 
@@ -1595,6 +1595,16 @@
             if (event.target === privacyModal) privacyModal.style.display = 'none';
             if (event.target === termsModal) termsModal.style.display = 'none';
         });
+
+        // تفويض الأحداث للتشغيل السريع وتجنب الثقل
+        document.addEventListener('play', function(e) {
+            if (e.target && e.target.tagName === 'AUDIO') {
+                const audioId = e.target.getAttribute('data-id');
+                if (audioId && window.trackAudioListen) {
+                    window.trackAudioListen(audioId);
+                }
+            }
+        }, true);
     </script>
 
     <script type="module">
@@ -1619,7 +1629,7 @@
         const db = getDatabase(app);
         const auth = getAuth(app);
 
-        // دالة مساعدة لضغط وتحسين صور Cloudinary تلقائياً
+        // دالة تحسين الصور تلقائياً لسرعة التحميل
         function optimizeCloudinaryUrl(url, width = 400) {
             if (url && url.includes('cloudinary.com') && !url.includes('q_auto')) {
                 return url.replace('/upload/', `/upload/q_auto,f_auto,w_${width}/`);
@@ -1627,7 +1637,6 @@
             return url;
         }
 
-        // دالة الرفع المباشر إلى حسابك في Cloudinary مع تحديد نوع المورد بدقة
         async function uploadToCloudinary(file) {
             const CLOUD_NAME = "uha8a6rd";
             const UPLOAD_PRESET = "saeid-elshwadfy";
@@ -1657,7 +1666,6 @@
             return data.secure_url;
         }
 
-        // دالة مساعدة لتحويل رابط يوتيوب المباشر إلى Embed URL
         function getYouTubeEmbedUrl(url) {
             if (!url) return '';
             let videoId = '';
@@ -1668,7 +1676,6 @@
             return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
         }
 
-        // دالة مساعدة للتحقق مما إذا كان العمل أو الملف مجانياً أم مدفوعاً
         function checkIsFree(price, category) {
             const cleanPrice = String(price || '').trim().toLowerCase();
             const numericPrice = parseFloat(cleanPrice.replace(/[^0-9.]/g, ''));
@@ -1685,7 +1692,6 @@
             return isFreeCategory || isFreePrice;
         }
 
-        // دالة تحويل اسم التصنيف إلى لغة عربية للعرض
         function getCategoryName(cat) {
             const categories = {
                 'novel': 'رواية',
@@ -1717,7 +1723,6 @@
 
         const WHATSAPP_NUMBER = "201096227242";
 
-        // إدارة القائمة الجانبية
         const openDrawerBtn = document.getElementById('openDrawerBtn');
         const closeDrawerBtn = document.getElementById('closeDrawerBtn');
         const mobileDrawer = document.getElementById('mobileDrawer');
@@ -1738,7 +1743,6 @@
         drawerOverlay?.addEventListener('click', closeDrawer);
         document.querySelectorAll('.drawer-link-item').forEach(link => link.addEventListener('click', closeDrawer));
 
-        // تتبع استماع ودون إعادة رسم العناصر لتجنب توقف التشغيل
         const listenedAudioSet = new Set();
         window.trackAudioListen = (audioId) => {
             if (!audioId || listenedAudioSet.has(audioId) || isAdmin) return;
@@ -1756,7 +1760,6 @@
             }
         };
 
-        // دالة شراء / تحميل الملف الصوتي
         window.downloadAudioFile = (audioId, url, title, price) => {
             const isFree = checkIsFree(price, 'audio');
 
@@ -1788,7 +1791,6 @@
             window.open(url, '_blank');
         };
 
-        // دالة التحميل الذكية الشاملة للكتب المجانية والمدفوعة
         window.downloadBook = (bookId, fileUrl, price, category) => {
             const isFree = checkIsFree(price, category);
 
@@ -1811,7 +1813,6 @@
             window.open(fileUrl, '_blank');
         };
 
-        // حماية المحتوى والمنع من النسخ
         document.addEventListener('keydown', (e) => {
             const readerModal = document.getElementById('readerModal');
             if (readerModal?.style.display === 'flex') {
@@ -1826,7 +1827,6 @@
             }
         });
 
-        // المراقبة الديناميكية لحالة المستخدم
         onAuthStateChanged(auth, (user) => {
             isAdmin = Boolean(user);
             const adminPanel = document.getElementById('adminPanel');
@@ -1835,7 +1835,6 @@
             if (adminPanel) adminPanel.style.display = isAdmin ? 'block' : 'none';
             if (adminToggleBtn) adminToggleBtn.innerText = isAdmin ? '🛠️ لوحة التحكم' : '🔒 تسجيل الدخول';
 
-            // تتبع زوار الموقع (مرة واحدة فقط باليوم للزائر وغير الأدمن)
             trackSiteVisits();
 
             renderBooks();
@@ -1847,7 +1846,7 @@
         });
 
         function trackSiteVisits() {
-            if (isAdmin) return; // عدم احتساب تجارب الأدمن كزيارات
+            if (isAdmin) return;
 
             const today = new Date().toISOString().slice(0, 10);
             const lastVisit = localStorage.getItem('site_last_visit');
@@ -2346,7 +2345,7 @@
             }
         };
 
-        /* --- 2. الصوتيات --- */
+        /* --- 2. الصوتيات (معدلة للتحميل السريع والأداء المباشر) --- */
         onValue(ref(db, 'audioItems'), (snapshot) => {
             const data = snapshot.val();
             allAudio = data
@@ -2390,9 +2389,10 @@
 
                 const isFree = checkIsFree(item.price, 'audio');
 
+                // تحسين preload="metadata" لسرعة الاستجابة ومنع التأخير
                 const audioPlayerHtml = (item.audioUrl && item.audioUrl.trim() !== '#' && item.audioUrl.trim() !== '') ? `
                     <div class="audio-player-container">
-                        <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="none" class="custom-audio-player" data-id="${item.id}" src="${item.audioUrl}">
+                        <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata" class="custom-audio-player" data-id="${item.id}" src="${item.audioUrl}">
                             عذراً، متصفحك لا يدعم تشغيل هذا الملف الصوتي.
                         </audio>
                     </div>` : `<p style="color:var(--text-muted); font-size:0.85rem; margin:8px 0;">الملف الصوتي غير متوفر حالياً.</p>`;
@@ -2419,13 +2419,6 @@
                 `;
                 container.insertAdjacentHTML('beforeend', html);
             });
-
-            document.querySelectorAll('.custom-audio-player').forEach(player => {
-                player.addEventListener('play', function() {
-                    const audioId = this.getAttribute('data-id');
-                    if (audioId) window.trackAudioListen(audioId);
-                });
-            });
         }
 
         document.getElementById('addAudioForm')?.addEventListener('submit', async (e) => {
@@ -2435,7 +2428,7 @@
             let audioUrl = document.getElementById('audioUrl').value;
 
             const btn = document.getElementById('submitAudioBtn');
-            btn.innerText = "جاري رفع الملف إلى Cloudinary... ⏳";
+            btn.innerText = "جاري رفع الملف... ⏳";
             btn.disabled = true;
 
             try {
@@ -2526,7 +2519,7 @@
                     const embedUrl = getYouTubeEmbedUrl(item.videoUrl);
                     playerHtml = `
                         <div class="video-container">
-                            <iframe src="${embedUrl}" allowfullscreen></iframe>
+                            <iframe src="${embedUrl}" allowfullscreen loading="lazy"></iframe>
                         </div>`;
                 } else if (item.videoUrl) {
                     playerHtml = `
@@ -2870,7 +2863,7 @@
                 const audioPlayerHtml = (book.audioUrl && book.audioUrl.trim() !== '' && book.audioUrl !== '#') ? `
                     <div class="audio-player-container">
                         <span style="font-size:0.82rem; color:var(--accent-color); font-weight:bold; display:block; margin-bottom:4px;">🎧 الإلقاء الصوتي للرواية</span>
-                        <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="none" src="${book.audioUrl}">
+                        <audio controls controlsList="nodownload" oncontextmenu="return false;" preload="metadata" class="custom-audio-player" data-id="${book.id}" src="${book.audioUrl}">
                             عذراً، متصفحك لا يدعم تشغيل هذا الملف الصوتي.
                         </audio>
                     </div>` : '';
@@ -3019,7 +3012,6 @@
             currentReaderBook = book;
             currentReaderPage = 0;
 
-            // احتساب القراءة مرة واحدة فقط في الجلسة ولغير الأدمن
             if (book.id && !book.id.startsWith('def') && !isAdmin && !readBooksSessionSet.has(book.id)) {
                 readBooksSessionSet.add(book.id);
                 runTransaction(ref(db, `books/${book.id}/reads`), reads => (reads ?? 0) + 1)
@@ -3063,11 +3055,9 @@
             document.getElementById('readerModal').style.display = 'none';
         });
 
-        // دالة مشاركة الكتب الذكية والمعالجة لظلال لا تنام
         window.shareBook = (bookId, title) => {
             let shareUrl = `${window.location.origin}${window.location.pathname}?book=${encodeURIComponent(bookId)}`;
 
-            // توجيه مشاركة "ظلال لا تنام" لصفحتها المخصصة لعرض الغلاف مباشرة
             if (title && title.includes("ظلال لا تنام")) {
                 shareUrl = "https://saeid-elshwadfy.github.io/zilal-la-tanam.html";
             }
@@ -3268,13 +3258,15 @@
                 }
             }
         };
-// Prevent Copying Inside Reader Modal
-        document.getElementById('readerBody').addEventListener('copy', (e) => {
-            e.preventDefault();
-            alert('المحتوى محمي بموجب حقوق الملكية الفكرية.');
-        });
 
-        // Initialize Page
+        const readerBoxEl = document.getElementById('readerText');
+        if (readerBoxEl) {
+            readerBoxEl.addEventListener('copy', (e) => {
+                e.preventDefault();
+                alert('المحتوى محمي بموجب حقوق الملكية الفكرية.');
+            });
+        }
+
         renderBooks();
     </script>
 </body>

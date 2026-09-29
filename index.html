@@ -3107,8 +3107,7 @@ onAuthStateChanged(auth, async (user) => {
         window.shareBook = async (bookId, title) => {
             // رابط الموقع المنشور هو رابط المشاركة الحقيقي.
             // عند تجربة index.html محلياً لا نستخدم file:// لأنه غير صالح للمشاركة.
-            const productionBaseUrl = 'https://saeid-elshwadfy.github.io/';
-            const shareUrl = `https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev/book/${encodeURIComponent(bookId)}`;
+            const shareUrl = `https://tight-firefly-b99c.saeidelshwadfy.workers.dev/book/${encodeURIComponent(bookId)}`;
 
             const shareData = {
                 title: `📖 ${title}`,

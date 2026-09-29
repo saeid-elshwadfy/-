@@ -1611,7 +1611,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
         import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-analytics.js";
         import { getDatabase, ref, onValue, set, push, update, remove, runTransaction } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updatePassword } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged, sendPasswordResetEmail, updatePassword, getIdTokenResult } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-auth.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyDGG6NxTUZl5lLqD7qPq_nE0h6c_jVbaNA",
@@ -1624,6 +1624,7 @@
           measurementId: "G-ET702105DC"
         };
 
+        // ملاحظة أمنية: إعداد Firebase الظاهر في المتصفح ليس سرّاً؛ الحماية الحقيقية يجب أن تكون في Firebase Rules/Custom Claims.
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getDatabase(app);
@@ -1827,9 +1828,22 @@
             }
         });
 
-        onAuthStateChanged(auth, (user) => {
-            isAdmin = Boolean(user);
-            const adminPanel = document.getElementById('adminPanel');
+onAuthStateChanged(auth, async (user) => {
+            isAdmin = false;
+
+            if (user) {
+                // تحقق من البريد الإلكتروني الخاص بك مباشرة
+                if (user.email === "saeidelshwadfy@gmail.com") {
+                    isAdmin = true;
+                } else {
+                    try {
+                        const tokenResult = await getIdTokenResult(user, true);
+                        isAdmin = tokenResult.claims?.admin === true;
+                    } catch (err) {
+                        isAdmin = false;
+                    }
+                }
+                  }            const adminPanel = document.getElementById('adminPanel');
             const adminToggleBtn = document.getElementById('adminToggleBtn');
             
             if (adminPanel) adminPanel.style.display = isAdmin ? 'block' : 'none';
@@ -1843,6 +1857,11 @@
             renderServices();
             renderCourses();
             renderProducts();
+
+            // طلبات النشر حساسة؛ لا نقرأها من قاعدة البيانات إلا للأدمن.
+            if (isAdmin) {
+                loadPublishRequests();
+            }
         });
 
         function trackSiteVisits() {
@@ -1941,10 +1960,16 @@
         const toggleAdminLogin = () => {
             if (!auth.currentUser) {
                 document.getElementById('adminLoginModal').style.display = 'flex';
-            } else {
-                const panel = document.getElementById('adminPanel');
-                if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+                return;
             }
+
+            if (!isAdmin) {
+                alert("هذا الحساب مسجل دخول، لكنه لا يملك صلاحيات الإدارة.");
+                return;
+            }
+
+            const panel = document.getElementById('adminPanel');
+            if (panel) panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
         };
 
         document.getElementById('adminToggleBtn')?.addEventListener('click', toggleAdminLogin);
@@ -1993,8 +2018,8 @@
             const newPass = document.getElementById('newAdminPassword').value;
             const btn = document.getElementById('changePasswordBtn');
             
-            if (!auth.currentUser) {
-                alert("يجب عليك تسجيل الدخول أولاً.");
+            if (!auth.currentUser || !isAdmin) {
+                alert("هذه العملية متاحة للأدمن فقط.");
                 return;
             }
 
@@ -2047,6 +2072,7 @@
 
                 const requestData = {
                     authorName: document.getElementById('pubAuthorName').value,
+                    requesterUid: auth.currentUser?.uid ?? null,
                     authorPhone: document.getElementById('pubAuthorPhone').value,
                     title: document.getElementById('pubBookTitle').value,
                     category: document.getElementById('pubBookCategory').value,
@@ -2072,7 +2098,11 @@
             }
         });
 
-        onValue(ref(db, 'publishRequests'), (snapshot) => {
+        let publishRequestsListenerAttached = false;
+        function loadPublishRequests() {
+            if (publishRequestsListenerAttached || !isAdmin) return;
+            publishRequestsListenerAttached = true;
+            onValue(ref(db, 'publishRequests'), (snapshot) => {
             const data = snapshot.val();
             const container = document.getElementById('publishRequestsContainer');
             allRequests = [];
@@ -2111,7 +2141,10 @@
             }
         });
 
+        }
+
         window.approveRequest = async (reqId) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             const req = allRequests.find(r => r.id === reqId);
             if (!req) return;
 
@@ -2139,6 +2172,7 @@
         };
 
         window.rejectRequest = async (reqId) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             if (confirm("هل انت متأكد من رفض وحذف طلب النشر هذا؟")) {
                 await remove(ref(db, `publishRequests/${reqId}`));
                 alert("تم رفض الطلب وحذفه.");
@@ -2147,6 +2181,7 @@
 
         document.getElementById('siteCustomizationForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             const coverFile = document.getElementById('adminCoverFileInput')?.files[0];
             let coverUrl = document.getElementById('adminCoverUrl').value;
 
@@ -2329,6 +2364,7 @@
         });
 
         window.editService = (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             const item = allServices.find(s => s.id === id);
             if (!item) return;
             document.getElementById('editServiceId').value = item.id;
@@ -2339,6 +2375,7 @@
         };
 
         window.deleteService = async (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             if (confirm("هل انت متأكد من حذف هذه الخدمة؟")) {
                 if (!id.startsWith('def')) await remove(ref(db, `services/${id}`));
                 else alert("الخدمات الافتراضية محفوظة.");
@@ -2465,6 +2502,7 @@
         });
 
         window.editAudio = (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             const item = allAudio.find(a => a.id === id);
             if (!item) return;
             document.getElementById('editAudioId').value = item.id;
@@ -2476,6 +2514,7 @@
         };
 
         window.deleteAudio = async (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             if (confirm("هل انت متأكد من حذف هذا المقطع الصوتي؟")) {
                 if (!id.startsWith('def')) await remove(ref(db, `audioItems/${id}`));
                 else alert("المقاطع الافتراضية محفوظة.");
@@ -2587,6 +2626,7 @@
         });
 
         window.editVideo = (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             const item = allVideos.find(v => v.id === id);
             if (!item) return;
             document.getElementById('editVideoId').value = item.id;
@@ -2597,6 +2637,7 @@
         };
 
         window.deleteVideo = async (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             if (confirm("هل انت متأكد من حذف هذا الفيديو؟")) {
                 if (!id.startsWith('def')) await remove(ref(db, `videos/${id}`));
                 else alert("الفيديوهات الافتراضية محفوظة.");
@@ -2673,6 +2714,7 @@
         });
 
         window.editCourse = (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             const item = allCourses.find(c => c.id === id);
             if (!item) return;
             document.getElementById('editCourseId').value = item.id;
@@ -2684,6 +2726,7 @@
         };
 
         window.deleteCourse = async (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             if (confirm("هل انت متأكد من حذف هذه الدورة؟")) {
                 if (!id.startsWith('def')) await remove(ref(db, `courses/${id}`));
                 else alert("الدورات الافتراضية محفوظة.");
@@ -2730,6 +2773,7 @@
 
         document.getElementById('addProductForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isAdmin) { alert("غير مصرح: لوحة الإدارة للأدمن فقط."); return; }
             const editId = document.getElementById('editProductId').value;
             const productFile = document.getElementById('productFileInput')?.files[0];
             let productFileUrl = document.getElementById('productFileUrl').value;
@@ -2771,6 +2815,7 @@
         });
 
         window.editProduct = (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             const item = allProducts.find(p => p.id === id);
             if (!item) return;
             document.getElementById('editProductId').value = item.id;
@@ -2782,6 +2827,7 @@
         };
 
         window.deleteProduct = async (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             if (confirm("هل انت متأكد من حذف هذا المنتج؟")) {
                 if (!id.startsWith('def')) await remove(ref(db, `products/${id}`));
                 else alert("المنتجات الافتراضية محفوظة.");
@@ -3079,6 +3125,12 @@
         };
 
         window.rateBook = (bookId) => {
+            const ratingKey = `book_rated_${bookId}`;
+            if (localStorage.getItem(ratingKey)) {
+                alert("لقد قيّمت هذا العمل من هذا المتصفح من قبل. ⭐");
+                return;
+            }
+
             const rating = prompt("ضع تقييمك للعمل من 1 إلى 5 نجوم:");
             const num = parseFloat(rating);
             if (num >= 1 && num <= 5) {
@@ -3089,8 +3141,12 @@
                             book.ratingCount = (book.ratingCount ?? 0) + 1;
                         }
                         return book;
-                    }).then(() => alert("شكراً لتقييمك! ⭐"));
+                    }).then(() => {
+                        localStorage.setItem(ratingKey, '1');
+                        alert("شكراً لتقييمك! ⭐");
+                    }).catch(err => alert(`تعذر حفظ التقييم: ${err.message}`));
                 } else {
+                    localStorage.setItem(ratingKey, '1');
                     alert("شكراً لتقييمك! ⭐");
                 }
             }
@@ -3146,6 +3202,7 @@
             const reviewData = {
                 name,
                 text,
+                uid: auth.currentUser?.uid ?? null,
                 date: new Date().toLocaleDateString('ar-EG')
             };
 
@@ -3163,6 +3220,7 @@
 
         document.getElementById('addBookForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isAdmin) { alert("غير مصرح: لوحة الإدارة للأدمن فقط."); return; }
             const btn = document.getElementById('submitBtn');
             btn.innerText = "جاري رفع الملفات إلى Cloudinary... ⏳";
             btn.disabled = true;
@@ -3228,6 +3286,7 @@
         });
 
         window.editBook = (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             const book = allBooks.find(b => b.id === id);
             if (!book) return;
 
@@ -3250,6 +3309,7 @@
         };
 
         window.deleteBook = async (id) => {
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             if (confirm("هل انت متأكد من حذف هذا العمل؟")) {
                 if (!id.startsWith('def')) {
                     await remove(ref(db, `books/${id}`));

@@ -3268,7 +3268,14 @@
                 }
             }
         };
+// Prevent Copying Inside Reader Modal
+        document.getElementById('readerBody').addEventListener('copy', (e) => {
+            e.preventDefault();
+            alert('المحتوى محمي بموجب حقوق الملكية الفكرية.');
+        });
 
+        // Initialize Page
+        renderBooks();
     </script>
 </body>
 </html>

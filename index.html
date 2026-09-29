@@ -3107,7 +3107,16 @@ onAuthStateChanged(auth, async (user) => {
         window.shareBook = async (bookId, title) => {
             // رابط الموقع المنشور هو رابط المشاركة الحقيقي.
             // عند تجربة index.html محلياً لا نستخدم file:// لأنه غير صالح للمشاركة.
-            const shareUrl = `https://tight-firefly-b99c.saeidelshwadfy.workers.dev/book/${encodeURIComponent(bookId)}`;
+            const bookSlug = String(title || 'كتاب')
+                .trim()
+                .toLowerCase()
+                .replace(/[\u064B-\u065F\u0670]/g, '')
+                .replace(/[أإآ]/g, 'ا')
+                .replace(/ى/g, 'ي')
+                .replace(/ة/g, 'ه')
+                .replace(/[^\u0600-\u06FFa-z0-9]+/gi, '-')
+                .replace(/^-+|-+$/g, '') || encodeURIComponent(bookId);
+            const shareUrl = `https://tight-firefly-b99c.saeidelshwadfy.workers.dev/book/${encodeURIComponent(bookSlug)}`;
 
             const shareData = {
                 title: `📖 ${title}`,

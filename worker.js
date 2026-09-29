@@ -1,117 +1,61 @@
-const DB_URL = "https://saeid-elshwadfy-default-rtdb.firebaseio.com";
-const SITE_URL = "https://saeid-elshwadfy.github.io";
-const SITE_NAME = "موقع الكاتب الروائي | سعيد الشوادفي";
+const DB_URL =
+  "https://saeid-elshwadfy-default-rtdb.firebaseio.com";
 
-function esc(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
+const SITE_URL =
+  "https://saeid-elshwadfy.github.io";
 
-function cleanUrl(value) {
-  try {
-    const u = new URL(String(value || ""));
-    return u.protocol === "https:" ? u.href : "";
-  } catch {
-    return "";
-  }
-}
-
-// نفس طريقة تكوين الـ slug المستخدمة في روابط المشاركة
-function makeSlug(value) {
-  return String(value || "")
-    .trim()
-    .toLowerCase()
-    .replace(/[\u064B-\u065F\u0670]/g, "")
-    .replace(/[أإآ]/g, "ا")
-    .replace(/ى/g, "ي")
-    .replace(/ة/g, "ه")
-    .replace(/[^\u0600-\u06FFa-z0-9]+/gi, "-")
-    .replace(/^-+|-+$/g, "");
-}
-
-function isCrawler(request) {
-  const ua = (request.headers.get("user-agent") || "").toLowerCase();
-
-  return /facebookexternalhit|facebot|whatsapp|twitterbot|linkedinbot|telegrambot|discordbot|slackbot|googlebot|bingbot/i.test(ua);
-}
+const SITE_NAME =
+  "موقع الكاتب الروائي | سعيد الشوادفي";
 
 export default {
   async fetch(request) {
     const url = new URL(request.url);
 
-    // robots.txt
-    if (url.pathname === "/robots.txt") {
+    // ==========================================
+    // /book/اسم-الكتاب
+    // أو /book/BOOK_ID للروابط القديمة
+    // ==========================================
+
+    const match = url.pathname.match(/^\/book\/([^/]+)\/?$/);
+
+    if (!match) {
       return new Response(
-        "User-agent: *\nAllow: /\n",
+        "Worker is running. Use /book/BOOK-NAME",
         {
+          status: 200,
           headers: {
-            "content-type": "text/plain; charset=utf-8"
+            "content-type":
+              "text/plain; charset=UTF-8"
           }
         }
       );
     }
 
-    // رابط الكتاب:
-    // /book/ID
-    // أو
-    // /book/اسم-الكتاب
-    const match = url.pathname.match(/^\/book\/([^/]+)\/?$/);
+    const slug = decodeURIComponent(match[1]).trim();
 
-    if (!match) {
-      return new Response("Book share worker is running.", {
-        status: 200,
-        headers: {
-          "content-type": "text/plain; charset=utf-8"
+    if (!slug || slug.length > 300) {
+      return new Response(
+        "Invalid book reference.",
+        {
+          status: 400,
+          headers: {
+            "content-type":
+              "text/plain; charset=UTF-8"
+          }
         }
-      });
+      );
     }
 
-    const key = decodeURIComponent(match[1]);
+    const firebaseUrl =
+      `${DB_URL}/books.json`;
 
-    if (!key || key.length > 300) {
-      return new Response("Invalid book reference", {
-        status: 400
-      });
-    }
+    try {
+      // ==========================================
+      // جلب جميع الكتب من Firebase
+      // ==========================================
 
-    let book = null;
-    let bookId = null;
-
-    /*
-      أولاً:
-      نجرب اعتبار الرابط Book ID
-      عشان الروابط القديمة تفضل شغالة.
-    */
-
-    const directApiUrl =
-      `${DB_URL}/books/${encodeURIComponent(key)}.json`;
-
-    const directResponse = await fetch(directApiUrl, {
-      headers: {
-        "accept": "application/json"
-      }
-    });
-
-    if (directResponse.ok) {
-      const directBook = await directResponse.json();
-
-      if (directBook) {
-        book = directBook;
-        bookId = key;
-      }
-    }
-
-    /*
-      لو مش ID، ندور على الكتاب باستخدام الـ slug.
-    */
-
-    if (!book) {
-      const booksResponse = await fetch(
-        `${DB_URL}/books.json`,
+      const response = await fetch(
+        firebaseUrl,
         {
           headers: {
             "accept": "application/json"
@@ -119,287 +63,675 @@ export default {
         }
       );
 
-      if (!booksResponse.ok) {
-        return new Response("Unable to load books", {
-          status: 502
-        });
+      if (!response.ok) {
+        return new Response(
+          "Unable to read books from Firebase.",
+          {
+            status: 502,
+            headers: {
+              "content-type":
+                "text/plain; charset=UTF-8"
+            }
+          }
+        );
       }
 
-      const books = await booksResponse.json();
+      const books = await response.json();
 
-      if (books && typeof books === "object") {
-        for (const [id, candidate] of Object.entries(books)) {
-          if (!candidate) continue;
+      const wantedSlug =
+        normalizeSlug(slug);
 
-          const candidateSlug = makeSlug(candidate.title);
+      let book = null;
 
-          if (candidateSlug === key) {
-            book = candidate;
-            bookId = id;
+      // ==========================================
+      // البحث بالـ slug
+      // ==========================================
+
+      if (
+        books &&
+        typeof books === "object"
+      ) {
+        for (
+          const [id, item]
+          of Object.entries(books)
+        ) {
+          if (
+            !item ||
+            typeof item !== "object"
+          ) {
+            continue;
+          }
+
+          const titleSlug =
+            makeSlug(
+              item.title || "كتاب"
+            );
+
+          if (
+            titleSlug === wantedSlug
+          ) {
+            book = {
+              ...item,
+              id
+            };
+
             break;
           }
         }
       }
-    }
 
-    if (!book || !bookId) {
-      return new Response("Book not found", {
-        status: 404,
-        headers: {
-          "content-type": "text/plain; charset=utf-8"
-        }
-      });
-    }
+      // ==========================================
+      // توافق مع الروابط القديمة بالـ ID
+      // ==========================================
 
-    const title = book.title || "كتاب";
-    const author = book.author || "سعيد الشوادفي";
+      if (
+        !book &&
+        books &&
+        books[slug]
+      ) {
+        book = {
+          ...books[slug],
+          id: slug
+        };
+      }
 
-    const description =
-      book.desc ||
-      `اقرأ كتاب «${title}» للكاتب ${author}.`;
+      // ==========================================
+      // الكتاب غير موجود
+      // ==========================================
 
-    const image = cleanUrl(book.coverUrl);
+      if (!book) {
+        return new Response(
+          "Book not found.",
+          {
+            status: 404,
+            headers: {
+              "content-type":
+                "text/plain; charset=UTF-8"
+            }
+          }
+        );
+      }
 
-    /*
-      بعد الضغط على الرابط:
-      يفتح الكتاب الحقيقي داخل موقعك.
-    */
-    const target =
-      `${SITE_URL}/?book=${encodeURIComponent(bookId)}&read=1`;
+      // ==========================================
+      // بيانات الكتاب
+      // ==========================================
 
-    /*
-      الرابط الأساسي يفضل هو نفس الرابط الذي تمت مشاركته.
-    */
-    const canonical =
-      `${url.origin}/book/${encodeURIComponent(key)}`;
+      const rawTitle =
+        book.title || "كتاب";
 
-    const html = `<!doctype html>
+      const rawAuthor =
+        book.author ||
+        "سعيد الشوادفي";
+
+      const rawDescription =
+        book.desc ||
+        `كتاب ${rawTitle} للكاتب ${rawAuthor}`;
+
+      const title =
+        escapeHtml(rawTitle);
+
+      const author =
+        escapeHtml(rawAuthor);
+
+      const description =
+        escapeHtml(rawDescription);
+
+      const image =
+        escapeAttr(
+          book.coverUrl || ""
+        );
+
+      // ==========================================
+      // رابط Worker الأساسي للكتاب
+      // ==========================================
+
+      const bookSlug =
+        makeSlug(rawTitle);
+
+      const workerUrl =
+        `${url.origin}/book/${encodeURIComponent(bookSlug)}`;
+
+      // ==========================================
+      // مهم جدًا:
+      // نفتح الموقع العادي بدون read=1
+      //
+      // وبالتالي الموقع يعرض:
+      // الهيدر
+      // الرئيسية
+      // الكتاب
+      // الأسعار
+      // الشراء
+      // وسائل الدفع
+      //
+      // والقراءة لا تبدأ تلقائيًا.
+      // ==========================================
+
+      const siteUrl =
+        `${SITE_URL}/?book=${encodeURIComponent(book.id)}`;
+
+      // ==========================================
+      // الصفحة الوسيطة
+      // ==========================================
+
+      const html = `<!doctype html>
 <html lang="ar" dir="rtl">
 
 <head>
 
-<meta charset="utf-8">
+  <meta charset="utf-8">
 
-<title>${esc(title)} | ${esc(author)}</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
-<meta
-  name="description"
-  content="${esc(description)}"
->
+  <title>
+    ${title} | ${author}
+  </title>
 
-<link
-  rel="canonical"
-  href="${esc(canonical)}"
->
+  <meta
+    name="description"
+    content="${description}"
+  >
 
-<!-- Open Graph -->
+  <link
+    rel="canonical"
+    href="${escapeAttr(workerUrl)}"
+  >
 
-<meta
-  property="og:type"
-  content="book"
->
+  <!-- ========================================
+       Open Graph
+       ======================================== -->
 
-<meta
-  property="og:title"
-  content="${esc(title)}"
->
+  <meta
+    property="og:type"
+    content="book"
+  >
 
-<meta
-  property="og:description"
-  content="${esc(description)}"
->
+  <meta
+    property="og:title"
+    content="${title}"
+  >
 
-<meta
-  property="og:url"
-  content="${esc(canonical)}"
->
+  <meta
+    property="og:description"
+    content="${description}"
+  >
 
-<meta
-  property="og:site_name"
-  content="${esc(SITE_NAME)}"
->
+  <meta
+    property="og:url"
+    content="${escapeAttr(workerUrl)}"
+  >
 
-<meta
-  property="og:locale"
-  content="ar_EG"
->
+  <meta
+    property="og:site_name"
+    content="${escapeAttr(SITE_NAME)}"
+  >
 
-${image ? `
-<meta
-  property="og:image"
-  content="${esc(image)}"
->
+  <meta
+    property="og:locale"
+    content="ar_EG"
+  >
 
-<meta
-  property="og:image:alt"
-  content="${esc(title)}"
->
-` : ""}
+  ${
+    image
+      ? `
+  <meta
+    property="og:image"
+    content="${image}"
+  >
 
-<!-- Twitter / X -->
+  <meta
+    property="og:image:secure_url"
+    content="${image}"
+  >
 
-<meta
-  name="twitter:card"
-  content="${image ? "summary_large_image" : "summary"}"
->
+  <meta
+    property="og:image:type"
+    content="image/jpeg"
+  >
 
-<meta
-  name="twitter:title"
-  content="${esc(title)}"
->
+  <meta
+    property="og:image:alt"
+    content="${title}"
+  >
+  `
+      : ""
+  }
 
-<meta
-  name="twitter:description"
-  content="${esc(description)}"
->
+  <!-- ========================================
+       Twitter / X
+       ======================================== -->
 
-${image ? `
-<meta
-  name="twitter:image"
-  content="${esc(image)}"
->
+  <meta
+    name="twitter:card"
+    content="${
+      image
+        ? "summary_large_image"
+        : "summary"
+    }"
+  >
 
-<meta
-  name="twitter:image:alt"
-  content="${esc(title)}"
->
-` : ""}
+  <meta
+    name="twitter:title"
+    content="${title}"
+  >
 
-<!-- Book structured data -->
+  <meta
+    name="twitter:description"
+    content="${description}"
+  >
 
-<script type="application/ld+json">
-${JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": "Book",
-  "name": title,
-  "author": {
-    "@type": "Person",
-    "name": author
-  },
-  "description": description,
-  ...(image ? { "image": image } : {}),
-  "url": canonical
-})}
-</script>
+  ${
+    image
+      ? `
+  <meta
+    name="twitter:image"
+    content="${image}"
+  >
 
-<!--
-  تأخير بسيط جداً حتى تستطيع
-  WhatsApp / Facebook / Telegram
-  قراءة بيانات Open Graph.
--->
-<meta
-  http-equiv="refresh"
-  content="0.3;url=${esc(target)}"
->
+  <meta
+    name="twitter:image:alt"
+    content="${title}"
+  >
+  `
+      : ""
+  }
 
-<style>
-body {
-  font-family: Arial, sans-serif;
-  background: #f7f7f7;
-  margin: 0;
-  padding: 40px 20px;
-  text-align: center;
-  color: #222;
-}
+  <!-- ========================================
+       Book Structured Data
+       ======================================== -->
 
-.card {
-  max-width: 500px;
-  margin: auto;
-  background: white;
-  padding: 25px;
-  border-radius: 18px;
-  box-shadow: 0 5px 25px rgba(0,0,0,.08);
-}
+  <script type="application/ld+json">
+  ${JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Book",
+    name: rawTitle,
+    author: {
+      "@type": "Person",
+      name: rawAuthor
+    },
+    description: rawDescription,
+    ...(book.coverUrl
+      ? {
+          image: book.coverUrl
+        }
+      : {}),
+    url: workerUrl
+  })}
+  </script>
 
-.cover {
-  max-width: 220px;
-  max-height: 320px;
-  border-radius: 12px;
-  margin-bottom: 20px;
-}
+  <style>
 
-h1 {
-  margin: 10px 0;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-.author {
-  color: #666;
-  margin-bottom: 15px;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
 
-.description {
-  line-height: 1.8;
-}
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-a.button {
-  display: inline-block;
-  margin-top: 20px;
-  padding: 12px 24px;
-  background: #222;
-  color: white;
-  text-decoration: none;
-  border-radius: 10px;
-}
-</style>
+      padding: 25px;
+
+      font-family:
+        Arial,
+        Tahoma,
+        sans-serif;
+
+      background:
+        linear-gradient(
+          135deg,
+          #111827,
+          #1f2937
+        );
+
+      color: #fff;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 520px;
+
+      padding: 30px 25px;
+
+      text-align: center;
+
+      background:
+        rgba(255,255,255,.08);
+
+      border:
+        1px solid
+        rgba(255,255,255,.12);
+
+      border-radius: 22px;
+
+      box-shadow:
+        0 20px 60px
+        rgba(0,0,0,.35);
+
+      backdrop-filter:
+        blur(12px);
+    }
+
+    .site-name {
+      font-size: 14px;
+      opacity: .7;
+      margin-bottom: 20px;
+    }
+
+    .cover {
+      display: block;
+
+      width: auto;
+      max-width: 230px;
+      max-height: 330px;
+
+      margin:
+        0 auto 22px;
+
+      border-radius: 12px;
+
+      box-shadow:
+        0 12px 30px
+        rgba(0,0,0,.35);
+    }
+
+    h1 {
+      margin:
+        0 0 8px;
+
+      font-size: 27px;
+
+      line-height: 1.5;
+    }
+
+    .author {
+      opacity: .75;
+
+      margin-bottom: 18px;
+
+      font-size: 15px;
+    }
+
+    .description {
+      line-height: 1.9;
+
+      font-size: 15px;
+
+      opacity: .9;
+
+      margin-bottom: 22px;
+    }
+
+    .button {
+      display: inline-block;
+
+      padding:
+        12px 26px;
+
+      border-radius: 12px;
+
+      background:
+        #ffffff;
+
+      color:
+        #111827;
+
+      text-decoration: none;
+
+      font-weight: bold;
+
+      transition:
+        transform .2s ease;
+    }
+
+    .button:hover {
+      transform:
+        translateY(-2px);
+    }
+
+    .note {
+      margin-top: 15px;
+
+      font-size: 12px;
+
+      opacity: .55;
+    }
+
+  </style>
 
 </head>
 
 <body>
 
-<div class="card">
+  <main class="card">
 
-${image ? `
-<img
-  class="cover"
-  src="${esc(image)}"
-  alt="${esc(title)}"
->
-` : ""}
+    <div class="site-name">
+      ${escapeHtml(SITE_NAME)}
+    </div>
 
-<h1>${esc(title)}</h1>
+    ${
+      image
+        ? `
+    <img
+      class="cover"
+      src="${image}"
+      alt="${title}"
+    >
+    `
+        : ""
+    }
 
-<div class="author">
-بقلم ${esc(author)}
-</div>
+    <h1>
+      ${title}
+    </h1>
 
-<div class="description">
-${esc(description)}
-</div>
+    <div class="author">
+      بقلم ${author}
+    </div>
 
-<a
-  class="button"
-  href="${esc(target)}"
->
-فتح الكتاب
-</a>
+    <div class="description">
+      ${description}
+    </div>
 
-</div>
+    <a
+      class="button"
+      href="${escapeAttr(siteUrl)}"
+    >
+      📖 عرض الكتاب
+    </a>
 
-<script>
-setTimeout(function () {
-  window.location.replace(${JSON.stringify(target)});
-}, 300);
-</script>
+    <div class="note">
+      جاري فتح صفحة الكتاب...
+    </div>
+
+  </main>
+
+  <script>
+    setTimeout(function () {
+      window.location.replace(
+        ${JSON.stringify(siteUrl)}
+      );
+    }, 500);
+  </script>
 
 </body>
 
 </html>`;
 
-    return new Response(html, {
-      status: 200,
+      // ==========================================
+      // إرسال الصفحة
+      // ==========================================
 
-      headers: {
-        "content-type":
-          "text/html; charset=utf-8",
+      return new Response(
+        html,
+        {
+          status: 200,
 
-        "cache-control":
-          isCrawler(request)
-            ? "public, max-age=300"
-            : "no-store",
+          headers: {
+            "content-type":
+              "text/html; charset=UTF-8",
 
-        "x-content-type-options":
-          "nosniff"
-      }
-    });
+            "cache-control":
+              "public, max-age=300",
+
+            "x-content-type-options":
+              "nosniff"
+          }
+        }
+      );
+
+    } catch (error) {
+
+      return new Response(
+        "Worker error: " +
+        String(error),
+        {
+          status: 500,
+
+          headers: {
+            "content-type":
+              "text/plain; charset=UTF-8"
+          }
+        }
+      );
+    }
   }
 };
+
+
+// ==================================================
+// تكوين Slug من عنوان الكتاب
+// ==================================================
+
+function makeSlug(value) {
+
+  return normalizeSlug(
+    String(value || "")
+      .trim()
+      .toLowerCase()
+
+      // إزالة التشكيل
+      .replace(
+        /[\u064B-\u065F\u0670]/g,
+        ""
+      )
+
+      // توحيد الحروف العربية
+      .replace(
+        /[أإآ]/g,
+        "ا"
+      )
+
+      .replace(
+        /ى/g,
+        "ي"
+      )
+
+      .replace(
+        /ة/g,
+        "ه"
+      )
+
+      // استبدال المسافات والرموز بشرطة
+      .replace(
+        /[^\u0600-\u06FFa-z0-9]+/gi,
+        "-"
+      )
+
+      .replace(
+        /^-+|-+$/g,
+        ""
+      )
+  );
+}
+
+
+// ==================================================
+// Normalize للـ Slug القادم من الرابط
+// ==================================================
+
+function normalizeSlug(value) {
+
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+
+    .replace(
+      /[\u064B-\u065F\u0670]/g,
+      ""
+    )
+
+    .replace(
+      /[أإآ]/g,
+      "ا"
+    )
+
+    .replace(
+      /ى/g,
+      "ي"
+    )
+
+    .replace(
+      /ة/g,
+      "ه"
+    )
+
+    .replace(
+      /[^\u0600-\u06FFa-z0-9]+/gi,
+      "-"
+    )
+
+    .replace(
+      /^-+|-+$/g,
+      ""
+    );
+}
+
+
+// ==================================================
+// حماية النصوص HTML
+// ==================================================
+
+function escapeHtml(value) {
+
+  return String(value ?? "")
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#39;"
+    );
+}
+
+
+// ==================================================
+// حماية خصائص HTML
+// ==================================================
+
+function escapeAttr(value) {
+
+  return escapeHtml(value);
+}

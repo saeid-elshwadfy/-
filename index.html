@@ -3105,11 +3105,10 @@ onAuthStateChanged(auth, async (user) => {
         });
 
         window.shareBook = async (bookId, title) => {
-            // رابط مشاركة الكتاب: صفحة ثابتة يتم توليدها من Firebase داخل /books/
-            // الصفحة تعرض بيانات Open Graph لفيسبوك ثم تفتح قارئ الكتاب مباشرة.
+            // رابط الموقع المنشور هو رابط المشاركة الحقيقي.
             // عند تجربة index.html محلياً لا نستخدم file:// لأنه غير صالح للمشاركة.
             const productionBaseUrl = 'https://saeid-elshwadfy.github.io/';
-            const shareUrl = `${productionBaseUrl}books/${encodeURIComponent(bookId)}.html`;
+            const shareUrl = `https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev/book/${encodeURIComponent(bookId)}`;
 
             const shareData = {
                 title: `📖 ${title}`,

@@ -1829,21 +1829,20 @@
         });
 
 onAuthStateChanged(auth, async (user) => {
+            // صلاحية الأدمن تعتمد على Custom Claim من Firebase فقط، وليس على البريد الإلكتروني أو تسجيل الدخول وحده.
             isAdmin = false;
 
             if (user) {
-                // تحقق من البريد الإلكتروني الخاص بك مباشرة
-                if (user.email === "saeidelshwadfy@gmail.com") {
-                    isAdmin = true;
-                } else {
-                    try {
-                        const tokenResult = await getIdTokenResult(user, true);
-                        isAdmin = tokenResult.claims?.admin === true;
-                    } catch (err) {
-                        isAdmin = false;
-                    }
+                try {
+                    const tokenResult = await getIdTokenResult(user, true);
+                    isAdmin = tokenResult.claims?.admin === true;
+                } catch (err) {
+                    console.error("تعذر التحقق من صلاحية الأدمن:", err);
+                    isAdmin = false;
                 }
-                  }            const adminPanel = document.getElementById('adminPanel');
+            }
+
+            const adminPanel = document.getElementById('adminPanel');
             const adminToggleBtn = document.getElementById('adminToggleBtn');
             
             if (adminPanel) adminPanel.style.display = isAdmin ? 'block' : 'none';
@@ -1988,9 +1987,17 @@ onAuthStateChanged(auth, async (user) => {
 
             try {
                 await signInWithEmailAndPassword(auth, email, pass);
+
+                // لا يكفي نجاح تسجيل الدخول؛ يجب أن يحمل الحساب Custom Claim باسم admin=true.
+                const tokenResult = await getIdTokenResult(auth.currentUser, true);
+                if (tokenResult.claims?.admin !== true) {
+                    await signOut(auth);
+                    throw new Error("هذا الحساب ليس حساب أدمن مصرحاً له بالدخول إلى لوحة التحكم.");
+                }
+
                 document.getElementById('adminLoginModal').style.display = 'none';
                 document.getElementById('adminLoginForm').reset();
-                alert("تم تسجيل الدخول بنجاح! 🎉");
+                alert("تم تسجيل الدخول كأدمن بنجاح! 🎉");
             } catch (err) {
                 alert(`خطأ في تسجيل الدخول: ${err.message}`);
             } finally {
@@ -2259,6 +2266,7 @@ onAuthStateChanged(auth, async (user) => {
 
         document.getElementById('siteContentForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isAdmin) { alert("غير مصرح: هذه العملية للأدمن فقط."); return; }
             const btn = document.getElementById('saveContentBtn');
             btn.innerText = "جاري الحفظ... ⏳";
 

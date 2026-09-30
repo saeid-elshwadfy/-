@@ -2353,6 +2353,7 @@ onAuthStateChanged(auth, async (user) => {
 
         document.getElementById('addServiceForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isAdmin) { alert("غير مصرح: لوحة الإدارة للأدمن فقط."); return; }
             const editId = document.getElementById('editServiceId').value;
             const data = {
                 title: document.getElementById('serviceTitle').value,
@@ -2468,6 +2469,7 @@ onAuthStateChanged(auth, async (user) => {
 
         document.getElementById('addAudioForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isAdmin) { alert("غير مصرح: لوحة الإدارة للأدمن فقط."); return; }
             const editId = document.getElementById('editAudioId').value;
             const audioFile = document.getElementById('audioFileInput')?.files[0];
             let audioUrl = document.getElementById('audioUrl').value;
@@ -2594,6 +2596,7 @@ onAuthStateChanged(auth, async (user) => {
 
         document.getElementById('addVideoForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isAdmin) { alert("غير مصرح: لوحة الإدارة للأدمن فقط."); return; }
             const editId = document.getElementById('editVideoId').value;
             const videoFile = document.getElementById('videoFileInput')?.files[0];
             let videoUrl = document.getElementById('videoUrlInput').value;
@@ -2702,6 +2705,7 @@ onAuthStateChanged(auth, async (user) => {
 
         document.getElementById('addCourseForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
+            if (!isAdmin) { alert("غير مصرح: لوحة الإدارة للأدمن فقط."); return; }
             const editId = document.getElementById('editCourseId').value;
             const data = {
                 title: document.getElementById('courseTitle').value,

@@ -1,113 +1,423 @@
-const DB_URL = "https://saeid-elshwadfy-default-rtdb.firebaseio.com";
-
-function esc(value) {
-  return String(value ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#39;");
-}
-
-function cleanUrl(value) {
-  try {
-    const u = new URL(String(value || ""));
-    return u.protocol === "https:" ? u.href : "";
-  } catch {
-    return "";
-  }
-}
-
-function isCrawler(request) {
-  const ua = (request.headers.get("user-agent") || "").toLowerCase();
-  return /facebookexternalhit|facebot|whatsapp|twitterbot|linkedinbot|telegrambot|discordbot|slackbot|googlebot|bingbot/i.test(ua);
-}
-
 export default {
   async fetch(request) {
     const url = new URL(request.url);
 
-    if (url.pathname === "/robots.txt") {
-      return new Response("User-agent: *\nAllow: /\n", {
-        headers: {"content-type": "text/plain; charset=utf-8"}
-      });
-    }
-
+    // المسار المتوقع: https://YOUR-WORKER.workers.dev/book/BOOK_ID أو باسم الكتاب
     const match = url.pathname.match(/^\/book\/([^/]+)\/?$/);
+
     if (!match) {
-      return new Response("Book share worker is running.", {
-        status: 200,
-        headers: {"content-type": "text/plain; charset=utf-8"}
+      return new Response(
+        "Worker is running. Use /book/BOOK_ID or /book/اسم_الكتاب",
+        {
+          status: 200,
+          headers: { "content-type": "text/plain; charset=UTF-8" }
+        }
+      );
+    }
+
+    const searchParam = decodeURIComponent(match[1]).trim();
+    const firebaseUrl = `https://saeid-elshwadfy-default-rtdb.firebaseio.com/books.json`;
+
+    try {
+      const response = await fetch(firebaseUrl, {
+        headers: { "accept": "application/json" }
       });
-    }
 
-    const bookId = decodeURIComponent(match[1]);
-    if (!bookId || bookId.length > 200) {
-      return new Response("Invalid book id", {status: 400});
-    }
+      if (!response.ok) {
+        return new Response("Unable to read book data from Firebase.", {
+          status: 502,
+          headers: { "content-type": "text/plain; charset=UTF-8" }
+        });
+      }
 
-    const apiUrl = `${DB_URL}/books/${encodeURIComponent(bookId)}.json`;
-    const dbResponse = await fetch(apiUrl, {
-      headers: {"accept": "application/json"}
-    });
+      const allBooks = await response.json();
 
-    if (!dbResponse.ok) {
-      return new Response("Unable to load book", {status: 502});
-    }
+      if (!allBooks) {
+        return new Response("No books found in database.", {
+          status: 404,
+          headers: { "content-type": "text/plain; charset=UTF-8" }
+        });
+      }
 
-    const book = await dbResponse.json();
-    if (!book) {
-      return new Response("Book not found", {status: 404});
-    }
+      let book = null;
+      let matchedKey = null;
 
-    const title = book.title || "كتاب";
-    const author = book.author || "سعيد الشوادفي";
-    const description = book.desc || `اقرأ كتاب «${title}» للكاتب ${author}.`;
-    const image = cleanUrl(book.coverUrl);
-    const target = `https://saeid-elshwadfy.github.io/?book=${encodeURIComponent(bookId)}&read=1`;
-    const canonical = `${url.origin}/book/${encodeURIComponent(bookId)}`;
+      // 1. البحث بمفتاح الـ ID المباشر
+      if (allBooks[searchParam]) {
+        book = allBooks[searchParam];
+        matchedKey = searchParam;
+      } else {
+        // 2. البحث بمطابقة عنوان الكتاب
+        const entry = Object.entries(allBooks).find(([key, b]) => 
+          b && b.title && b.title.trim().toLowerCase().includes(searchParam.toLowerCase())
+        );
+        if (entry) {
+          matchedKey = entry[0];
+          book = entry[1];
+        }
+      }
 
-    const html = `<!doctype html>
-<html lang="ar" dir="rtl">
+      if (!book) {
+        return new Response(`Book "${searchParam}" not found.`, {
+          status: 404,
+          headers: { "content-type": "text/plain; charset=UTF-8" }
+        });
+      }
+
+      // استخراج وتنسيق بيانات الكتاب ديناميكياً
+      const title = escapeHtml(book.title || "كتاب");
+      const author = escapeHtml(book.author || "سعيد الشوادفي");
+      const description = escapeHtml(book.desc || `اقرأ وتصفح كتاب ${title} للكاتب ${author} مباشرة.`);
+      const image = escapeAttr(book.coverUrl || "https://res.cloudinary.com/uha8a6rd/image/upload/v1741551520/zilal-la-tanam-cover.jpg");
+      const pageUrl = `${url.origin}/book/${encodeURIComponent(searchParam)}`;
+
+      // تجهيز صفحات القراءة المباشرة
+      const freePagesJson = JSON.stringify(book.freePages || [
+        "جاري تحميل صفحات القراءة المباشرة لهذا العمل..."
+      ]);
+
+      // إنشاء صفحة HTML متوافقة كلياً مع تصميم zilal-la-tanam_2.html
+      const html = `<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
-<meta charset="utf-8">
-<title>${esc(title)} | ${esc(author)}</title>
-<meta name="description" content="${esc(description)}">
-<link rel="canonical" href="${esc(canonical)}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- وسوم تحسين محركات البحث SEO -->
+    <title>${title} | الكاتب ${author}</title>
+    <meta name="description" content="${description}">
+    <meta name="author" content="${author}">
+    <link rel="canonical" href="${escapeAttr(pageUrl)}">
 
-<meta property="og:type" content="book">
-<meta property="og:title" content="${esc(title)}">
-<meta property="og:description" content="${esc(description)}">
-<meta property="og:url" content="${esc(canonical)}">
-${image ? `<meta property="og:image" content="${esc(image)}">` : ""}
-<meta property="og:site_name" content="موقع الكاتب الروائي | سعيد الشوادفي">
-<meta property="og:locale" content="ar_EG">
+    <!-- وسوم المعاينة للمشاركة على وسائل التواصل الاجتماعي Open Graph -->
+    <meta property="og:title" content="${title} | الكاتب ${author}">
+    <meta property="og:description" content="${description}">
+    <meta property="og:type" content="book">
+    <meta property="og:url" content="${escapeAttr(pageUrl)}">
+    <meta property="og:image" content="${image}">
+    <meta property="og:image:secure_url" content="${image}">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
-<meta name="twitter:card" content="${image ? "summary_large_image" : "summary"}">
-<meta name="twitter:title" content="${esc(title)}">
-<meta name="twitter:description" content="${esc(description)}">
-${image ? `<meta name="twitter:image" content="${esc(image)}">` : ""}
+    <!-- كروت تويتر / X -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${title} | الكاتب ${author}">
+    <meta name="twitter:description" content="${description}">
+    <meta name="twitter:image" content="${image}">
 
-<meta http-equiv="refresh" content="0;url=${esc(target)}">
+    <!-- أيقونة الموقع Favicon -->
+    <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
+
+    <!-- الخطوط -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root[data-theme="dark"] {
+            --bg-color: #1a0307;
+            --bg-pattern: radial-gradient(rgba(212, 175, 55, 0.15) 0.8px, transparent 0.8px);
+            --card-bg: rgba(45, 10, 18, 0.85);
+            --accent-color: #d4af37;
+            --accent-glow: rgba(212, 175, 55, 0.35);
+            --text-color: #f1f5f9;
+            --text-muted: #cbd5e1;
+            --border-color: rgba(212, 175, 55, 0.28);
+            --input-bg: #120205;
+            --reader-bg: #22050b;
+            --reader-text: #f8fafc;
+            --shadow-color: rgba(0, 0, 0, 0.7);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.2s ease; }
+        body {
+            background-color: var(--bg-color);
+            background-image: var(--bg-pattern);
+            background-size: 28px 28px;
+            color: var(--text-color);
+            font-family: 'Tajawal', sans-serif;
+            line-height: 1.7;
+            padding: 20px 15px;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            margin-bottom: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .book-hero {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 30px;
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 30px;
+            box-shadow: 0 15px 35px var(--shadow-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .book-cover {
+            width: 100%;
+            aspect-ratio: 14/20;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px dashed var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+
+        .book-cover img { width: 100%; height: 100%; object-fit: cover; }
+
+        .book-info h1 {
+            font-family: 'Amiri', serif;
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 8px;
+        }
+
+        .author-tag {
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            font-family: 'Amiri', serif;
+            margin-bottom: 15px;
+        }
+
+        .book-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .action-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            cursor: pointer;
+            border: none;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); color: #fff; }
+        .btn-secondary { background: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); }
+        .btn-pay { background: linear-gradient(135deg, #d4af37 0%, #25d366 100%); color: #fff; }
+
+        .reader-section, .payment-section {
+            margin-top: 35px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 15px 35px var(--shadow-color);
+        }
+
+        .payment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .payment-card {
+            background: var(--input-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .payment-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+            font-family: 'Amiri', serif;
+        }
+
+        .reader-box {
+            background: var(--reader-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 18px;
+            padding: 30px;
+            margin: 20px 0;
+            min-height: 350px;
+            font-family: 'Amiri', serif;
+            font-size: 1.35rem;
+            line-height: 2.2;
+            color: var(--reader-text);
+            white-space: pre-wrap;
+            text-align: justify;
+            user-select: none;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px 0;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .book-hero { grid-template-columns: 1fr; text-align: center; }
+            .book-cover { max-width: 240px; margin: 0 auto; }
+            .book-desc { text-align: right; }
+            .action-btns { justify-content: center; }
+        }
+    </style>
 </head>
 <body>
-<p>جاري فتح الكتاب… <a href="${esc(target)}">اضغط هنا إذا لم يفتح تلقائيًا</a></p>
-<script>
-window.location.replace(${JSON.stringify(target)});
-</script>
+
+    <div class="container">
+        <header>
+            <a href="https://saeid-elshwadfy.github.io" class="logo-text">موقع الكاتب سعيد الشوادفي</a>
+            <a href="https://saeid-elshwadfy.github.io" class="btn btn-secondary">🏠 الرئيسية</a>
+        </header>
+
+        <section class="book-hero">
+            <div class="book-cover">
+                <img id="bookCoverImg" src="${image}" alt="غلاف ${title}">
+            </div>
+            <div class="book-info">
+                <h1 id="bookTitleDisplay">${title}</h1>
+                <div class="author-tag" id="bookAuthorDisplay">بقلم: ${author}</div>
+                <p class="book-desc" id="bookDescDisplay">${description}</p>
+
+                <div class="action-btns">
+                    <button class="btn btn-primary" onclick="scrollToReader()">📖 اقرأ الفصل المتاح</button>
+                    <button class="btn btn-pay" onclick="scrollToPayment()">💳 شراء النسخة الورقية / طرق الدفع</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- قسم وسائل الدفع -->
+        <section class="payment-section" id="paymentSection">
+            <h2 style="font-family: 'Amiri', serif; color: var(--accent-color); font-size: 2rem; text-align: center;">💳 طرق الدفع المتاحة</h2>
+            <p style="text-align: center; color: var(--text-muted); margin-top: 5px;">اختر طريقة الدفع المناسبة لك لإتمام طلب النسخة الورقية أو الرقمية:</p>
+            
+            <div class="payment-grid">
+                <div class="payment-card">
+                    <h3>📱 المحافظ الإلكترونية</h3>
+                    <p style="color: var(--text-muted);">فودافون كاش / أورنج كاش / اتصالات</p>
+                    <p style="font-weight: bold; color: var(--accent-color); margin-top: 8px; dir: ltr;">01096227242</p>
+                </div>
+
+                <div class="payment-card">
+                    <h3>🏛️ تحويل بنكي / InstaPay</h3>
+                    <p style="color: var(--text-muted);">عبر تطبيق إنستا باي مباشرة</p>
+                    <p style="font-weight: bold; color: var(--accent-color); margin-top: 8px;">IPA: saeidelshwadfy@instapay أو 01096227242</p>
+                </div>
+
+                <div class="payment-card">
+                    <h3>💳 دفع أونلاين (قريباً)</h3>
+                    <p style="color: var(--text-muted);">فيزا / ماستركارد</p>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin-top: 8px;">الدفع المباشر عبر البوابة</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="reader-section" id="readerSection">
+            <h2 style="font-family: 'Amiri', serif; color: var(--accent-color); font-size: 2rem; text-align: center;">📖 القراءة المباشرة</h2>
+            
+            <div id="readerText" class="reader-box"></div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
+                <button class="btn btn-secondary" id="prevBtn" onclick="changePage(-1)" disabled>⬅ السابقة</button>
+                <span id="pageIndicator" style="color: var(--text-muted); font-weight: bold;">صفحة 1 من 1</span>
+                <button class="btn btn-secondary" id="nextBtn" onclick="changePage(1)" disabled>التالية ➡</button>
+            </div>
+        </section>
+
+        <footer>
+            <p>© جميع الحقوق محفوظة للكاتب سعيد الشوادفي</p>
+        </footer>
+    </div>
+
+    <script>
+        let realPages = ${freePagesJson};
+        let currentPage = 0;
+
+        function updateContent() {
+            if (!realPages || realPages.length === 0) {
+                document.getElementById('readerText').innerText = "عذراً، لا توجد صفحات متوفرة للقراءة المباشرة حالياً لهذا العمل.";
+                return;
+            }
+            document.getElementById('readerText').innerText = realPages[currentPage];
+            document.getElementById('pageIndicator').innerText = \`صفحة \${currentPage + 1} من \${realPages.length}\`;
+            document.getElementById('prevBtn').disabled = currentPage === 0;
+            document.getElementById('nextBtn').disabled = currentPage === realPages.length - 1;
+        }
+
+        window.changePage = function(dir) {
+            if (currentPage + dir >= 0 && currentPage + dir < realPages.length) {
+                currentPage += dir;
+                updateContent();
+            }
+        };
+
+        window.scrollToReader = function() {
+            document.getElementById('readerSection').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.scrollToPayment = function() {
+            document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        updateContent();
+    </script>
 </body>
 </html>`;
 
-    // Social crawlers need the HTML/meta tags. Human visitors are redirected too,
-    // while the HTML remains valid if JavaScript is unavailable.
-    return new Response(html, {
-      status: 200,
-      headers: {
-        "content-type": "text/html; charset=utf-8",
-        "cache-control": isCrawler(request)
-          ? "public, max-age=300"
-          : "no-store"
-      }
-    });
+      return new Response(html, {
+        status: 200,
+        headers: {
+          "content-type": "text/html; charset=UTF-8",
+          "cache-control": "public, max-age=300"
+        }
+      });
+
+    } catch (error) {
+      return new Response("Worker error: " + String(error), {
+        status: 500,
+        headers: { "content-type": "text/plain; charset=UTF-8" }
+      });
+    }
   }
 };
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value);
+}

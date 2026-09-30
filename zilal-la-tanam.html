@@ -1,32 +1,110 @@
-<!DOCTYPE html>
+export default {
+  async fetch(request) {
+    const url = new URL(request.url);
+
+    // المسار المتوقع: https://YOUR-WORKER.workers.dev/book/BOOK_ID أو باسم الكتاب
+    const match = url.pathname.match(/^\/book\/([^/]+)\/?$/);
+
+    if (!match) {
+      return new Response(
+        "Worker is running. Use /book/BOOK_ID or /book/اسم_الكتاب",
+        {
+          status: 200,
+          headers: { "content-type": "text/plain; charset=UTF-8" }
+        }
+      );
+    }
+
+    const searchParam = decodeURIComponent(match[1]).trim();
+    const firebaseUrl = `https://saeid-elshwadfy-default-rtdb.firebaseio.com/books.json`;
+
+    try {
+      const response = await fetch(firebaseUrl, {
+        headers: { "accept": "application/json" }
+      });
+
+      if (!response.ok) {
+        return new Response("Unable to read book data from Firebase.", {
+          status: 502,
+          headers: { "content-type": "text/plain; charset=UTF-8" }
+        });
+      }
+
+      const allBooks = await response.json();
+
+      if (!allBooks) {
+        return new Response("No books found in database.", {
+          status: 404,
+          headers: { "content-type": "text/plain; charset=UTF-8" }
+        });
+      }
+
+      let book = null;
+      let matchedKey = null;
+
+      // 1. البحث بمفتاح الـ ID المباشر
+      if (allBooks[searchParam]) {
+        book = allBooks[searchParam];
+        matchedKey = searchParam;
+      } else {
+        // 2. البحث بمطابقة عنوان الكتاب
+        const entry = Object.entries(allBooks).find(([key, b]) => 
+          b && b.title && b.title.trim().toLowerCase().includes(searchParam.toLowerCase())
+        );
+        if (entry) {
+          matchedKey = entry[0];
+          book = entry[1];
+        }
+      }
+
+      if (!book) {
+        return new Response(`Book "${searchParam}" not found.`, {
+          status: 404,
+          headers: { "content-type": "text/plain; charset=UTF-8" }
+        });
+      }
+
+      // استخراج وتنسيق بيانات الكتاب ديناميكياً
+      const title = escapeHtml(book.title || "كتاب");
+      const author = escapeHtml(book.author || "سعيد الشوادفي");
+      const description = escapeHtml(book.desc || `اقرأ وتصفح كتاب ${title} للكاتب ${author} مباشرة.`);
+      const image = escapeAttr(book.coverUrl || "https://res.cloudinary.com/uha8a6rd/image/upload/v1741551520/zilal-la-tanam-cover.jpg");
+      const pageUrl = `${url.origin}/book/${encodeURIComponent(searchParam)}`;
+
+      // تجهيز صفحات القراءة المباشرة
+      const freePagesJson = JSON.stringify(book.freePages || [
+        "جاري تحميل صفحات القراءة المباشرة لهذا العمل..."
+      ]);
+
+      // إنشاء صفحة HTML متوافقة كلياً مع تصميم zilal-la-tanam_2.html
+      const html = `<!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- وسوم تحسين محركات البحث SEO -->
-    <title>رواية ظلال لا تنام | الكاتب سعيد الشوادفي</title>
-    <meta name="description" content="اقرأ وتصفح رواية ظلال لا تنام للكاتب الروائي سعيد الشوادفي مباشرة. رواية غموض وتشويق تدور أحداثها في أزقة مظلمة حيث تطفو أسرار الماضي.">
-    <meta name="keywords" content="ظلال لا تنام, رواية ظلال لا تنام, سعيد الشوادفي, روايات غموض, قراءة رواية ظلال لا تنام">
-    <meta name="author" content="سعيد الشوادفي">
-    <link rel="canonical" href="https://saeid-elshwadfy.github.io/zilal-la-tanam.html">
+    <title>${title} | الكاتب ${author}</title>
+    <meta name="description" content="${description}">
+    <meta name="author" content="${author}">
+    <link rel="canonical" href="${escapeAttr(pageUrl)}">
 
     <!-- وسوم المعاينة للمشاركة على وسائل التواصل الاجتماعي Open Graph -->
-    <meta property="og:title" content="رواية ظلال لا تنام | الكاتب سعيد الشوادفي">
-    <meta property="og:description" content="رواية غموض وتشويق تدور أحداثها في أزقة مظلمة حيث تطفو أسرار الماضي وتبقى الظلال ساهرة لا تنام. اقرأها الآن مباشرة!">
+    <meta property="og:title" content="${title} | الكاتب ${author}">
+    <meta property="og:description" content="${description}">
     <meta property="og:type" content="book">
-    <meta property="og:url" content="https://saeid-elshwadfy.github.io/zilal-la-tanam.html">
-    <meta property="og:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1741551520/zilal-la-tanam-cover.jpg">
-    <meta property="og:image:secure_url" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1741551520/zilal-la-tanam-cover.jpg">
+    <meta property="og:url" content="${escapeAttr(pageUrl)}">
+    <meta property="og:image" content="${image}">
+    <meta property="og:image:secure_url" content="${image}">
     <meta property="og:image:type" content="image/jpeg">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
 
     <!-- كروت تويتر / X -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="رواية ظلال لا تنام | الكاتب سعيد الشوادفي">
-    <meta name="twitter:description" content="اقرأ أحدث روايات الغموض والتشويق للكاتب سعيد الشوادفي مباشرة على المنصة الرسمية.">
-    <meta name="twitter:image" content="https://res.cloudinary.com/uha8a6rd/image/upload/v1741551520/zilal-la-tanam-cover.jpg">
+    <meta name="twitter:title" content="${title} | الكاتب ${author}">
+    <meta name="twitter:description" content="${description}">
+    <meta name="twitter:image" content="${image}">
 
     <!-- أيقونة الموقع Favicon -->
     <link rel="icon" type="image/jpeg" href="https://res.cloudinary.com/uha8a6rd/image/upload/v1790121942/ieq5er6fzf6xyfhmtgcw.jpg">
@@ -64,10 +142,7 @@
             min-height: 100vh;
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+        .container { max-width: 900px; margin: 0 auto; }
 
         header {
             display: flex;
@@ -110,11 +185,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
 
-        .book-cover img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .book-cover img { width: 100%; height: 100%; object-fit: cover; }
 
         .book-info h1 {
             font-family: 'Amiri', serif;
@@ -137,12 +208,7 @@
             text-align: justify;
         }
 
-        .action-btns {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 20px;
-        }
+        .action-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
 
         .btn {
             padding: 12px 24px;
@@ -228,24 +294,21 @@
 
     <div class="container">
         <header>
-            <a href="index.html" class="logo-text">موقع الكاتب سعيد الشوادفي</a>
-            <a href="index.html" class="btn btn-secondary">🏠 الرئيسية</a>
+            <a href="https://saeid-elshwadfy.github.io" class="logo-text">موقع الكاتب سعيد الشوادفي</a>
+            <a href="https://saeid-elshwadfy.github.io" class="btn btn-secondary">🏠 الرئيسية</a>
         </header>
 
         <section class="book-hero">
             <div class="book-cover">
-                <img id="bookCoverImg" src="https://res.cloudinary.com/uha8a6rd/image/upload/v1741551520/zilal-la-tanam-cover.jpg" alt="غلاف رواية ظلال لا تنام">
+                <img id="bookCoverImg" src="${image}" alt="غلاف ${title}">
             </div>
             <div class="book-info">
-                <h1 id="bookTitleDisplay">ظلال لا تنام</h1>
-                <div class="author-tag" id="bookAuthorDisplay">بقلم: سعيد الشوادفي</div>
-                <p class="book-desc" id="bookDescDisplay">
-                    جاري تحميل معلومات الرواية والأصل من الفايربيس... ⏳
-                </p>
+                <h1 id="bookTitleDisplay">${title}</h1>
+                <div class="author-tag" id="bookAuthorDisplay">بقلم: ${author}</div>
+                <p class="book-desc" id="bookDescDisplay">${description}</p>
 
                 <div class="action-btns">
                     <button class="btn btn-primary" onclick="scrollToReader()">📖 اقرأ الفصل المتاح</button>
-                    <!-- التوجيه المباشر إلى قسم وسائل الدفع بالأسفل -->
                     <button class="btn btn-pay" onclick="scrollToPayment()">💳 شراء النسخة الورقية / طرق الدفع</button>
                 </div>
             </div>
@@ -280,7 +343,7 @@
         <section class="reader-section" id="readerSection">
             <h2 style="font-family: 'Amiri', serif; color: var(--accent-color); font-size: 2rem; text-align: center;">📖 القراءة المباشرة</h2>
             
-            <div id="readerText" class="reader-box">جاري تحميل صفحات القراءة... ⏳</div>
+            <div id="readerText" class="reader-box"></div>
 
             <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 15px;">
                 <button class="btn btn-secondary" id="prevBtn" onclick="changePage(-1)" disabled>⬅ السابقة</button>
@@ -294,30 +357,17 @@
         </footer>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
-        import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
-
-        const firebaseConfig = {
-          apiKey: "AIzaSyDGG6NxTUZl5lLqD7qPq_nE0h6c_jVbaNA",
-          authDomain: "saeid-elshwadfy.firebaseapp.com",
-          databaseURL: "https://saeid-elshwadfy-default-rtdb.firebaseio.com",
-          projectId: "saeid-elshwadfy",
-          storageBucket: "saeid-elshwadfy.firebasestorage.app",
-          messagingSenderId: "369531285459",
-          appId: "1:369531285459:web:c2ff96822a96162a804926"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
-
-        let realPages = [];
+    <script>
+        let realPages = ${freePagesJson};
         let currentPage = 0;
 
         function updateContent() {
-            if (realPages.length === 0) return;
+            if (!realPages || realPages.length === 0) {
+                document.getElementById('readerText').innerText = "عذراً، لا توجد صفحات متوفرة للقراءة المباشرة حالياً لهذا العمل.";
+                return;
+            }
             document.getElementById('readerText').innerText = realPages[currentPage];
-            document.getElementById('pageIndicator').innerText = `صفحة ${currentPage + 1} من ${realPages.length}`;
+            document.getElementById('pageIndicator').innerText = \`صفحة \${currentPage + 1} من \${realPages.length}\`;
             document.getElementById('prevBtn').disabled = currentPage === 0;
             document.getElementById('nextBtn').disabled = currentPage === realPages.length - 1;
         }
@@ -337,36 +387,37 @@
             document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
         };
 
-        // جلب بيانات وصفحات الرواية الحقيقية تلقائياً من الفايربيس
-        onValue(ref(db, 'books'), (snapshot) => {
-            const books = snapshot.val();
-            if (books) {
-                const bookEntry = Object.entries(books).find(([id, b]) => b.title && b.title.includes('ظلال لا تنام'));
-                if (bookEntry) {
-                    const [bookId, targetBook] = bookEntry;
-
-                    if (targetBook.desc) document.getElementById('bookDescDisplay').innerText = targetBook.desc;
-                    if (targetBook.author) document.getElementById('bookAuthorDisplay').innerText = `بقلم: ${targetBook.author}`;
-                    if (targetBook.coverUrl) document.getElementById('bookCoverImg').src = targetBook.coverUrl;
-
-                    if (targetBook.freePages && targetBook.freePages.length > 0) {
-                        realPages = targetBook.freePages;
-                        currentPage = 0;
-                        updateContent();
-                    } else {
-                        document.getElementById('readerText').innerText = "عذراً، لا توجد صفحات متوفرة للقراءة المباشرة حالياً لهذا العمل.";
-                    }
-
-                    runTransaction(ref(db, `books/${bookId}/reads`), reads => (reads ?? 0) + 1).catch(() => {});
-                    return;
-                }
-            }
-
-            realPages = [
-                `الفصل الأول: البداية المظلمة...\n\nانطلقت الخطوات السريعة في أزقة المدينة المنسية...`
-            ];
-            updateContent();
-        });
+        updateContent();
     </script>
 </body>
-</html>
+</html>`;
+
+      return new Response(html, {
+        status: 200,
+        headers: {
+          "content-type": "text/html; charset=UTF-8",
+          "cache-control": "public, max-age=300"
+        }
+      });
+
+    } catch (error) {
+      return new Response("Worker error: " + String(error), {
+        status: 500,
+        headers: { "content-type": "text/plain; charset=UTF-8" }
+      });
+    }
+  }
+};
+
+function escapeHtml(value) {
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value);
+}

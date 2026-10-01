@@ -1941,11 +1941,25 @@ onAuthStateChanged(auth, async (user) => {
             const today = analyticsDate();
             const lastVisit = localStorage.getItem('site_last_visit');
 
-            if (lastVisit !== today) {
-                localStorage.setItem('site_last_visit', today);
-                runTransaction(ref(db, 'siteStats/visits'), currentVisits => (currentVisits ?? 0) + 1);
-                trackAnalyticsEvent('visits');
-            }
+            // لو الزائر اتسجل النهارده، ما نسجلش زيارة تانية
+            if (lastVisit === today) return;
+
+            runTransaction(
+                ref(db, 'siteStats/visits'),
+                currentVisits => (currentVisits ?? 0) + 1
+            )
+            .then(result => {
+                if (result.committed) {
+                    // نسجل في المتصفح فقط بعد نجاح Firebase
+                    localStorage.setItem('site_last_visit', today);
+                    trackAnalyticsEvent('visits');
+                    console.log('✅ تم تسجيل زيارة الموقع:', result.snapshot.val());
+                }
+            })
+            .catch(err => {
+                // لو Firebase رفض العملية، ما نحفظش زيارة في localStorage
+                console.error('❌ فشل تسجيل زيارة الموقع:', err);
+            });
         }
 
         function renderAnalyticsDashboard() {

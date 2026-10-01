@@ -974,6 +974,24 @@
             .reader-box { padding: 20px 15px; font-size: 1.15rem; height: 380px; }
             .books-grid, .grid-container { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px; }
         }
+
+        /* لوحة التحليلات الجديدة */
+        .analytics-dashboard { margin-top: 18px; }
+        .analytics-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:15px 0; }
+        .analytics-card { background:var(--card-bg, rgba(255,255,255,.04)); border:1px solid rgba(212,175,55,.18); border-radius:14px; padding:16px; text-align:center; }
+        .analytics-card span { display:block; color:var(--text-muted); font-size:.88rem; margin-bottom:6px; }
+        .analytics-card strong { display:block; color:var(--accent-color); font-size:1.55rem; }
+        .analytics-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:15px; }
+        .analytics-box { background:var(--card-bg, rgba(255,255,255,.03)); border:1px solid rgba(212,175,55,.14); border-radius:14px; padding:15px; overflow:hidden; }
+        .analytics-box h4 { color:var(--accent-color); margin:0 0 12px; font-family:'Amiri',serif; font-size:1.25rem; }
+        .analytics-table { width:100%; border-collapse:collapse; font-size:.9rem; }
+        .analytics-table th,.analytics-table td { padding:8px 6px; border-bottom:1px solid rgba(255,255,255,.08); text-align:right; }
+        .analytics-table th { color:var(--accent-color); }
+        .analytics-note { color:var(--text-muted); font-size:.82rem; line-height:1.7; margin-top:10px; }
+        .analytics-bar-row { display:grid; grid-template-columns:78px 1fr 48px; gap:7px; align-items:center; margin:8px 0; font-size:.82rem; }
+        .analytics-bar { height:8px; border-radius:10px; background:rgba(212,175,55,.12); overflow:hidden; }
+        .analytics-bar > i { display:block; height:100%; background:var(--accent-color); border-radius:10px; width:0; }
+
     </style>
 </head>
 <body>
@@ -1102,6 +1120,37 @@
                 <div class="site-stats-item">
                     <span>📖 إجمالي قراءات الكتب</span>
                     <strong id="totalBookReadsCount">0</strong>
+                </div>
+            </div>
+
+            <div class="admin-section-box analytics-dashboard">
+                <h3 style="color: var(--accent-color); margin-bottom: 8px; font-family: 'Amiri', serif;">📊 تحليلات الموقع والأعمال</h3>
+                <p class="analytics-note">الإحصاءات التالية تُجمع من تفاعل الزوار داخل الموقع. أرقام الزيارات والتفاعل من المتصفح قابلة للتأثر بإعدادات المتصفح، بينما تحليلات مصادر الزيارات والأجهزة المتقدمة متاحة أيضاً عبر Firebase Analytics المرتبط بالموقع.</p>
+                <div class="analytics-cards">
+                    <div class="analytics-card"><span>👁️ الزيارات</span><strong id="analyticsVisits">0</strong></div>
+                    <div class="analytics-card"><span>📖 القراءات</span><strong id="analyticsReads">0</strong></div>
+                    <div class="analytics-card"><span>🔗 المشاركات</span><strong id="analyticsShares">0</strong></div>
+                    <div class="analytics-card"><span>⭐ التقييمات</span><strong id="analyticsRatings">0</strong></div>
+                    <div class="analytics-card"><span>💬 الآراء</span><strong id="analyticsReviews">0</strong></div>
+                    <div class="analytics-card"><span>📚 الأعمال</span><strong id="analyticsBooks">0</strong></div>
+                </div>
+                <div class="analytics-grid">
+                    <div class="analytics-box">
+                        <h4>📅 نشاط آخر 7 أيام</h4>
+                        <div id="analyticsDailyChart"><p class="analytics-note">جاري تحميل البيانات...</p></div>
+                    </div>
+                    <div class="analytics-box">
+                        <h4>📚 أكثر الأعمال قراءة</h4>
+                        <div id="analyticsTopReads"><p class="analytics-note">جاري تحميل البيانات...</p></div>
+                    </div>
+                    <div class="analytics-box">
+                        <h4>🔗 أكثر الأعمال مشاركة</h4>
+                        <div id="analyticsTopShares"><p class="analytics-note">جاري تحميل البيانات...</p></div>
+                    </div>
+                    <div class="analytics-box">
+                        <h4>⭐ التقييمات والآراء</h4>
+                        <div id="analyticsRatingSummary"><p class="analytics-note">جاري تحميل البيانات...</p></div>
+                    </div>
                 </div>
             </div>
 
@@ -1863,16 +1912,106 @@ onAuthStateChanged(auth, async (user) => {
             }
         });
 
+        function analyticsDate() {
+            return new Date().toISOString().slice(0, 10);
+        }
+
+        function trackAnalyticsEvent(eventName, amount = 1) {
+            if (isAdmin) return;
+            const date = analyticsDate();
+            const safeEvent = String(eventName).replace(/[^a-zA-Z0-9_-]/g, '_');
+            runTransaction(ref(db, `siteStats/daily/${date}/${safeEvent}`), current => (current ?? 0) + amount)
+                .catch(err => console.warn('تعذر تسجيل الإحصائية:', err));
+        }
+
+        function trackBookAnalytics(bookId, eventName, amount = 1) {
+            if (isAdmin || !bookId || String(bookId).startsWith('def')) return;
+            const date = analyticsDate();
+            const safeBookId = String(bookId).replace(/[^a-zA-Z0-9_-]/g, '_');
+            const safeEvent = String(eventName).replace(/[^a-zA-Z0-9_-]/g, '_');
+            runTransaction(ref(db, `siteStats/bookEvents/${safeBookId}/${safeEvent}`), current => (current ?? 0) + amount)
+                .catch(err => console.warn('تعذر تسجيل إحصائية العمل:', err));
+            runTransaction(ref(db, `siteStats/daily/${date}/${safeEvent}`), current => (current ?? 0) + amount)
+                .catch(() => {});
+        }
+
         function trackSiteVisits() {
             if (isAdmin) return;
 
-            const today = new Date().toISOString().slice(0, 10);
+            const today = analyticsDate();
             const lastVisit = localStorage.getItem('site_last_visit');
 
             if (lastVisit !== today) {
                 localStorage.setItem('site_last_visit', today);
                 runTransaction(ref(db, 'siteStats/visits'), currentVisits => (currentVisits ?? 0) + 1);
+                trackAnalyticsEvent('visits');
             }
+        }
+
+        function renderAnalyticsDashboard() {
+            if (!isAdmin) return;
+            const visits = Number(document.getElementById('totalVisitsCount')?.innerText.replace(/[^0-9]/g, '') || 0);
+            const reads = allBooks.reduce((sum, b) => sum + Number(b.reads || 0), 0);
+            const ratings = allBooks.reduce((sum, b) => sum + Number(b.ratingCount || 0), 0);
+            const ratingSum = allBooks.reduce((sum, b) => sum + Number(b.ratingSum || 0), 0);
+            const reviewsCountEl = document.getElementById('analyticsReviews');
+            const sharesPromise = onValue(ref(db, 'siteStats/bookEvents'), snapshot => {
+                const events = snapshot.val() || {};
+                let totalShares = 0;
+                const shares = [];
+                Object.entries(events).forEach(([bookId, data]) => {
+                    const count = Number(data?.shares || 0);
+                    totalShares += count;
+                    const book = allBooks.find(b => b.id === bookId);
+                    if (count > 0) shares.push({ title: book?.title || bookId, count });
+                });
+                document.getElementById('analyticsShares').innerText = totalShares.toLocaleString('ar-EG');
+                renderAnalyticsList('analyticsTopShares', shares.sort((a,b) => b.count-a.count).slice(0,8), 'مشاركة');
+            }, { onlyOnce: true });
+
+            document.getElementById('analyticsVisits').innerText = visits.toLocaleString('ar-EG');
+            document.getElementById('analyticsReads').innerText = reads.toLocaleString('ar-EG');
+            document.getElementById('analyticsRatings').innerText = ratings.toLocaleString('ar-EG');
+            document.getElementById('analyticsBooks').innerText = allBooks.filter(b => !String(b.id).startsWith('def')).length.toLocaleString('ar-EG');
+            onValue(ref(db, 'reviews'), snapshot => {
+                const allReviews = snapshot.val() || {};
+                let totalReviews = 0;
+                Object.values(allReviews).forEach(bookReviews => { if (bookReviews && typeof bookReviews === 'object') totalReviews += Object.keys(bookReviews).length; });
+                if (reviewsCountEl) reviewsCountEl.innerText = totalReviews.toLocaleString('ar-EG');
+            }, { onlyOnce: true });
+            document.getElementById('analyticsRatingSummary').innerHTML = ratings
+                ? `<div style="font-size:1.5rem;color:var(--accent-color);margin-bottom:8px;">⭐ ${(ratingSum / ratings).toFixed(1)} / 5</div><div class="analytics-note">إجمالي التقييمات: ${ratings.toLocaleString('ar-EG')}</div>`
+                : '<div class="analytics-note">لا توجد تقييمات كافية حتى الآن.</div>';
+
+            const topReads = allBooks.filter(b => !String(b.id).startsWith('def')).map(b => ({ title:b.title || 'بدون عنوان', count:Number(b.reads || 0) })).sort((a,b)=>b.count-a.count).slice(0,8);
+            renderAnalyticsList('analyticsTopReads', topReads, 'قراءة');
+
+            onValue(ref(db, 'siteStats/daily'), snapshot => {
+                const daily = snapshot.val() || {};
+                const days = [];
+                const now = new Date();
+                for (let i=6;i>=0;i--) {
+                    const d = new Date(now); d.setDate(now.getDate()-i);
+                    const key = d.toISOString().slice(0,10);
+                    days.push({key, visits:Number(daily[key]?.visits||0), shares:Number(daily[key]?.shares||0), ratings:Number(daily[key]?.ratings||0), reviews:Number(daily[key]?.reviews||0)});
+                }
+                renderDailyAnalytics(days);
+            }, { onlyOnce: true });
+        }
+
+        function renderAnalyticsList(id, rows, label) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (!rows.length) { el.innerHTML = '<div class="analytics-note">لا توجد بيانات كافية حتى الآن.</div>'; return; }
+            const max = Math.max(...rows.map(x=>x.count),1);
+            el.innerHTML = rows.map((x,i)=>`<div class="analytics-bar-row"><span>${i+1}. ${String(x.title).slice(0,24)}</span><div class="analytics-bar"><i style="width:${Math.max(3,(x.count/max)*100)}%"></i></div><strong>${x.count.toLocaleString('ar-EG')}</strong></div>`).join('');
+        }
+
+        function renderDailyAnalytics(days) {
+            const el = document.getElementById('analyticsDailyChart');
+            if (!el) return;
+            const max = Math.max(...days.map(x=>x.visits),1);
+            el.innerHTML = days.map(d=>`<div class="analytics-bar-row"><span>${d.key.slice(5)}</span><div class="analytics-bar"><i style="width:${Math.max(3,(d.visits/max)*100)}%"></i></div><strong>${d.visits.toLocaleString('ar-EG')}</strong></div>`).join('') + '<div class="analytics-note">الشرائط تمثل الزيارات اليومية. ويمكن توسيع اللوحة لاحقاً لإظهار المشاركات والتقييمات والآراء لكل يوم.</div>';
         }
 
         window.openSupportModal = () => {
@@ -1923,6 +2062,7 @@ onAuthStateChanged(auth, async (user) => {
         };
 
         window.sendViaWhatsApp = (methodName, btnElement) => {
+            trackAnalyticsEvent('paymentClicks');
             const form = btnElement.closest('.transfer-form');
             const name = form?.querySelector('.buyer-name')?.value ?? '';
             const phone = form?.querySelector('.buyer-phone')?.value ?? '';
@@ -2880,6 +3020,8 @@ onAuthStateChanged(auth, async (user) => {
                 sumReads = 120;
             }
 
+            renderAnalyticsDashboard();
+
             const totalReadsEl = document.getElementById('totalBookReadsCount');
             if (totalReadsEl) totalReadsEl.innerText = sumReads.toLocaleString('ar-EG');
 
@@ -3076,6 +3218,7 @@ onAuthStateChanged(auth, async (user) => {
             if (book.id && !book.id.startsWith('def') && !isAdmin && !readBooksSessionSet.has(book.id)) {
                 readBooksSessionSet.add(book.id);
                 runTransaction(ref(db, `books/${book.id}/reads`), reads => (reads ?? 0) + 1)
+                    .then(() => trackBookAnalytics(book.id, 'reads'))
                     .catch(err => console.error("خطأ في تحديث العداد:", err));
             }
 
@@ -3117,6 +3260,10 @@ onAuthStateChanged(auth, async (user) => {
         });
 
         window.shareBook = async (bookId, title) => {
+            let shareTracked = false;
+            const markShare = () => {
+                if (!shareTracked) { shareTracked = true; trackBookAnalytics(bookId, 'shares'); }
+            };
             // رابط الموقع المنشور هو رابط المشاركة الحقيقي.
             // عند تجربة index.html محلياً لا نستخدم file:// لأنه غير صالح للمشاركة.
             const workerBaseUrl = 'https://tight-firefly-b99c.saeidelshwadfy.workers.dev';
@@ -3132,6 +3279,7 @@ onAuthStateChanged(auth, async (user) => {
             if (navigator.share) {
                 try {
                     await navigator.share(shareData);
+                    markShare();
                     return;
                 } catch (err) {
                     // المستخدم قد يكون أغلق نافذة المشاركة، أو المتصفح رفض الطلب.
@@ -3141,6 +3289,7 @@ onAuthStateChanged(auth, async (user) => {
             try {
                 if (navigator.clipboard && window.isSecureContext) {
                     await navigator.clipboard.writeText(shareUrl);
+                    markShare();
                     alert(`تم نسخ رابط مشاركة «${title}» بنجاح! 📋\n\nالرابط خاص بهذا الكتاب ويمكنك إرساله على واتساب أو فيسبوك.`);
                     return;
                 }
@@ -3169,6 +3318,7 @@ onAuthStateChanged(auth, async (user) => {
                         }
                         return book;
                     }).then(() => {
+                        trackBookAnalytics(bookId, 'ratings');
                         localStorage.setItem(ratingKey, '1');
                         alert("شكراً لتقييمك! ⭐");
                     }).catch(err => alert(`تعذر حفظ التقييم: ${err.message}`));
@@ -3235,6 +3385,7 @@ onAuthStateChanged(auth, async (user) => {
 
             if (!selectedBookForReviews.startsWith('def')) {
                 await push(ref(db, `reviews/${selectedBookForReviews}`), reviewData);
+                trackBookAnalytics(selectedBookForReviews, 'reviews');
                 alert("تم إرسال رأيك بنجاح! ✨");
                 document.getElementById('addReviewForm').reset();
                 openReviewsModal(selectedBookForReviews);

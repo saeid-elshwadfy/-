@@ -1941,30 +1941,23 @@ onAuthStateChanged(auth, async (user) => {
             const today = analyticsDate();
             const lastVisit = localStorage.getItem('site_last_visit');
 
-            // لو الزائر اتسجل النهارده، ما نسجلش زيارة تانية
-            if (lastVisit === today) return;
-
-            runTransaction(
-                ref(db, 'siteStats/visits'),
-                currentVisits => (currentVisits ?? 0) + 1
-            )
-            .then(result => {
-                if (result.committed) {
-                    // نسجل في المتصفح فقط بعد نجاح Firebase
-                    localStorage.setItem('site_last_visit', today);
-                    trackAnalyticsEvent('visits');
-                    console.log('✅ تم تسجيل زيارة الموقع:', result.snapshot.val());
-                }
-            })
-            .catch(err => {
-                // لو Firebase رفض العملية، ما نحفظش زيارة في localStorage
-                console.error('❌ فشل تسجيل زيارة الموقع:', err);
-            });
+            if (lastVisit !== today) {
+                localStorage.setItem('site_last_visit', today);
+                runTransaction(ref(db, 'siteStats/visits'), currentVisits => (currentVisits ?? 0) + 1);
+                trackAnalyticsEvent('visits');
+            }
         }
 
         function renderAnalyticsDashboard() {
             if (!isAdmin) return;
-            const visits = Number(document.getElementById('totalVisitsCount')?.innerText.replace(/[^0-9]/g, '') || 0);
+
+            // نقرأ إجمالي الزيارات مباشرة من Firebase بدل الاعتماد على عنصر الواجهة
+            // حتى يظهر نفس الرقم الموجود فعليًا في siteStats/visits.
+            onValue(ref(db, 'siteStats/visits'), snapshot => {
+                const visits = Number(snapshot.val() || 0);
+                const analyticsVisitsEl = document.getElementById('analyticsVisits');
+                if (analyticsVisitsEl) analyticsVisitsEl.innerText = visits.toLocaleString('ar-EG');
+            }, { onlyOnce: true });
             const reads = allBooks.reduce((sum, b) => sum + Number(b.reads || 0), 0);
             const ratings = allBooks.reduce((sum, b) => sum + Number(b.ratingCount || 0), 0);
             const ratingSum = allBooks.reduce((sum, b) => sum + Number(b.ratingSum || 0), 0);
@@ -1983,7 +1976,6 @@ onAuthStateChanged(auth, async (user) => {
                 renderAnalyticsList('analyticsTopShares', shares.sort((a,b) => b.count-a.count).slice(0,8), 'مشاركة');
             }, { onlyOnce: true });
 
-            document.getElementById('analyticsVisits').innerText = visits.toLocaleString('ar-EG');
             document.getElementById('analyticsReads').innerText = reads.toLocaleString('ar-EG');
             document.getElementById('analyticsRatings').innerText = ratings.toLocaleString('ar-EG');
             document.getElementById('analyticsBooks').innerText = allBooks.filter(b => !String(b.id).startsWith('def')).length.toLocaleString('ar-EG');

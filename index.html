@@ -1293,7 +1293,7 @@
                     <input type="hidden" id="editServiceId" value="">
                     <div class="form-group"><label>عنوان الخدمة (مع الإيموجي):</label><input type="text" id="serviceTitle" placeholder="مثال: ✍️ التدقيق اللغوي والنحوي" required></div>
                     <div class="form-group"><label>وصف الخدمة:</label><textarea id="serviceDesc" rows="2" placeholder="وصف الخدمة والتعريف بها..." required></textarea></div>
-                    <div class="form-group"><label>تفاصيل السعر / التكلفة:</label><input type="text" id="servicePrice" placeholder="مثال: التقييم حسب عدد الكلمات أو يبدأ من 300 جنيه" required></div>
+                    <div class="form-group"><label>تفاصيل السعر / التكلفة:</label><input type="text" id="servicePrice" placeholder="مثال: التقييم حسب عدد الكلمات أو يبدأ من 1000 جنيه" required></div>
                     <button type="submit" id="submitServiceBtn" class="btn-primary" style="width: 100%;">حفظ الخدمة الأدبية 💾</button>
                 </form>
             </div>
@@ -2930,7 +2930,7 @@ onAuthStateChanged(auth, async (user) => {
                     </div>` : '';
 
                 const isFree = checkIsFree(item.price, 'product');
-                const btnText = isFree ? '📥 تحميل القالب مجاناً' : '🛍️ شراء وشحن مباشر';
+                const btnText = isFree ? '📥 تحميل مجاناً' : '🛍️ شراء وشحن مباشر';
 
                 const html = `
                     <div class="custom-card">

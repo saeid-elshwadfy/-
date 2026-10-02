@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8690301062221202" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -1384,6 +1386,10 @@
         <div class="grid-container" id="videosGrid"></div>
 
         <h2 id="services" class="section-title">✨ الخدمات الأدبية والاستشارات ✨</h2>
+        <div class="custom-card" style="text-align:right; margin-bottom:22px; border:1px solid var(--accent-color); background:rgba(212,175,55,0.04);">
+            <h3 style="font-family:'Amiri',serif; color:var(--accent-color); margin-bottom:8px;">💼 خدمات أدبية احترافية للكتّاب</h3>
+            <p style="color:var(--text-muted); line-height:1.9; margin:0;">مساعدة متكاملة لتطوير المخطوطات وتجهيز الكتب للنشر، مع إمكانية طلب الخدمة والتواصل مباشرة لاختيار الباقة المناسبة.</p>
+        </div>
         <div class="grid-container" id="servicesGrid"></div>
 
         <h2 id="courses" class="section-title">🎓 الدورات وورش العمل 🎓</h2>
@@ -2445,14 +2451,26 @@ onAuthStateChanged(auth, async (user) => {
 
         /* --- 1. الخدمات الأدبية --- */
         onValue(ref(db, 'services'), (snapshot) => {
-            const data = snapshot.val();
-            allServices = data 
-                ? Object.entries(data).map(([id, s]) => ({ id, ...s })).sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0))
-                : [
-                    { id: 'def1', title: '✍️ التدقيق اللغوي والنحوي', desc: 'مراجعة وشاملة للنصوص، الروايات، والقصص مع تصحيح الأخطاء النحوية والإملائية وبناء الجمل.', price: 'التقييم حسب عدد الكلمات', updatedAt: 3 },
-                    { id: 'def2', title: '📖 التنسيق والإخراج الفني للكتب', desc: 'تنسيق وإخراج داخلي احترافي للكتب والروايات وإعداد الجداول والمقاسات الجاهزة للطباعة والنشر الإلكتروني.', price: 'حسب عدد صفحات الكتاب', updatedAt: 2 },
-                    { id: 'def3', title: '📖 تقييم وتطوير المسودات', desc: 'قراءة نقدية احترافية للمسودة وتقييم الحبكة والأشخاص مع تقديم تقرير تحسيني متكامل.', price: 'حسب حجم المسودة', updatedAt: 1 }
-                ];
+            const data = snapshot.val() || {};
+
+            const defaultServices = [
+                { id: 'default_service_1', title: '✍️ التدقيق اللغوي والنحوي', desc: 'مراجعة النصوص والروايات والقصص وتصحيح الأخطاء الإملائية والنحوية وتحسين صياغة الجمل.', price: 'يبدأ من 300 جنيه', updatedAt: 6 },
+                { id: 'default_service_2', title: '📖 تنسيق وإخراج الكتاب', desc: 'تنسيق داخلي احترافي للكتاب وتجهيز المقاسات والعناوين والفصول بما يناسب النشر الإلكتروني والطباعة.', price: 'يبدأ من 500 جنيه', updatedAt: 5 },
+                { id: 'default_service_3', title: '📝 تقييم وتطوير المخطوطة', desc: 'قراءة نقدية للمخطوطة مع ملاحظات عملية حول الحبكة والشخصيات والإيقاع ونقاط القوة والتحسين.', price: 'يبدأ من 400 جنيه', updatedAt: 4 },
+                { id: 'default_service_4', title: '🎨 تصميم غلاف كتاب', desc: 'تصميم غلاف أدبي جذاب ومناسب لطبيعة العمل، مع تسليم نسخة جاهزة للاستخدام الرقمي.', price: 'يبدأ من 350 جنيه', updatedAt: 3 },
+                { id: 'default_service_5', title: '📣 كتابة وصف احترافي للكتاب', desc: 'صياغة نبذة تسويقية جذابة للكتاب تساعد القارئ على التعرف على العمل وتشجعه على القراءة.', price: 'يبدأ من 150 جنيه', updatedAt: 2 },
+                { id: 'default_service_6', title: '🚀 باقة تجهيز الكتاب للنشر', desc: 'باقة تجمع التنسيق والتجهيز الأساسي ووصف الكتاب بصورة مناسبة للنشر والترويج الإلكتروني.', price: 'يبدأ من 800 جنيه', updatedAt: 1 }
+            ];
+
+            const firebaseServices = Object.entries(data).map(([id, s]) => ({ id, ...s }));
+            const existingTitles = new Set(firebaseServices.map(s => String(s.title || '').trim()));
+
+            // نحتفظ بخدمات Firebase كما هي، ونضيف الخدمات الجديدة تلقائيًا إذا لم تكن موجودة بالفعل.
+            const missingDefaults = defaultServices.filter(service => !existingTitles.has(service.title));
+
+            allServices = [...firebaseServices, ...missingDefaults]
+                .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
+
             renderServices();
         });
 

@@ -644,6 +644,22 @@
         .btn-share { background: linear-gradient(135deg, #f39c12 0%, #d35400 100%); color: #fff; }
         .btn-reviews { background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%); color: #fff; }
 
+        /* مشاركة وتقييمات الكتب: نفس مقاس أزرار الصف بالضبط */
+        .action-buttons-group .btn-share,
+        .action-buttons-group .btn-reviews {
+            grid-column: auto;
+            width: 100%;
+            height: 44px !important;
+            min-height: 44px !important;
+            max-height: 44px !important;
+            padding: 10px 8px !important;
+            font-size: 0.82rem !important;
+            line-height: 1.2 !important;
+            white-space: nowrap !important;
+            overflow: hidden;
+            box-sizing: border-box;
+        }
+
         .btn-buy-full {
             grid-column: 1 / -1;
             background: linear-gradient(135deg, #8b5cf6 0%, #d97706 100%);
@@ -2752,9 +2768,9 @@ onAuthStateChanged(auth, async (user) => {
 
             allVideos.forEach(item => {
                 const adminBtns = isAdmin ? `
-                    <div style="display:flex; gap:8px; margin-top:10px;">
-                        <button class="btn-edit" onclick="editVideo('${item.id}')">تعديل ✏️</button>
-                        <button class="btn-danger" onclick="deleteVideo('${item.id}')">حذف 🗑️</button>
+                    <div class="course-admin-actions">
+                        <button class="btn-edit course-action-btn" onclick="editVideo('${item.id}')">تعديل ✏️</button>
+                        <button class="btn-danger course-action-btn" onclick="deleteVideo('${item.id}')">حذف 🗑️</button>
                     </div>` : '';
 
                 let playerHtml = '';
@@ -2774,6 +2790,11 @@ onAuthStateChanged(auth, async (user) => {
                         </div>`;
                 }
 
+                const videoActionBtns = item.videoUrl ? `
+                    <a class="btn-secondary course-action-btn" href="${item.videoUrl}" target="_blank" rel="noopener noreferrer" download>📥 تحميل</a>
+                    <button class="btn-primary course-action-btn" type="button" onclick='shareVideo(${JSON.stringify(item.title)}, ${JSON.stringify(item.id)})'>🔗 مشاركة</button>
+                ` : '';
+
                 const html = `
                     <div class="custom-card">
                         <div>
@@ -2781,12 +2802,48 @@ onAuthStateChanged(auth, async (user) => {
                             <p style="color: var(--text-muted); font-size: 0.95rem; margin: 10px 0;">${item.desc}</p>
                             ${playerHtml}
                         </div>
-                        ${adminBtns}
+                        <div class="course-actions-row">
+                            ${videoActionBtns}
+                            ${adminBtns}
+                        </div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
             });
         }
+
+        window.shareVideo = async (title, videoId) => {
+            if (!videoId || String(videoId).startsWith('def')) {
+                alert('هذا الفيديو الافتراضي لا يملك رابط مشاركة دائم حالياً.');
+                return;
+            }
+
+            const workerBaseUrl = 'https://tight-firefly-b99c.saeidelshwadfy.workers.dev';
+            const shareUrl = `${workerBaseUrl}/video/${encodeURIComponent(videoId)}`;
+
+            const shareData = {
+                title: `🎬 ${title} | موقع الكاتب الروائي | سعيد الشوادفي`,
+                text: `🎬 شاهد الفيديو «${title}» على موقع الكاتب الروائي | سعيد الشوادفي`,
+                url: shareUrl
+            };
+
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                    return;
+                } catch (err) {}
+            }
+
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(shareUrl);
+                    alert('تم نسخ رابط مشاركة الفيديو. يمكنك مشاركته الآن. 📋');
+                    return;
+                }
+            } catch (err) {}
+
+            prompt(`انسخ رابط مشاركة فيديو «${title}» وأرسله:`, shareUrl);
+        };
 
         document.getElementById('addVideoForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -2869,10 +2926,23 @@ onAuthStateChanged(auth, async (user) => {
                             <button class="btn-danger course-action-btn" onclick="deleteCourse('${item.id}')">حذف 🗑️</button>
                         </div>` : '';
 
-                const videoBtn = item.videoUrl ? `
-                    <div class="video-container" style="margin:12px 0;">
-                        <iframe src="${getYouTubeEmbedUrl(item.videoUrl)}" allowfullscreen loading="lazy" style="width:100%; min-height:220px; border:0; border-radius:12px;"></iframe>
-                    </div>` : '';
+                let videoBtn = '';
+                if (item.videoUrl) {
+                    if (item.videoUrl.includes('youtube.com') || item.videoUrl.includes('youtu.be')) {
+                        videoBtn = `
+                            <div class="video-container" style="margin:12px 0;">
+                                <iframe src="${getYouTubeEmbedUrl(item.videoUrl)}" allowfullscreen loading="lazy" style="width:100%; min-height:220px; border:0; border-radius:12px;"></iframe>
+                            </div>`;
+                    } else {
+                        videoBtn = `
+                            <div class="video-container" style="margin:12px 0;">
+                                <video controls preload="metadata" playsinline style="width:100%; min-height:220px; border:0; border-radius:12px; display:block;">
+                                    <source src="${item.videoUrl}">
+                                    متصفحك لا يدعم تشغيل هذا الفيديو.
+                                </video>
+                            </div>`;
+                    }
+                }
                 const fileBtn = item.fileUrl ? `<a class="btn-secondary course-action-btn" href="${item.fileUrl}" target="_blank" rel="noopener noreferrer" download>📥 تحميل الملف</a>` : `<span class="course-action-btn" style="visibility:hidden;"></span>`;
 
                 const html = `
@@ -2885,7 +2955,7 @@ onAuthStateChanged(auth, async (user) => {
                         ${videoBtn}
                         <div class="course-actions-row">
                             ${fileBtn}
-                            <button class="btn-primary course-action-btn" type="button" onclick='shareCourse(${JSON.stringify(item.title)}, ${JSON.stringify(item.fileUrl || "")})'>🔗 مشاركة</button>
+                            <button class="btn-primary course-action-btn" type="button" onclick='shareCourse(${JSON.stringify(item.title)}, ${JSON.stringify(item.id)})'>🔗 مشاركة</button>
                             ${adminBtns}
                         </div>
                     </div>
@@ -2894,43 +2964,38 @@ onAuthStateChanged(auth, async (user) => {
             });
         }
 
-        window.shareCourse = async (title, fileUrl) => {
-            if (!fileUrl) {
-                alert('ملف الدورة غير متوفر للمشاركة حالياً.');
+        window.shareCourse = async (title, courseId) => {
+            if (!courseId || String(courseId).startsWith('def')) {
+                alert('هذه الدورة الافتراضية لا تملك رابط مشاركة دائم حالياً.');
                 return;
             }
+
+            const workerBaseUrl = 'https://tight-firefly-b99c.saeidelshwadfy.workers.dev';
+            const shareUrl = `${workerBaseUrl}/course/${encodeURIComponent(courseId)}`;
+
             const shareData = {
-                title: `📚 ${title}`,
-                text: `📚 ملف الدورة / الورشة: ${title}`,
-                url: fileUrl
+                title: `📚 ${title} | موقع الكاتب الروائي | سعيد الشوادفي`,
+                text: `📚 دورة / ورشة «${title}» على موقع الكاتب الروائي | سعيد الشوادفي`,
+                url: shareUrl
             };
+
             if (navigator.share) {
                 try {
                     await navigator.share(shareData);
                     return;
-                } catch (err) {
-                    // المستخدم أغلق نافذة المشاركة أو المتصفح رفض الطلب.
-                }
+                } catch (err) {}
             }
+
             try {
                 if (navigator.clipboard && window.isSecureContext) {
-                    await navigator.clipboard.writeText(fileUrl);
-                    alert('تم نسخ رابط الملف. يمكنك مشاركته الآن. 📋');
+                    await navigator.clipboard.writeText(shareUrl);
+                    alert('تم نسخ رابط مشاركة الدورة/الورشة. يمكنك مشاركته الآن. 📋');
                     return;
                 }
             } catch (err) {}
-            prompt(`انسخ رابط ملف «${title}» وأرسله:`, fileUrl);
-        };
 
-        window.openVideoModal = (url) => {
-            document.getElementById('videoIframe').src = getYouTubeEmbedUrl(url);
-            document.getElementById('videoModal').style.display = 'flex';
+            prompt(`انسخ رابط مشاركة «${title}» وأرسله:`, shareUrl);
         };
-
-        document.getElementById('closeVideoBtn')?.addEventListener('click', () => {
-            document.getElementById('videoModal').style.display = 'none';
-            document.getElementById('videoIframe').src = '';
-        });
 
         document.getElementById('addCourseForm')?.addEventListener('submit', async (e) => {
             e.preventDefault();

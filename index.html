@@ -572,6 +572,30 @@
         .btn-danger { background-color: transparent; color: #ef4444; border: 1px solid #ef4444; padding: 8px 15px; border-radius: 18px; cursor: pointer; font-weight: bold; flex: 1; font-family: 'Tajawal', sans-serif; }
         .btn-danger:hover { background-color: #ef4444; color: #fff; }
 
+        /* أزرار الدورات/الورش الأربعة في صف واحد */
+        /* أزرار الدورات/الورش: كل زرين في صف واحد */
+        .course-actions-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 8px;
+            align-items: stretch;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .course-action-btn {
+            width: 100% !important;
+            min-width: 0;
+            margin: 0 !important;
+            padding: 10px 6px !important;
+            font-size: 0.84rem;
+            line-height: 1.2;
+            white-space: nowrap;
+            box-sizing: border-box;
+        }
+        .course-admin-actions {
+            display: contents;
+        }
+
         .action-buttons-group { 
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -2840,16 +2864,16 @@ onAuthStateChanged(auth, async (user) => {
             container.innerHTML = '';
             allCourses.forEach(item => {
                 const adminBtns = isAdmin ? `
-                    <div style="display:flex; gap:8px; margin-top:10px;">
-                        <button class="btn-edit" onclick="editCourse('${item.id}')">تعديل ✏️</button>
-                        <button class="btn-danger" onclick="deleteCourse('${item.id}')">حذف 🗑️</button>
-                    </div>` : '';
+                        <div class="course-admin-actions">
+                            <button class="btn-edit course-action-btn" onclick="editCourse('${item.id}')">تعديل ✏️</button>
+                            <button class="btn-danger course-action-btn" onclick="deleteCourse('${item.id}')">حذف 🗑️</button>
+                        </div>` : '';
 
                 const videoBtn = item.videoUrl ? `
                     <div class="video-container" style="margin:12px 0;">
                         <iframe src="${getYouTubeEmbedUrl(item.videoUrl)}" allowfullscreen loading="lazy" style="width:100%; min-height:220px; border:0; border-radius:12px;"></iframe>
                     </div>` : '';
-                const fileBtn = item.fileUrl ? `<a class="btn-secondary" style="margin-bottom:8px;" href="${item.fileUrl}" target="_blank" rel="noopener noreferrer">📄 ملف الدورة / الورشة</a>` : '';
+                const fileBtn = item.fileUrl ? `<a class="btn-secondary course-action-btn" href="${item.fileUrl}" target="_blank" rel="noopener noreferrer" download>📥 تحميل الملف</a>` : `<span class="course-action-btn" style="visibility:hidden;"></span>`;
 
                 const html = `
                     <div class="custom-card">
@@ -2859,14 +2883,44 @@ onAuthStateChanged(auth, async (user) => {
                             <div class="card-price">${item.price}</div>
                         </div>
                         ${videoBtn}
-                        ${fileBtn}
-                        <button class="btn-primary" onclick="requestService('${item.title}', '${item.price}')">احجز مقعدك الآن 🎓</button>
-                        ${adminBtns}
+                        <div class="course-actions-row">
+                            ${fileBtn}
+                            <button class="btn-primary course-action-btn" type="button" onclick='shareCourse(${JSON.stringify(item.title)}, ${JSON.stringify(item.fileUrl || "")})'>🔗 مشاركة</button>
+                            ${adminBtns}
+                        </div>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', html);
             });
         }
+
+        window.shareCourse = async (title, fileUrl) => {
+            if (!fileUrl) {
+                alert('ملف الدورة غير متوفر للمشاركة حالياً.');
+                return;
+            }
+            const shareData = {
+                title: `📚 ${title}`,
+                text: `📚 ملف الدورة / الورشة: ${title}`,
+                url: fileUrl
+            };
+            if (navigator.share) {
+                try {
+                    await navigator.share(shareData);
+                    return;
+                } catch (err) {
+                    // المستخدم أغلق نافذة المشاركة أو المتصفح رفض الطلب.
+                }
+            }
+            try {
+                if (navigator.clipboard && window.isSecureContext) {
+                    await navigator.clipboard.writeText(fileUrl);
+                    alert('تم نسخ رابط الملف. يمكنك مشاركته الآن. 📋');
+                    return;
+                }
+            } catch (err) {}
+            prompt(`انسخ رابط ملف «${title}» وأرسله:`, fileUrl);
+        };
 
         window.openVideoModal = (url) => {
             document.getElementById('videoIframe').src = getYouTubeEmbedUrl(url);
